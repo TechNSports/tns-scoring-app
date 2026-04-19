@@ -463,9 +463,16 @@ if "_pending_demo" in st.session_state:
 # ── end DEMO PERSONAS PANEL ──────────────────────────────────────────────────
 
 
-# ── Pipeline module loader (cached — imports happen once per session) ─────────
-@st.cache_resource(show_spinner=False)
+# ── Pipeline module loader ────────────────────────────────────────────────────
+# Not cached — always reimports so Streamlit Cloud hot-reloads pick up fresh
+# module code (avoids stale sys.modules entries with old gate calls).
 def _load_pipeline():
+    import importlib, sys
+    for mod in ["tns_inbody_parser", "tns_shapescale_reader", "tns_reconcile",
+                "tns_pca_pipeline", "tns_visualize", "tns_optimal_zones",
+                "tns_polygon_scorer"]:
+        if mod in sys.modules:
+            importlib.reload(sys.modules[mod])
     from tns_inbody_parser     import parse_inbody_csv_string
     from tns_shapescale_reader import parse_shapescale_sheet
     from tns_reconcile         import reconcile_scanners
