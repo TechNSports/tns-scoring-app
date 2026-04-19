@@ -168,6 +168,301 @@ if "_pending_preset" in st.session_state:
     _apply_preset(st.session_state.pop("_pending_preset"))
 
 
+# ============================================================
+# DEMO PERSONAS PANEL — REMOVE BEFORE PRODUCTION LAUNCH
+# Added 2026-04-18 for QA and sales demos.
+# To remove: delete this block + the DEMO_PERSONAS dict + _load_demo_persona() helper.
+# ============================================================
+
+# ── InBody CSV header shared by all demo personas ────────────────────────────
+_IB_HDR = (
+    "Date,Measurement device.,Weight(lb),Skeletal Muscle Mass(lb),"
+    "Soft Lean Mass(lb),Body Fat Mass(lb),BMI(kg/m\u00b2),Percent Body Fat(%),"
+    "Basal Metabolic Rate(kJ),InBody Score,Right Arm Lean Mass(lb),"
+    "Left Arm Lean Mass(lb),Trunk Lean Mass(lb),Right Leg Lean Mass(lb),"
+    "Left leg Lean Mass(lb),Right Arm Fat Mass(lb),Left Arm Fat Mass(lb),"
+    "Trunk Fat Mass(lb),Right Leg Fat Mass(lb),Left Leg Fat Mass(lb),"
+    "Right Arm ECW Ratio,Left Arm ECW Ratio,Trunk ECW Ratio,"
+    "Right Leg ECW Ratio,Left Leg ECW Ratio,Waist Hip Ratio,"
+    "Waist Circumference(cm),Visceral Fat Area(cm\u00b2),Visceral Fat Level(Level),"
+    "Total Body Water(lb),Intracellular Water(lb),Extracellular Water(lb),"
+    "ECW Ratio,Upper-Lower,Upper,Lower,Leg Muscle Level(Level),"
+    "Leg Lean Mass(lb),Protein(lb),Mineral(lb),Bone Mineral Content(lb),"
+    "Body Cell Mass(lb),SMI(kg/m\u00b2),Whole Body Phase Angle(\u00b0)"
+)
+
+DEMO_PERSONAS: dict = {
+    # ── 1. Elite endurance athlete ─────────────────────────────────────────────
+    "sofia": {
+        "name": "Sofia Martínez", "age": 28, "sex": "F",
+        "profile_summary": "Elite endurance athlete — full panel, all optimal. BF 18%, HDL 75, hs-CRP 0.3.",
+        "values": {
+            "sex": "F", "height_cm": 163.0,
+            "client_name": "Sofia Martínez", "client_id": "martinez_sofia",
+            "ib_csv": _IB_HDR + "\n20260418000001,270S,127.0,62.0,-,22.9,21.7,18.0,5600,88.0,6.0,6.0,46.0,12.5,12.5,1.0,1.0,12.0,4.5,4.4,-,-,-,-,-,0.72,-,-,3.0,67.7,-,-,-,1,0,0,-,-,17.0,5.2,-,-,10.6,7.8",
+            "ss_weight_lb": 127.0, "ss_bf_pct": 18.0, "ss_bmi": 21.7,
+            "ss_shape_score": 88, "ss_health_score": 90, "ss_body_age": 22,
+            "ss_visc_rating": "Excellent",
+            "ss_neck": 13.0, "ss_shoulders": 40.0, "ss_chest": 33.0, "ss_waist": 26.5, "ss_hips": 35.5,
+            "ss_bicep_l": 11.0, "ss_bicep_r": 11.2, "ss_thigh_l": 20.0, "ss_thigh_r": 20.0,
+            "ss_calf_l": 13.5, "ss_calf_r": 13.5,
+            "lab_total_chol": 160.0, "lab_hdl": 75.0, "lab_ldl": 80.0, "lab_triglycerides": 55.0,
+            "lab_glucose": 75.0, "lab_hba1c": 5.0, "lab_insulin": 4.5, "lab_hscrp": 0.3,
+            "lab_sbp": 105.0, "lab_dbp": 65.0,
+            "life_vig": 240, "life_mod": 150, "life_sed": 5.5, "life_sleep": 8.5,
+            "life_smoker": "Never", "life_alcohol": 1, "life_stress": 3, "life_health": 9,
+        },
+    },
+    # ── 2. Active weekend warrior ──────────────────────────────────────────────
+    "carlos": {
+        "name": "Carlos Reyes", "age": 35, "sex": "M",
+        "profile_summary": "Active weekend warrior — full panel, mostly optimal. LDL 135 (acceptable), BF 16%.",
+        "values": {
+            "sex": "M", "height_cm": 178.0,
+            "client_name": "Carlos Reyes", "client_id": "reyes_carlos",
+            "ib_csv": _IB_HDR + "\n20260418000002,270S,183.0,90.0,-,29.3,26.2,16.0,7400,80.0,8.5,8.5,65.0,20.0,20.0,1.5,1.5,16.0,5.2,5.1,-,-,-,-,-,0.85,-,-,5.0,99.0,-,-,-,1,0,0,-,-,25.0,7.5,-,-,12.9,7.5",
+            "ss_weight_lb": 183.0, "ss_bf_pct": 16.0, "ss_bmi": 26.2,
+            "ss_shape_score": 79, "ss_health_score": 82, "ss_body_age": 33,
+            "ss_visc_rating": "Good",
+            "ss_neck": 15.5, "ss_shoulders": 48.5, "ss_chest": 42.0, "ss_waist": 34.0, "ss_hips": 39.5,
+            "ss_bicep_l": 14.0, "ss_bicep_r": 14.2, "ss_thigh_l": 22.5, "ss_thigh_r": 22.5,
+            "ss_calf_l": 15.0, "ss_calf_r": 15.0,
+            "lab_total_chol": 205.0, "lab_hdl": 52.0, "lab_ldl": 135.0, "lab_triglycerides": 110.0,
+            "lab_glucose": 88.0, "lab_hba1c": 5.4, "lab_insulin": 8.0, "lab_hscrp": 1.0,
+            "lab_sbp": 118.0, "lab_dbp": 72.0,
+            "life_vig": 90, "life_mod": 180, "life_sed": 8.0, "life_sleep": 7.0,
+            "life_smoker": "Never", "life_alcohol": 4, "life_stress": 5, "life_health": 7,
+        },
+    },
+    # ── 3. Sedentary overweight — metabolic syndrome ───────────────────────────
+    "maria": {
+        "name": "María López", "age": 45, "sex": "F",
+        "profile_summary": "Sedentary overweight — full panel. Metabolic syndrome: HbA1c 6.1, TG 220, HDL 38, visceral fat L13.",
+        "values": {
+            "sex": "F", "height_cm": 163.0,
+            "client_name": "María López", "client_id": "lopez_maria",
+            "ib_csv": _IB_HDR + "\n20260418000003,270S,190.0,72.0,-,64.6,32.5,34.0,7000,62.0,7.5,7.5,53.0,15.5,15.5,3.5,3.5,36.0,11.0,10.6,-,-,-,-,-,0.90,-,-,13.0,82.0,-,-,-,1,0,0,-,-,20.0,7.8,-,-,12.3,5.8",
+            "ss_weight_lb": 190.0, "ss_bf_pct": 34.0, "ss_bmi": 32.5,
+            "ss_shape_score": 52, "ss_health_score": 48, "ss_body_age": 58,
+            "ss_visc_rating": "Poor",
+            "ss_neck": 15.5, "ss_shoulders": 46.0, "ss_chest": 43.5, "ss_waist": 42.0, "ss_hips": 46.5,
+            "ss_bicep_l": 14.5, "ss_bicep_r": 14.5, "ss_thigh_l": 27.5, "ss_thigh_r": 27.5,
+            "ss_calf_l": 17.0, "ss_calf_r": 17.0,
+            "lab_total_chol": 225.0, "lab_hdl": 38.0, "lab_ldl": 145.0, "lab_triglycerides": 220.0,
+            "lab_glucose": 118.0, "lab_hba1c": 6.1, "lab_insulin": 22.0, "lab_hscrp": 4.2,
+            "lab_sbp": 135.0, "lab_dbp": 85.0,
+            "life_vig": 0, "life_mod": 30, "life_sed": 12.0, "life_sleep": 6.0,
+            "life_smoker": "Never", "life_alcohol": 3, "life_stress": 7, "life_health": 4,
+        },
+    },
+    # ── 4. Stressed executive — partial panel (lipids + glucose only) ──────────
+    "roberto": {
+        "name": "Roberto Gómez", "age": 52, "sex": "M",
+        "profile_summary": "Stressed executive — PARTIAL: lipids + glucose only. LDL 165, TG 180, HbA1c 5.8. Insulin/CRP/BP unset.",
+        "values": {
+            "sex": "M", "height_cm": 176.0,
+            "client_name": "Roberto Gómez", "client_id": "gomez_roberto",
+            "ib_csv": _IB_HDR + "\n20260418000004,270S,195.0,84.0,-,46.8,28.6,24.0,7800,72.0,8.0,8.0,62.5,18.0,18.0,2.5,2.5,26.0,8.0,7.8,-,-,-,-,-,0.92,-,-,9.0,93.0,-,-,-,1,0,0,-,-,24.0,7.9,-,-,12.3,6.8",
+            "ss_weight_lb": 195.0, "ss_bf_pct": 24.0, "ss_bmi": 28.6,
+            "ss_shape_score": 65, "ss_health_score": 62, "ss_body_age": 60,
+            "ss_visc_rating": "Fair",
+            "ss_neck": 16.5, "ss_shoulders": 50.0, "ss_chest": 44.5, "ss_waist": 39.0, "ss_hips": 42.0,
+            "ss_bicep_l": 13.5, "ss_bicep_r": 13.5, "ss_thigh_l": 22.0, "ss_thigh_r": 22.0,
+            "ss_calf_l": 15.0, "ss_calf_r": 15.0,
+            "lab_total_chol": 245.0, "lab_hdl": 42.0, "lab_ldl": 165.0, "lab_triglycerides": 180.0,
+            "lab_glucose": 108.0, "lab_hba1c": 5.8, "lab_insulin": 0.0, "lab_hscrp": 0.0,
+            "lab_sbp": 0.0, "lab_dbp": 0.0,
+            "life_vig": 20, "life_mod": 60, "life_sed": 10.5, "life_sleep": 6.5,
+            "life_smoker": "Never", "life_alcohol": 8, "life_stress": 8, "life_health": 5,
+        },
+    },
+    # ── 5. Postpartum — partial (ferritin/B12/vitD not in form) ───────────────
+    "luz": {
+        "name": "Luz Hernández", "age": 38, "sex": "F",
+        "profile_summary": "Postpartum — PARTIAL: ferritin 18, B12 210, vit D 18 (deficient; not in form). TSH/thyroid unset. Everything else acceptable.",
+        "values": {
+            "sex": "F", "height_cm": 165.0,
+            "client_name": "Luz Hernández", "client_id": "hernandez_luz",
+            "ib_csv": _IB_HDR + "\n20260418000005,270S,145.0,62.0,-,39.2,24.2,27.0,5900,74.0,6.3,6.3,46.5,13.2,13.2,2.2,2.2,21.5,7.0,6.8,-,-,-,-,-,0.80,-,-,6.0,75.5,-,-,-,1,0,0,-,-,17.5,5.9,-,-,10.6,6.8",
+            "ss_weight_lb": 145.0, "ss_bf_pct": 27.0, "ss_bmi": 24.2,
+            "ss_shape_score": 71, "ss_health_score": 68, "ss_body_age": 38,
+            "ss_visc_rating": "Good",
+            "ss_neck": 13.5, "ss_shoulders": 42.0, "ss_chest": 36.5, "ss_waist": 32.0, "ss_hips": 40.5,
+            "ss_bicep_l": 11.5, "ss_bicep_r": 11.5, "ss_thigh_l": 23.5, "ss_thigh_r": 23.5,
+            "ss_calf_l": 14.5, "ss_calf_r": 14.5,
+            "lab_total_chol": 185.0, "lab_hdl": 55.0, "lab_ldl": 110.0, "lab_triglycerides": 100.0,
+            "lab_glucose": 82.0, "lab_hba1c": 5.2, "lab_insulin": 7.0, "lab_hscrp": 1.2,
+            "lab_sbp": 112.0, "lab_dbp": 70.0,
+            "life_vig": 60, "life_mod": 120, "life_sed": 7.5, "life_sleep": 6.5,
+            "life_smoker": "Never", "life_alcohol": 1, "life_stress": 6, "life_health": 6,
+        },
+    },
+    # ── 6. College athlete — partial (no advanced lipids / hormones) ───────────
+    "diego": {
+        "name": "Diego Torres", "age": 22, "sex": "M",
+        "profile_summary": "College athlete — PARTIAL: basic metabolic + body comp. BF 10%, InBody 91. Lp(a)/ApoB/hormones unset.",
+        "values": {
+            "sex": "M", "height_cm": 180.0,
+            "client_name": "Diego Torres", "client_id": "torres_diego",
+            "ib_csv": _IB_HDR + "\n20260418000006,270S,170.0,97.0,-,17.0,23.8,10.0,7200,91.0,9.8,9.8,72.0,22.0,22.0,0.8,0.8,8.5,3.5,3.4,-,-,-,-,-,0.82,-,-,2.0,97.5,-,-,-,1,0,0,-,-,27.5,6.9,-,-,13.6,8.5",
+            "ss_weight_lb": 170.0, "ss_bf_pct": 10.0, "ss_bmi": 23.8,
+            "ss_shape_score": 91, "ss_health_score": 93, "ss_body_age": 19,
+            "ss_visc_rating": "Excellent",
+            "ss_neck": 15.0, "ss_shoulders": 48.0, "ss_chest": 41.5, "ss_waist": 30.5, "ss_hips": 37.0,
+            "ss_bicep_l": 14.5, "ss_bicep_r": 14.8, "ss_thigh_l": 24.5, "ss_thigh_r": 24.5,
+            "ss_calf_l": 15.5, "ss_calf_r": 15.5,
+            "lab_total_chol": 175.0, "lab_hdl": 60.0, "lab_ldl": 100.0, "lab_triglycerides": 70.0,
+            "lab_glucose": 82.0, "lab_hba1c": 5.0, "lab_insulin": 5.0, "lab_hscrp": 0.4,
+            "lab_sbp": 108.0, "lab_dbp": 65.0,
+            "life_vig": 300, "life_mod": 200, "life_sed": 5.0, "life_sleep": 8.0,
+            "life_smoker": "Never", "life_alcohol": 3, "life_stress": 4, "life_health": 9,
+        },
+    },
+    # ── 7. Post-menopausal active — familial high cholesterol ─────────────────
+    "elena": {
+        "name": "Elena Ruiz", "age": 60, "sex": "F",
+        "profile_summary": "Post-menopausal active — full panel. Familial hypercholesterolemia: LDL 180, TC 270. But metabolic profile clean.",
+        "values": {
+            "sex": "F", "height_cm": 162.0,
+            "client_name": "Elena Ruiz", "client_id": "ruiz_elena",
+            "ib_csv": _IB_HDR + "\n20260418000007,270S,155.0,70.0,-,43.4,26.8,28.0,6000,76.0,6.5,6.5,52.0,14.0,14.0,2.0,2.0,24.0,7.5,7.4,-,-,-,-,-,0.80,-,-,7.0,80.0,-,-,-,1,0,0,-,-,19.5,6.3,-,-,12.1,6.5",
+            "ss_weight_lb": 155.0, "ss_bf_pct": 28.0, "ss_bmi": 26.8,
+            "ss_shape_score": 75, "ss_health_score": 72, "ss_body_age": 58,
+            "ss_visc_rating": "Good",
+            "ss_neck": 13.5, "ss_shoulders": 43.0, "ss_chest": 38.5, "ss_waist": 34.0, "ss_hips": 41.0,
+            "ss_bicep_l": 12.0, "ss_bicep_r": 12.0, "ss_thigh_l": 23.0, "ss_thigh_r": 23.0,
+            "ss_calf_l": 14.0, "ss_calf_r": 14.0,
+            "lab_total_chol": 270.0, "lab_hdl": 65.0, "lab_ldl": 180.0, "lab_triglycerides": 90.0,
+            "lab_glucose": 88.0, "lab_hba1c": 5.3, "lab_insulin": 6.5, "lab_hscrp": 0.8,
+            "lab_sbp": 122.0, "lab_dbp": 74.0,
+            "life_vig": 80, "life_mod": 150, "life_sed": 7.0, "life_sleep": 7.5,
+            "life_smoker": "Never", "life_alcohol": 2, "life_stress": 4, "life_health": 7,
+        },
+    },
+    # ── 8. Hidden CV risk — normal LDL but high Lp(a) / ApoB / CRP ────────────
+    "javier": {
+        "name": "Javier Morales", "age": 48, "sex": "M",
+        "profile_summary": "Hidden CV risk — full panel. Normal LDL 125 but hs-CRP 3.5. Lp(a) 110 / ApoB 125 not in form.",
+        "values": {
+            "sex": "M", "height_cm": 175.0,
+            "client_name": "Javier Morales", "client_id": "morales_javier",
+            "ib_csv": _IB_HDR + "\n20260418000008,270S,185.0,87.0,-,40.7,27.4,22.0,7500,75.0,8.3,8.3,65.0,19.0,19.0,2.0,2.0,22.5,7.1,7.0,-,-,-,-,-,0.88,-,-,8.0,95.0,-,-,-,1,0,0,-,-,23.5,7.6,-,-,12.9,6.8",
+            "ss_weight_lb": 185.0, "ss_bf_pct": 22.0, "ss_bmi": 27.4,
+            "ss_shape_score": 73, "ss_health_score": 70, "ss_body_age": 52,
+            "ss_visc_rating": "Fair",
+            "ss_neck": 16.0, "ss_shoulders": 49.5, "ss_chest": 44.0, "ss_waist": 37.5, "ss_hips": 41.0,
+            "ss_bicep_l": 13.8, "ss_bicep_r": 14.0, "ss_thigh_l": 23.0, "ss_thigh_r": 23.0,
+            "ss_calf_l": 15.5, "ss_calf_r": 15.5,
+            "lab_total_chol": 210.0, "lab_hdl": 48.0, "lab_ldl": 125.0, "lab_triglycerides": 120.0,
+            "lab_glucose": 95.0, "lab_hba1c": 5.5, "lab_insulin": 10.0, "lab_hscrp": 3.5,
+            "lab_sbp": 125.0, "lab_dbp": 80.0,
+            "life_vig": 60, "life_mod": 120, "life_sed": 9.0, "life_sleep": 7.0,
+            "life_smoker": "Never", "life_alcohol": 5, "life_stress": 6, "life_health": 6,
+        },
+    },
+    # ── 9. Endurance overtraining ──────────────────────────────────────────────
+    "patricia": {
+        "name": "Patricia Vega", "age": 40, "sex": "F",
+        "profile_summary": "Endurance overtraining — full panel. Classic OTS: vig 380/wk, cortisol suppressed, ferritin 14 (not in form). HDL 72, TG 50.",
+        "values": {
+            "sex": "F", "height_cm": 165.0,
+            "client_name": "Patricia Vega", "client_id": "vega_patricia",
+            "ib_csv": _IB_HDR + "\n20260418000009,270S,132.0,65.0,-,25.1,22.0,19.0,5700,83.0,6.4,6.4,48.0,13.6,13.6,1.2,1.2,14.0,4.7,4.7,-,-,-,-,-,0.73,-,-,4.0,72.0,-,-,-,1,0,0,-,-,18.5,5.4,-,-,10.8,7.2",
+            "ss_weight_lb": 132.0, "ss_bf_pct": 19.0, "ss_bmi": 22.0,
+            "ss_shape_score": 84, "ss_health_score": 80, "ss_body_age": 38,
+            "ss_visc_rating": "Excellent",
+            "ss_neck": 13.0, "ss_shoulders": 41.0, "ss_chest": 34.0, "ss_waist": 27.5, "ss_hips": 36.5,
+            "ss_bicep_l": 11.5, "ss_bicep_r": 11.5, "ss_thigh_l": 21.5, "ss_thigh_r": 21.5,
+            "ss_calf_l": 14.0, "ss_calf_r": 14.0,
+            "lab_total_chol": 165.0, "lab_hdl": 72.0, "lab_ldl": 88.0, "lab_triglycerides": 50.0,
+            "lab_glucose": 72.0, "lab_hba1c": 4.9, "lab_insulin": 3.5, "lab_hscrp": 0.7,
+            "lab_sbp": 100.0, "lab_dbp": 60.0,
+            "life_vig": 380, "life_mod": 120, "life_sed": 6.5, "life_sleep": 7.0,
+            "life_smoker": "Never", "life_alcohol": 0, "life_stress": 7, "life_health": 6,
+        },
+    },
+    # ── 10. Pre-diabetic sedentary ─────────────────────────────────────────────
+    "miguel": {
+        "name": "Miguel Sandoval", "age": 55, "sex": "M",
+        "profile_summary": "Pre-diabetic sedentary — full panel. HbA1c 5.9, SBP 142, TG 195, HDL 36, visceral fat L14.",
+        "values": {
+            "sex": "M", "height_cm": 173.0,
+            "client_name": "Miguel Sandoval", "client_id": "sandoval_miguel",
+            "ib_csv": _IB_HDR + "\n20260418000010,270S,218.0,85.0,-,69.8,33.1,32.0,7800,63.0,8.5,8.5,63.0,17.5,17.5,3.8,3.8,38.5,12.0,11.7,-,-,-,-,-,0.98,-,-,14.0,95.0,-,-,-,1,0,0,-,-,23.5,8.9,-,-,12.9,5.9",
+            "ss_weight_lb": 218.0, "ss_bf_pct": 32.0, "ss_bmi": 33.1,
+            "ss_shape_score": 48, "ss_health_score": 45, "ss_body_age": 65,
+            "ss_visc_rating": "Very Poor",
+            "ss_neck": 17.5, "ss_shoulders": 52.0, "ss_chest": 47.5, "ss_waist": 44.5, "ss_hips": 46.0,
+            "ss_bicep_l": 15.0, "ss_bicep_r": 15.0, "ss_thigh_l": 26.0, "ss_thigh_r": 26.0,
+            "ss_calf_l": 17.5, "ss_calf_r": 17.5,
+            "lab_total_chol": 230.0, "lab_hdl": 36.0, "lab_ldl": 155.0, "lab_triglycerides": 195.0,
+            "lab_glucose": 115.0, "lab_hba1c": 5.9, "lab_insulin": 20.0, "lab_hscrp": 3.2,
+            "lab_sbp": 142.0, "lab_dbp": 90.0,
+            "life_vig": 0, "life_mod": 40, "life_sed": 13.0, "life_sleep": 6.0,
+            "life_smoker": "Former", "life_alcohol": 5, "life_stress": 7, "life_health": 4,
+        },
+    },
+    # ── 11. Vegan active — partial (micronutrient gaps not in form) ────────────
+    "andrea": {
+        "name": "Andrea Cruz", "age": 32, "sex": "F",
+        "profile_summary": "Vegan active — PARTIAL: B12 180, ferritin 22, vit D 20 (deficient; not in form). Hormones unset. Otherwise optimal.",
+        "values": {
+            "sex": "F", "height_cm": 168.0,
+            "client_name": "Andrea Cruz", "client_id": "cruz_andrea",
+            "ib_csv": _IB_HDR + "\n20260418000011,270S,138.0,64.0,-,30.4,22.2,22.0,5800,81.0,6.2,6.2,48.5,13.4,13.4,1.6,1.6,16.5,5.6,5.1,-,-,-,-,-,0.75,-,-,4.0,73.5,-,-,-,1,0,0,-,-,18.0,5.6,-,-,10.3,7.0",
+            "ss_weight_lb": 138.0, "ss_bf_pct": 22.0, "ss_bmi": 22.2,
+            "ss_shape_score": 81, "ss_health_score": 78, "ss_body_age": 30,
+            "ss_visc_rating": "Excellent",
+            "ss_neck": 13.0, "ss_shoulders": 41.5, "ss_chest": 34.5, "ss_waist": 29.0, "ss_hips": 38.0,
+            "ss_bicep_l": 11.0, "ss_bicep_r": 11.0, "ss_thigh_l": 22.0, "ss_thigh_r": 22.0,
+            "ss_calf_l": 14.0, "ss_calf_r": 14.0,
+            "lab_total_chol": 170.0, "lab_hdl": 62.0, "lab_ldl": 95.0, "lab_triglycerides": 75.0,
+            "lab_glucose": 80.0, "lab_hba1c": 5.1, "lab_insulin": 5.5, "lab_hscrp": 0.6,
+            "lab_sbp": 110.0, "lab_dbp": 68.0,
+            "life_vig": 160, "life_mod": 200, "life_sed": 6.0, "life_sleep": 8.0,
+            "life_smoker": "Never", "life_alcohol": 0, "life_stress": 4, "life_health": 8,
+        },
+    },
+    # ── 12. Well-managed CVD — on statin ──────────────────────────────────────
+    "fernando": {
+        "name": "Fernando Aguilar", "age": 65, "sex": "M",
+        "profile_summary": "Well-managed CVD, on statin — full panel. LDL 85 (controlled), but eGFR 75 (not in form). SBP 128.",
+        "values": {
+            "sex": "M", "height_cm": 170.0,
+            "client_name": "Fernando Aguilar", "client_id": "aguilar_fernando",
+            "ib_csv": _IB_HDR + "\n20260418000012,270S,180.0,80.0,-,46.8,28.2,26.0,7000,71.0,7.8,7.8,60.0,17.0,17.0,2.5,2.5,26.0,8.0,7.8,-,-,-,-,-,0.89,-,-,8.0,90.5,-,-,-,1,0,0,-,-,22.5,7.4,-,-,12.6,6.2",
+            "ss_weight_lb": 180.0, "ss_bf_pct": 26.0, "ss_bmi": 28.2,
+            "ss_shape_score": 68, "ss_health_score": 70, "ss_body_age": 68,
+            "ss_visc_rating": "Fair",
+            "ss_neck": 15.5, "ss_shoulders": 48.0, "ss_chest": 43.5, "ss_waist": 38.5, "ss_hips": 42.0,
+            "ss_bicep_l": 13.0, "ss_bicep_r": 13.0, "ss_thigh_l": 21.5, "ss_thigh_r": 21.5,
+            "ss_calf_l": 14.5, "ss_calf_r": 14.5,
+            "lab_total_chol": 165.0, "lab_hdl": 50.0, "lab_ldl": 85.0, "lab_triglycerides": 115.0,
+            "lab_glucose": 96.0, "lab_hba1c": 5.6, "lab_insulin": 9.0, "lab_hscrp": 1.5,
+            "lab_sbp": 128.0, "lab_dbp": 78.0,
+            "life_vig": 40, "life_mod": 120, "life_sed": 8.5, "life_sleep": 7.5,
+            "life_smoker": "Former", "life_alcohol": 3, "life_stress": 5, "life_health": 6,
+        },
+    },
+}
+
+
+def _load_demo_persona(persona_key: str) -> None:
+    """Apply demo persona values to session_state.
+    Called from the pending resolver at the top of the script,
+    before any widgets are instantiated."""
+    persona = DEMO_PERSONAS[persona_key]
+    for field_key, value in persona["values"].items():
+        st.session_state[field_key] = value
+    st.session_state["_demo_persona_loaded"] = persona["name"]
+
+
+if "_pending_demo" in st.session_state:
+    _load_demo_persona(st.session_state.pop("_pending_demo"))
+
+# ── end DEMO PERSONAS PANEL ──────────────────────────────────────────────────
+
+
 # ── Pipeline module loader (cached — imports happen once per session) ─────────
 @st.cache_resource(show_spinner=False)
 def _load_pipeline():
@@ -195,13 +490,13 @@ with st.sidebar:
     st.divider()
 
     st.markdown("### Client")
-    client_name = st.text_input("Name", value="Jesus Garcia")
-    client_id   = st.text_input("ID (snake_case)", value="garcia_jesus")
+    client_name = st.text_input("Name", value="Jesus Garcia", key="client_name")
+    client_id   = st.text_input("ID (snake_case)", value="garcia_jesus", key="client_id")
     col_s, col_h = st.columns(2)
     with col_s:
-        sex = st.selectbox("Sex", ["M", "F"])
+        sex = st.selectbox("Sex", ["M", "F"], key="sex")
     with col_h:
-        height_cm = st.number_input("Height cm", 100.0, 250.0, 179.0, 0.5)
+        height_cm = st.number_input("Height cm", 100.0, 250.0, 179.0, 0.5, key="height_cm")
 
     scan_label = st.selectbox("Visit", ["intake", "8wk", "16wk", "24wk"])
     lens       = st.selectbox("Lens", ["auto", "health", "body_comp",
@@ -225,6 +520,22 @@ with st.sidebar:
             st.error(f"Load error: {exc}")
     else:
         st.warning("Model directory not found.\nRun Colab Step 1 to build models.")
+
+    # ── Demo Personas Panel ────────────────────────────────────────────────────
+    st.divider()
+    with st.expander("🧪 Demo Personas (QA only — remove before launch)", expanded=False):
+        st.caption("One-click fill for QA and sales demos. Partial panels leave realistic gaps.")
+        pcols = st.columns(2)
+        for i, (pkey, persona) in enumerate(DEMO_PERSONAS.items()):
+            with pcols[i % 2]:
+                if st.button(
+                    f"{persona['name']} ({persona['age']}{persona['sex']})",
+                    help=persona["profile_summary"],
+                    key=f"demo_btn_{pkey}",
+                    use_container_width=True,
+                ):
+                    st.session_state["_pending_demo"] = pkey
+                    st.rerun()
 
 
 # ════════════════════════════════════════════════════════════════════════════════
@@ -284,30 +595,30 @@ with tab_ss:
     c1, c2, c3 = st.columns(3)
     with c1:
         ss_date         = st.date_input("Scan date", datetime.date(2026, 4, 13))
-        ss_weight_lb    = st.number_input("Weight (lb)",       0.0, 600.0, 215.3, 0.1)
-        ss_bf_pct       = st.number_input("Body fat %",        0.0,  70.0,  34.5, 0.1)
-        ss_bmi          = st.number_input("BMI",               0.0,  80.0,  33.8, 0.1)
-        ss_shape_score  = st.number_input("Shape score",       0,    100,   72,   1)
-        ss_health_score = st.number_input("Health score",      0,    100,   65,   1)
-        ss_body_age     = st.number_input("Body age",          0,    120,   46,   1)
+        ss_weight_lb    = st.number_input("Weight (lb)",       0.0, 600.0, 215.3, 0.1, key="ss_weight_lb")
+        ss_bf_pct       = st.number_input("Body fat %",        0.0,  70.0,  34.5, 0.1, key="ss_bf_pct")
+        ss_bmi          = st.number_input("BMI",               0.0,  80.0,  33.8, 0.1, key="ss_bmi")
+        ss_shape_score  = st.number_input("Shape score",       0,    100,   72,   1,   key="ss_shape_score")
+        ss_health_score = st.number_input("Health score",      0,    100,   65,   1,   key="ss_health_score")
+        ss_body_age     = st.number_input("Body age",          0,    120,   46,   1,   key="ss_body_age")
         ss_visc_rating  = st.selectbox("Visceral fat rating",
                                         ["Very Poor", "Poor", "Fair", "Good", "Excellent"],
-                                        index=1)
+                                        index=1, key="ss_visc_rating")
     with c2:
         st.markdown("**Circumferences (in)**")
-        ss_neck      = st.number_input("Neck",        0.0, 60.0, 16.5, 0.1)
-        ss_shoulders = st.number_input("Shoulders",   0.0, 90.0, 51.2, 0.1)
-        ss_chest     = st.number_input("Chest",       0.0, 80.0, 44.1, 0.1)
-        ss_waist     = st.number_input("Waist",       0.0, 80.0, 44.0, 0.1)
-        ss_hips      = st.number_input("Hips",        0.0, 80.0, 44.0, 0.1)
+        ss_neck      = st.number_input("Neck",        0.0, 60.0, 16.5, 0.1, key="ss_neck")
+        ss_shoulders = st.number_input("Shoulders",   0.0, 90.0, 51.2, 0.1, key="ss_shoulders")
+        ss_chest     = st.number_input("Chest",       0.0, 80.0, 44.1, 0.1, key="ss_chest")
+        ss_waist     = st.number_input("Waist",       0.0, 80.0, 44.0, 0.1, key="ss_waist")
+        ss_hips      = st.number_input("Hips",        0.0, 80.0, 44.0, 0.1, key="ss_hips")
     with c3:
         st.markdown("**Limbs (in)**")
-        ss_bicep_l  = st.number_input("Bicep L",   0.0, 30.0, 14.8, 0.1)
-        ss_bicep_r  = st.number_input("Bicep R",   0.0, 30.0, 15.0, 0.1)
-        ss_thigh_l  = st.number_input("Thigh L",   0.0, 50.0, 25.1, 0.1)
-        ss_thigh_r  = st.number_input("Thigh R",   0.0, 50.0, 25.3, 0.1)
-        ss_calf_l   = st.number_input("Calf L",    0.0, 30.0, 15.9, 0.1)
-        ss_calf_r   = st.number_input("Calf R",    0.0, 30.0, 16.1, 0.1)
+        ss_bicep_l  = st.number_input("Bicep L",   0.0, 30.0, 14.8, 0.1, key="ss_bicep_l")
+        ss_bicep_r  = st.number_input("Bicep R",   0.0, 30.0, 15.0, 0.1, key="ss_bicep_r")
+        ss_thigh_l  = st.number_input("Thigh L",   0.0, 50.0, 25.1, 0.1, key="ss_thigh_l")
+        ss_thigh_r  = st.number_input("Thigh R",   0.0, 50.0, 25.3, 0.1, key="ss_thigh_r")
+        ss_calf_l   = st.number_input("Calf L",    0.0, 30.0, 15.9, 0.1, key="ss_calf_l")
+        ss_calf_r   = st.number_input("Calf R",    0.0, 30.0, 16.1, 0.1, key="ss_calf_r")
 
 # ── Labs ──────────────────────────────────────────────────────────────────────
 with tab_labs:
@@ -389,6 +700,12 @@ run_btn = st.button(
     use_container_width=False,
     disabled=run_disabled,
 )
+
+# ── Demo persona banner ────────────────────────────────────────────────────────
+if loaded := st.session_state.get("_demo_persona_loaded"):
+    st.warning(
+        f"⚠️ Demo persona loaded: **{loaded}** — clear the form before scoring a real client."
+    )
 
 
 # ════════════════════════════════════════════════════════════════════════════════
