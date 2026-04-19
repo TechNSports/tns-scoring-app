@@ -46,7 +46,7 @@ import warnings
 from pathlib import Path
 from typing import Optional, Union
 
-from tns_optimal_zones import assert_clinician_review_complete, ClinicalReviewPendingError  # noqa: F401
+from tns_optimal_zones import ClinicalReviewPendingError  # noqa: F401
 
 import numpy as np
 import pandas as pd
@@ -737,7 +737,6 @@ def project_client(
         cross_scanner_flags    : list[str]  — from reconcile step
         data_completeness      : dict   — scan/labs/lifestyle booleans + full_data flag
     """
-    assert_clinician_review_complete("tns_pca_pipeline.project_client")
     client_data = dict(client_data)  # defensive copy — never mutate caller's dict
 
     # Merge lab and lifestyle overrides

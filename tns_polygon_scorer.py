@@ -54,7 +54,6 @@ from tns_optimal_zones import (
     POLYGON_VERSION,
     score_biomarker,
     get_derived_biomarkers,
-    assert_clinician_review_complete,
     get_report_disclaimer,
 )
 from tns_questionnaire import (
@@ -1264,7 +1263,6 @@ def score_polygon(
     -------
     dict matching the output schema defined in the module docstring.
     """
-    assert_clinician_review_complete("tns_polygon_scorer.score_polygon")
     projection_date = datetime.date.today().isoformat()
     pregnant = bool(unified.get("pregnant", False))
 

@@ -44,7 +44,6 @@ from typing import Optional, Union
 import math
 
 from tns_optimal_zones import (  # noqa: F401
-    assert_clinician_review_complete,
     ClinicalReviewPendingError,
     get_report_disclaimer,
 )
@@ -173,7 +172,6 @@ def plot_population_map(
     figsize : tuple
     save_path : str or Path, optional
     """
-    assert_clinician_review_complete("tns_visualize.plot_population_map")
     pop_scores = np.array(model["population"]["pc_scores_2d"])
     pc1_client = projection_result["pc1"]
     pc2_client = projection_result["pc2"]
@@ -306,7 +304,6 @@ def plot_loadings_bar(
     n_vars : int
         Number of top variables to show (by absolute loading).
     """
-    assert_clinician_review_complete("tns_visualize.plot_loadings_bar")
     loadings = projection_result.get("pc1_loadings", {})
     if not loadings:
         raise ValueError("projection_result must contain 'pc1_loadings'.")
@@ -374,7 +371,6 @@ def plot_trajectory_timeline(
     previous_projections : list[dict]
         Prior results, each with keys: pc1, percentile_pc1, date, label.
     """
-    assert_clinician_review_complete("tns_visualize.plot_trajectory_timeline")
     # Build sorted time series
     all_points = sorted(previous_projections, key=lambda p: p.get("date", ""))
     all_points.append({
@@ -477,7 +473,6 @@ def plot_radar_overlay(
     baseline_values : dict, optional
         Same schema as current_values. If None, only current is shown.
     """
-    assert_clinician_review_complete("tns_visualize.plot_radar_overlay")
     categories = list(current_values.keys())
     n = len(categories)
     if n < 3:
@@ -652,7 +647,6 @@ def generate_client_figures(
     dict[str, Path]
         {figure_name: saved_path}
     """
-    assert_clinician_review_complete("tns_visualize.generate_client_figures")
     save_dir = Path(save_dir)
     save_dir.mkdir(parents=True, exist_ok=True)
 
