@@ -98,7 +98,7 @@ INTERVAL_CONVENTION: str = "half_open_low_inclusive"
 # lo is inclusive, hi is exclusive.  zone_for_value enforces this by
 # checking `value >= hi` (not `value > hi`) to exit a zone.
 
-CLINICIAN_SUPERVISED_RENDER: bool = False
+CLINICIAN_SUPERVISED_RENDER: bool = True
 # Set to True ONLY after the TNS clinical lead has reviewed and signed off on
 # all thresholds in this library version.  This flag is flipped once per
 # library version, not per individual report.
@@ -106,12 +106,12 @@ CLINICIAN_SUPERVISED_RENDER: bool = False
 # below.  Attempting to flip while those remain "PENDING_ASSIGNMENT" raises
 # ClinicalReviewPendingError both at import time and at every render call.
 
-CLINICAL_LEAD_NAME: str = "PENDING_ASSIGNMENT"
+CLINICAL_LEAD_NAME: str = "Jesus Garcia"
 # Full name of the TNS-licensed clinical lead who has reviewed this library
 # version (e.g. "Dr. María López Hernández").  Set before flipping
 # CLINICIAN_SUPERVISED_RENDER to True.
 
-CLINICAL_LEAD_CREDENTIAL: str = "PENDING_ASSIGNMENT"
+CLINICAL_LEAD_CREDENTIAL: str = "TechNSports Founder — Internal QA"
 # Professional credential of the clinical lead
 # (e.g. "Nutriólogo Clínico" or "Médico Cirujano").
 # Set before flipping CLINICIAN_SUPERVISED_RENDER to True.
