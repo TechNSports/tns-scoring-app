@@ -1,0 +1,11 @@
+# TNS Scoring App — Python dependencies
+# Tested against Python 3.11 (Streamlit Community Cloud default).
+# "sklearn" imports map to the scikit-learn package name below.
+
+streamlit>=1.32.0
+scikit-learn>=1.3.0
+pandas>=2.0.3
+numpy>=1.25.0
+matplotlib>=3.7.0
+scipy>=1.11.0
+openpyxl>=3.1.0
