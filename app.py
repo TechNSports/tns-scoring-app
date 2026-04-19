@@ -59,7 +59,7 @@ if not _check_password():
 APP_DIR = Path(os.path.abspath(__file__)).parent
 sys.path.insert(0, str(APP_DIR))
 
-DEFAULT_MODEL_DIR = str(APP_DIR.parent / "NHANES_RAW" / "models")
+DEFAULT_MODEL_DIR = str(APP_DIR / "models")
 
 # ── CSS ───────────────────────────────────────────────────────────────────────
 st.markdown("""
