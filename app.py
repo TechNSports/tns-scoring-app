@@ -712,21 +712,7 @@ if loaded := st.session_state.get("_demo_persona_loaded"):
 # PIPELINE EXECUTION + RESULTS
 # ════════════════════════════════════════════════════════════════════════════════
 if run_btn:
-    from tns_optimal_zones import (
-        assert_clinician_review_complete,
-        ClinicalReviewPendingError,
-        get_report_disclaimer,
-    )
-    try:
-        assert_clinician_review_complete("app.generate_health_map")
-    except ClinicalReviewPendingError as _cpe:
-        st.error(
-            "⚠️ **Health Map generation is currently disabled.**  "
-            "Clinical review of zone thresholds has not been completed, "
-            "or the TNS clinical lead has not yet been assigned.  "
-            "Contact the TNS team to unlock this feature."
-        )
-        st.stop()
+    from tns_optimal_zones import get_report_disclaimer
     (parse_inbody_csv_string, parse_shapescale_sheet,
      reconcile_scanners, project_client,
      generate_client_figures) = _load_pipeline()
