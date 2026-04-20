@@ -209,6 +209,11 @@ DEMO_PERSONAS: dict = {
             "lab_total_chol": 160.0, "lab_hdl": 75.0, "lab_ldl": 80.0, "lab_triglycerides": 55.0,
             "lab_glucose": 75.0, "lab_hba1c": 5.0, "lab_insulin": 4.5, "lab_hscrp": 0.3,
             "lab_sbp": 105.0, "lab_dbp": 65.0,
+            "lab_ferritin": 60.0, "lab_b12": 450.0, "lab_vitamin_d": 45.0,
+            "lab_tsh": 1.8, "lab_free_t3": 3.2, "lab_free_t4": 1.2,
+            "lab_cortisol_am": 18.0, "lab_testosterone": 55.0,
+            "lab_lpa": 12.0, "lab_apob": 65.0, "lab_homa_ir": 0.9,
+            "lab_egfr": 105.0, "lab_resting_hr": 48.0,
             "life_vig": 240, "life_mod": 150, "life_sed": 5.5, "life_sleep": 8.5,
             "life_smoker": "Never", "life_alcohol": 1, "life_stress": 3, "life_health": 9,
         },
@@ -230,6 +235,11 @@ DEMO_PERSONAS: dict = {
             "lab_total_chol": 205.0, "lab_hdl": 52.0, "lab_ldl": 135.0, "lab_triglycerides": 110.0,
             "lab_glucose": 88.0, "lab_hba1c": 5.4, "lab_insulin": 8.0, "lab_hscrp": 1.0,
             "lab_sbp": 118.0, "lab_dbp": 72.0,
+            "lab_ferritin": 120.0, "lab_b12": 380.0, "lab_vitamin_d": 38.0,
+            "lab_tsh": 2.1, "lab_free_t3": 3.0, "lab_free_t4": 1.1,
+            "lab_cortisol_am": 16.0, "lab_testosterone": 620.0,
+            "lab_lpa": 18.0, "lab_apob": 88.0, "lab_homa_ir": 1.8,
+            "lab_egfr": 98.0, "lab_resting_hr": 62.0,
             "life_vig": 90, "life_mod": 180, "life_sed": 8.0, "life_sleep": 7.0,
             "life_smoker": "Never", "life_alcohol": 4, "life_stress": 5, "life_health": 7,
         },
@@ -251,6 +261,11 @@ DEMO_PERSONAS: dict = {
             "lab_total_chol": 225.0, "lab_hdl": 38.0, "lab_ldl": 145.0, "lab_triglycerides": 220.0,
             "lab_glucose": 118.0, "lab_hba1c": 6.1, "lab_insulin": 22.0, "lab_hscrp": 4.2,
             "lab_sbp": 135.0, "lab_dbp": 85.0,
+            "lab_ferritin": 85.0, "lab_b12": 320.0, "lab_vitamin_d": 22.0,
+            "lab_tsh": 2.8, "lab_free_t3": 2.8, "lab_free_t4": 1.0,
+            "lab_cortisol_am": 20.0, "lab_testosterone": 32.0,
+            "lab_lpa": 28.0, "lab_apob": 112.0, "lab_homa_ir": 6.4,
+            "lab_egfr": 82.0, "lab_resting_hr": 82.0,
             "life_vig": 0, "life_mod": 30, "life_sed": 12.0, "life_sleep": 6.0,
             "life_smoker": "Never", "life_alcohol": 3, "life_stress": 7, "life_health": 4,
         },
@@ -272,6 +287,11 @@ DEMO_PERSONAS: dict = {
             "lab_total_chol": 245.0, "lab_hdl": 42.0, "lab_ldl": 165.0, "lab_triglycerides": 180.0,
             "lab_glucose": 108.0, "lab_hba1c": 5.8, "lab_insulin": 0.0, "lab_hscrp": 0.0,
             "lab_sbp": 0.0, "lab_dbp": 0.0,
+            "lab_ferritin": 0.0, "lab_b12": 0.0, "lab_vitamin_d": 0.0,
+            "lab_tsh": 0.0, "lab_free_t3": 0.0, "lab_free_t4": 0.0,
+            "lab_cortisol_am": 28.0, "lab_testosterone": 0.0,
+            "lab_lpa": 0.0, "lab_apob": 0.0, "lab_homa_ir": 0.0,
+            "lab_egfr": 0.0, "lab_resting_hr": 0.0,
             "life_vig": 20, "life_mod": 60, "life_sed": 10.5, "life_sleep": 6.5,
             "life_smoker": "Never", "life_alcohol": 8, "life_stress": 8, "life_health": 5,
         },
@@ -293,6 +313,11 @@ DEMO_PERSONAS: dict = {
             "lab_total_chol": 185.0, "lab_hdl": 55.0, "lab_ldl": 110.0, "lab_triglycerides": 100.0,
             "lab_glucose": 82.0, "lab_hba1c": 5.2, "lab_insulin": 7.0, "lab_hscrp": 1.2,
             "lab_sbp": 112.0, "lab_dbp": 70.0,
+            "lab_ferritin": 18.0, "lab_b12": 210.0, "lab_vitamin_d": 18.0,
+            "lab_tsh": 0.0, "lab_free_t3": 0.0, "lab_free_t4": 0.0,
+            "lab_cortisol_am": 0.0, "lab_testosterone": 0.0,
+            "lab_lpa": 0.0, "lab_apob": 0.0, "lab_homa_ir": 0.0,
+            "lab_egfr": 0.0, "lab_resting_hr": 72.0,
             "life_vig": 60, "life_mod": 120, "life_sed": 7.5, "life_sleep": 6.5,
             "life_smoker": "Never", "life_alcohol": 1, "life_stress": 6, "life_health": 6,
         },
@@ -314,6 +339,11 @@ DEMO_PERSONAS: dict = {
             "lab_total_chol": 175.0, "lab_hdl": 60.0, "lab_ldl": 100.0, "lab_triglycerides": 70.0,
             "lab_glucose": 82.0, "lab_hba1c": 5.0, "lab_insulin": 5.0, "lab_hscrp": 0.4,
             "lab_sbp": 108.0, "lab_dbp": 65.0,
+            "lab_ferritin": 95.0, "lab_b12": 420.0, "lab_vitamin_d": 42.0,
+            "lab_tsh": 1.6, "lab_free_t3": 3.4, "lab_free_t4": 1.3,
+            "lab_cortisol_am": 0.0, "lab_testosterone": 780.0,
+            "lab_lpa": 0.0, "lab_apob": 0.0, "lab_homa_ir": 0.9,
+            "lab_egfr": 115.0, "lab_resting_hr": 44.0,
             "life_vig": 300, "life_mod": 200, "life_sed": 5.0, "life_sleep": 8.0,
             "life_smoker": "Never", "life_alcohol": 3, "life_stress": 4, "life_health": 9,
         },
@@ -335,6 +365,11 @@ DEMO_PERSONAS: dict = {
             "lab_total_chol": 270.0, "lab_hdl": 65.0, "lab_ldl": 180.0, "lab_triglycerides": 90.0,
             "lab_glucose": 88.0, "lab_hba1c": 5.3, "lab_insulin": 6.5, "lab_hscrp": 0.8,
             "lab_sbp": 122.0, "lab_dbp": 74.0,
+            "lab_ferritin": 55.0, "lab_b12": 310.0, "lab_vitamin_d": 35.0,
+            "lab_tsh": 3.2, "lab_free_t3": 2.8, "lab_free_t4": 1.0,
+            "lab_cortisol_am": 14.0, "lab_testosterone": 22.0,
+            "lab_lpa": 55.0, "lab_apob": 118.0, "lab_homa_ir": 1.4,
+            "lab_egfr": 72.0, "lab_resting_hr": 68.0,
             "life_vig": 80, "life_mod": 150, "life_sed": 7.0, "life_sleep": 7.5,
             "life_smoker": "Never", "life_alcohol": 2, "life_stress": 4, "life_health": 7,
         },
@@ -356,6 +391,11 @@ DEMO_PERSONAS: dict = {
             "lab_total_chol": 210.0, "lab_hdl": 48.0, "lab_ldl": 125.0, "lab_triglycerides": 120.0,
             "lab_glucose": 95.0, "lab_hba1c": 5.5, "lab_insulin": 10.0, "lab_hscrp": 3.5,
             "lab_sbp": 125.0, "lab_dbp": 80.0,
+            "lab_ferritin": 180.0, "lab_b12": 290.0, "lab_vitamin_d": 28.0,
+            "lab_tsh": 2.4, "lab_free_t3": 2.9, "lab_free_t4": 1.1,
+            "lab_cortisol_am": 18.0, "lab_testosterone": 480.0,
+            "lab_lpa": 110.0, "lab_apob": 125.0, "lab_homa_ir": 2.2,
+            "lab_egfr": 88.0, "lab_resting_hr": 72.0,
             "life_vig": 60, "life_mod": 120, "life_sed": 9.0, "life_sleep": 7.0,
             "life_smoker": "Never", "life_alcohol": 5, "life_stress": 6, "life_health": 6,
         },
@@ -377,6 +417,11 @@ DEMO_PERSONAS: dict = {
             "lab_total_chol": 165.0, "lab_hdl": 72.0, "lab_ldl": 88.0, "lab_triglycerides": 50.0,
             "lab_glucose": 72.0, "lab_hba1c": 4.9, "lab_insulin": 3.5, "lab_hscrp": 0.7,
             "lab_sbp": 100.0, "lab_dbp": 60.0,
+            "lab_ferritin": 14.0, "lab_b12": 380.0, "lab_vitamin_d": 32.0,
+            "lab_tsh": 1.4, "lab_free_t3": 2.1, "lab_free_t4": 0.8,
+            "lab_cortisol_am": 8.0, "lab_testosterone": 28.0,
+            "lab_lpa": 8.0, "lab_apob": 58.0, "lab_homa_ir": 0.7,
+            "lab_egfr": 102.0, "lab_resting_hr": 42.0,
             "life_vig": 380, "life_mod": 120, "life_sed": 6.5, "life_sleep": 7.0,
             "life_smoker": "Never", "life_alcohol": 0, "life_stress": 7, "life_health": 6,
         },
@@ -398,6 +443,11 @@ DEMO_PERSONAS: dict = {
             "lab_total_chol": 230.0, "lab_hdl": 36.0, "lab_ldl": 155.0, "lab_triglycerides": 195.0,
             "lab_glucose": 115.0, "lab_hba1c": 5.9, "lab_insulin": 20.0, "lab_hscrp": 3.2,
             "lab_sbp": 142.0, "lab_dbp": 90.0,
+            "lab_ferritin": 210.0, "lab_b12": 255.0, "lab_vitamin_d": 20.0,
+            "lab_tsh": 2.6, "lab_free_t3": 2.7, "lab_free_t4": 1.0,
+            "lab_cortisol_am": 22.0, "lab_testosterone": 320.0,
+            "lab_lpa": 32.0, "lab_apob": 128.0, "lab_homa_ir": 5.6,
+            "lab_egfr": 68.0, "lab_resting_hr": 78.0,
             "life_vig": 0, "life_mod": 40, "life_sed": 13.0, "life_sleep": 6.0,
             "life_smoker": "Former", "life_alcohol": 5, "life_stress": 7, "life_health": 4,
         },
@@ -419,6 +469,11 @@ DEMO_PERSONAS: dict = {
             "lab_total_chol": 170.0, "lab_hdl": 62.0, "lab_ldl": 95.0, "lab_triglycerides": 75.0,
             "lab_glucose": 80.0, "lab_hba1c": 5.1, "lab_insulin": 5.5, "lab_hscrp": 0.6,
             "lab_sbp": 110.0, "lab_dbp": 68.0,
+            "lab_ferritin": 22.0, "lab_b12": 180.0, "lab_vitamin_d": 20.0,
+            "lab_tsh": 0.0, "lab_free_t3": 0.0, "lab_free_t4": 0.0,
+            "lab_cortisol_am": 0.0, "lab_testosterone": 0.0,
+            "lab_lpa": 0.0, "lab_apob": 0.0, "lab_homa_ir": 1.1,
+            "lab_egfr": 98.0, "lab_resting_hr": 58.0,
             "life_vig": 160, "life_mod": 200, "life_sed": 6.0, "life_sleep": 8.0,
             "life_smoker": "Never", "life_alcohol": 0, "life_stress": 4, "life_health": 8,
         },
@@ -440,6 +495,11 @@ DEMO_PERSONAS: dict = {
             "lab_total_chol": 165.0, "lab_hdl": 50.0, "lab_ldl": 85.0, "lab_triglycerides": 115.0,
             "lab_glucose": 96.0, "lab_hba1c": 5.6, "lab_insulin": 9.0, "lab_hscrp": 1.5,
             "lab_sbp": 128.0, "lab_dbp": 78.0,
+            "lab_ferritin": 145.0, "lab_b12": 280.0, "lab_vitamin_d": 32.0,
+            "lab_tsh": 2.8, "lab_free_t3": 2.6, "lab_free_t4": 1.0,
+            "lab_cortisol_am": 14.0, "lab_testosterone": 340.0,
+            "lab_lpa": 42.0, "lab_apob": 70.0, "lab_homa_ir": 2.0,
+            "lab_egfr": 75.0, "lab_resting_hr": 65.0,
             "life_vig": 40, "life_mod": 120, "life_sed": 8.5, "life_sleep": 7.5,
             "life_smoker": "Former", "life_alcohol": 3, "life_stress": 5, "life_health": 6,
         },
@@ -489,47 +549,157 @@ def _load_models(model_dir: str):
 
 
 # ════════════════════════════════════════════════════════════════════════════════
-# SIDEBAR — client info + model path
+# SIDEBAR — collapsible expanders
 # ════════════════════════════════════════════════════════════════════════════════
 with st.sidebar:
     st.markdown("## 🔬 TNS Health Map")
     st.markdown("*TechNSports · Mérida, Yucatán*")
     st.divider()
 
-    st.markdown("### Client")
-    client_name = st.text_input("Name", value="Jesus Garcia", key="client_name")
-    client_id   = st.text_input("ID (snake_case)", value="garcia_jesus", key="client_id")
-    col_s, col_h = st.columns(2)
-    with col_s:
-        sex = st.selectbox("Sex", ["M", "F"], key="sex")
-    with col_h:
-        height_cm = st.number_input("Height cm", 100.0, 250.0, 179.0, 0.5, key="height_cm")
+    # ── 1. Client Info (expanded=True) ────────────────────────────────────────
+    with st.expander("Client Info", expanded=True):
+        client_name = st.text_input("Name", value="Jesus Garcia", key="client_name")
+        client_id   = st.text_input("ID (snake_case)", value="garcia_jesus", key="client_id")
+        col_s, col_h = st.columns(2)
+        with col_s:
+            sex = st.selectbox("Sex", ["M", "F"], key="sex")
+        with col_h:
+            height_cm = st.number_input("Height cm", 100.0, 250.0, 179.0, 0.5, key="height_cm")
+        scan_label = st.selectbox("Visit", ["intake", "8wk", "16wk", "24wk"])
+        lens       = st.selectbox("Lens", ["auto", "health", "body_comp",
+                                            "performance", "weight_mgmt", "longevity"])
 
-    scan_label = st.selectbox("Visit", ["intake", "8wk", "16wk", "24wk"])
-    lens       = st.selectbox("Lens", ["auto", "health", "body_comp",
-                                        "performance", "weight_mgmt", "longevity"])
     st.divider()
 
-    st.markdown("### Models")
-    model_dir = st.text_input("Model directory", value=DEFAULT_MODEL_DIR)
+    # ── 2. Models ─────────────────────────────────────────────────────────────
+    with st.expander("Models", expanded=False):
+        model_dir = st.text_input("Model directory", value=DEFAULT_MODEL_DIR)
+        models = None
+        if Path(model_dir).exists():
+            try:
+                models = _load_models(model_dir)
+                if models:
+                    st.success(f"✅ {len(models)} lens model(s) loaded")
+                    for lname in models:
+                        st.caption(f"  • {lname}")
+                else:
+                    st.warning("No models found. Run Step 1 in the Colab notebook first.")
+            except Exception as exc:
+                st.error(f"Load error: {exc}")
+        else:
+            st.warning("Model directory not found.\nRun Colab Step 1 to build models.")
 
-    models = None
-    if Path(model_dir).exists():
-        try:
-            models = _load_models(model_dir)
-            if models:
-                st.success(f"✅ {len(models)} lens model(s) loaded")
-                for lname in models:
-                    st.caption(f"  • {lname}")
-            else:
-                st.warning("No models found. Run Step 1 in the Colab notebook first.")
-        except Exception as exc:
-            st.error(f"Load error: {exc}")
-    else:
-        st.warning("Model directory not found.\nRun Colab Step 1 to build models.")
-
-    # ── Demo Personas Panel ────────────────────────────────────────────────────
     st.divider()
+
+    # ── 3. Lipids ─────────────────────────────────────────────────────────────
+    with st.expander("Lipids", expanded=False):
+        lab_total_chol    = st.number_input("Total Cholesterol (mg/dL)", 0.0, 1000.0, step=1.0,
+                                             help="Optimal: 150–181 mg/dL", key="lab_total_chol")
+        lab_hdl           = st.number_input("HDL (mg/dL)", 0.0, 500.0, step=1.0,
+                                             help="Optimal (M): ≥60 | Optimal (F): ≥65 mg/dL", key="lab_hdl")
+        lab_ldl           = st.number_input("LDL (mg/dL)", 0.0, 800.0, step=1.0,
+                                             help="Optimal: <70 mg/dL", key="lab_ldl")
+        lab_triglycerides = st.number_input("Triglycerides (mg/dL)", 0.0, 3000.0, step=1.0,
+                                             help="Optimal: <100 mg/dL", key="lab_triglycerides")
+        lab_lpa           = st.number_input("Lp(a) (mg/dL)", 0.0, 500.0, step=1.0,
+                                             help="Optimal: <14 mg/dL", key="lab_lpa")
+        lab_apob          = st.number_input("ApoB (mg/dL)", 0.0, 300.0, step=1.0,
+                                             help="Optimal: <80 mg/dL", key="lab_apob")
+
+    st.divider()
+
+    # ── 4. Metabolic ──────────────────────────────────────────────────────────
+    with st.expander("Metabolic", expanded=False):
+        lab_glucose   = st.number_input("Glucose fasting (mg/dL)", 0.0, 800.0, step=1.0,
+                                         help="Optimal: 70–90 mg/dL", key="lab_glucose")
+        lab_hba1c     = st.number_input("HbA1c (%)", 0.0, 25.0, step=0.1,
+                                         help="Optimal: 4.0–5.2%", key="lab_hba1c")
+        lab_insulin   = st.number_input("Insulin fasting (µIU/mL)", 0.0, 500.0, step=0.1,
+                                         help="Optimal: 2–7 µIU/mL", key="lab_insulin")
+        lab_homa_ir   = st.number_input("HOMA-IR", 0.0, 50.0, step=0.1,
+                                         help="Optimal: <1.0 (computed or direct entry)", key="lab_homa_ir")
+
+    st.divider()
+
+    # ── 5. Inflammation ───────────────────────────────────────────────────────
+    with st.expander("Inflammation", expanded=False):
+        lab_hscrp = st.number_input("hs-CRP (mg/L)", 0.0, 200.0, step=0.1,
+                                     help="Optimal: <0.5 mg/L", key="lab_hscrp")
+
+    st.divider()
+
+    # ── 6. Blood Pressure & Heart Rate ────────────────────────────────────────
+    with st.expander("Blood Pressure & Heart Rate", expanded=False):
+        lab_sbp        = st.number_input("Systolic BP (mmHg)", 0.0, 300.0, step=1.0,
+                                          help="Optimal: 90–120 mmHg", key="lab_sbp")
+        lab_dbp        = st.number_input("Diastolic BP (mmHg)", 0.0, 200.0, step=1.0,
+                                          help="Optimal: 60–80 mmHg", key="lab_dbp")
+        lab_resting_hr = st.number_input("Resting HR (bpm)", 0.0, 250.0, step=1.0,
+                                          help="Optimal: 40–60 bpm (well-trained)", key="lab_resting_hr")
+
+    st.divider()
+
+    # ── 7. Thyroid ────────────────────────────────────────────────────────────
+    with st.expander("Thyroid", expanded=False):
+        lab_tsh    = st.number_input("TSH (mIU/L)", 0.0, 20.0, step=0.01,
+                                      help="Optimal: 1.0–2.51 mIU/L", key="lab_tsh")
+        lab_free_t3 = st.number_input("Free T3 (pg/mL)", 0.0, 15.0, step=0.1,
+                                       help="Optimal: 3.0–4.21 pg/mL", key="lab_free_t3")
+        lab_free_t4 = st.number_input("Free T4 (ng/dL)", 0.0, 10.0, step=0.01,
+                                       help="Optimal: 1.1–1.71 ng/dL", key="lab_free_t4")
+
+    st.divider()
+
+    # ── 8. Hormones ───────────────────────────────────────────────────────────
+    with st.expander("Hormones", expanded=False):
+        lab_cortisol_am  = st.number_input("AM Cortisol (µg/dL)", 0.0, 100.0, step=0.1,
+                                            help="Optimal: 12–19 µg/dL", key="lab_cortisol_am")
+        lab_testosterone = st.number_input("Testosterone total (ng/dL)", 0.0, 2000.0, step=1.0,
+                                            help="Optimal (M): 600–901 | Optimal (F): 25–61 ng/dL",
+                                            key="lab_testosterone")
+
+    st.divider()
+
+    # ── 9. Iron & Vitamins ────────────────────────────────────────────────────
+    with st.expander("Iron & Vitamins", expanded=False):
+        lab_ferritin  = st.number_input("Ferritin (ng/mL)", 0.0, 2000.0, step=1.0,
+                                         help="Optimal (M): 50–151 | Optimal (F): 30–101 ng/mL",
+                                         key="lab_ferritin")
+        lab_b12       = st.number_input("Vitamin B12 (pg/mL)", 0.0, 5000.0, step=1.0,
+                                         help="Optimal: 600–1201 pg/mL", key="lab_b12")
+        lab_vitamin_d = st.number_input("Vitamin D 25-OH (ng/mL)", 0.0, 200.0, step=1.0,
+                                         help="Optimal: 50–81 ng/mL", key="lab_vitamin_d")
+
+    st.divider()
+
+    # ── 10. Kidney ────────────────────────────────────────────────────────────
+    with st.expander("Kidney", expanded=False):
+        lab_egfr = st.number_input("eGFR (mL/min/1.73m²)", 0.0, 200.0, step=1.0,
+                                    help="Optimal: ≥90 mL/min/1.73m²", key="lab_egfr")
+
+    st.divider()
+
+    # ── 11. Lifestyle ─────────────────────────────────────────────────────────
+    with st.expander("Lifestyle", expanded=False):
+        life_vig    = st.number_input("Vigorous activity (min/week)", 0, 2000, step=10,  key="life_vig")
+        life_mod    = st.number_input("Moderate activity (min/week)", 0, 2000, step=10,  key="life_mod")
+        life_sed    = st.number_input("Sedentary hours/day",          0.0, 24.0, step=0.5, key="life_sed")
+        life_sleep  = st.number_input("Sleep hours/night",            0.0, 24.0, step=0.5, key="life_sleep")
+        life_smoker  = st.selectbox("Smoker status",
+                                     ["(not provided)", "Never", "Former", "Current"],
+                                     key="life_smoker")
+        life_alcohol = st.number_input("Alcohol drinks/week", 0, 100, step=1, key="life_alcohol")
+        life_stress  = st.slider("Stress (1–10, 0 = not provided)", 0, 10, key="life_stress")
+        life_health  = st.slider("Subjective health (1–10, 0 = not provided)", 0, 10, key="life_health")
+
+    st.divider()
+
+    # ── 12. Demo Personas (QA) ────────────────────────────────────────────────
+    # ============================================================
+    # DEMO PERSONAS PANEL — REMOVE BEFORE PRODUCTION LAUNCH
+    # Added 2026-04-18 for QA and sales demos.
+    # To remove: delete this block + the DEMO_PERSONAS dict + _load_demo_persona() helper.
+    # ============================================================
     with st.expander("🧪 Demo Personas (QA only — remove before launch)", expanded=False):
         st.caption("One-click fill for QA and sales demos. Partial panels leave realistic gaps.")
         pcols = st.columns(2)
@@ -543,6 +713,7 @@ with st.sidebar:
                 ):
                     st.session_state["_pending_demo"] = pkey
                     st.rerun()
+    # ── end DEMO PERSONAS PANEL ──────────────────────────────────────────────
 
 
 # ════════════════════════════════════════════════════════════════════════════════
@@ -558,11 +729,9 @@ st.divider()
 
 
 # ════════════════════════════════════════════════════════════════════════════════
-# DATA ENTRY TABS
+# DATA ENTRY TABS — Scan data only (labs & lifestyle in sidebar expanders)
 # ════════════════════════════════════════════════════════════════════════════════
-tab_ib, tab_ss, tab_labs, tab_life = st.tabs(
-    ["🔬 InBody Scan", "📐 ShapeScale Scan", "🩸 Lab Values", "🏃 Lifestyle"]
-)
+tab_ib, tab_ss = st.tabs(["🔬 InBody Scan", "📐 ShapeScale Scan"])
 
 # ── InBody ────────────────────────────────────────────────────────────────────
 with tab_ib:
@@ -627,70 +796,7 @@ with tab_ss:
         ss_calf_l   = st.number_input("Calf L",    0.0, 30.0, 15.9, 0.1, key="ss_calf_l")
         ss_calf_r   = st.number_input("Calf R",    0.0, 30.0, 16.1, 0.1, key="ss_calf_r")
 
-# ── Labs ──────────────────────────────────────────────────────────────────────
-with tab_labs:
-    st.markdown("From printed lab report. Leave at **0** for any value not available — it will be imputed from population medians.")
-    st.caption("Units: mg/dL for lipids and glucose · % for HbA1c · µIU/mL for insulin · mg/L for hs-CRP · mmHg for BP")
-
-    # ── Preset buttons ────────────────────────────────────────────────────────
-    st.markdown("**Quick fill (testing):**")
-    pb1, pb2, pb3, _ = st.columns([1, 1, 1, 3])
-    with pb1:
-        if st.button("🟢 Healthy",   key="preset_lab_h", use_container_width=True):
-            st.session_state["_pending_preset"] = "healthy";   st.rerun()
-    with pb2:
-        if st.button("🟡 Average",   key="preset_lab_a", use_container_width=True):
-            st.session_state["_pending_preset"] = "average";   st.rerun()
-    with pb3:
-        if st.button("🔴 Unhealthy", key="preset_lab_u", use_container_width=True):
-            st.session_state["_pending_preset"] = "unhealthy"; st.rerun()
-    st.divider()
-
-    lc1, lc2 = st.columns(2)
-    with lc1:
-        lab_total_chol    = st.number_input("Total Cholesterol (mg/dL)", 0.0, 1000.0, step=1.0,  key="lab_total_chol")
-        lab_hdl           = st.number_input("HDL (mg/dL)",               0.0,  500.0, step=1.0,  key="lab_hdl")
-        lab_ldl           = st.number_input("LDL (mg/dL)",               0.0,  800.0, step=1.0,  key="lab_ldl")
-        lab_triglycerides = st.number_input("Triglycerides (mg/dL)",     0.0, 3000.0, step=1.0,  key="lab_triglycerides")
-        lab_glucose       = st.number_input("Glucose fasting (mg/dL)",   0.0,  800.0, step=1.0,  key="lab_glucose")
-    with lc2:
-        lab_hba1c   = st.number_input("HbA1c (%)",          0.0, 25.0,  step=0.1, key="lab_hba1c")
-        lab_insulin = st.number_input("Insulin (µIU/mL)",   0.0, 500.0, step=0.1, key="lab_insulin")
-        lab_hscrp   = st.number_input("hs-CRP (mg/L)",      0.0, 200.0, step=0.1, key="lab_hscrp")
-        lab_sbp     = st.number_input("Systolic BP (mmHg)", 0.0, 300.0, step=1.0, key="lab_sbp")
-        lab_dbp     = st.number_input("Diastolic BP (mmHg)",0.0, 200.0, step=1.0, key="lab_dbp")
-
-# ── Lifestyle ─────────────────────────────────────────────────────────────────
-with tab_life:
-    st.markdown("From intake form. Leave at **0** for any value not available.")
-
-    # ── Preset buttons ────────────────────────────────────────────────────────
-    st.markdown("**Quick fill (testing):**")
-    lb1, lb2, lb3, _ = st.columns([1, 1, 1, 3])
-    with lb1:
-        if st.button("🟢 Healthy",   key="preset_life_h", use_container_width=True):
-            st.session_state["_pending_preset"] = "healthy";   st.rerun()
-    with lb2:
-        if st.button("🟡 Average",   key="preset_life_a", use_container_width=True):
-            st.session_state["_pending_preset"] = "average";   st.rerun()
-    with lb3:
-        if st.button("🔴 Unhealthy", key="preset_life_u", use_container_width=True):
-            st.session_state["_pending_preset"] = "unhealthy"; st.rerun()
-    st.divider()
-
-    ll1, ll2 = st.columns(2)
-    with ll1:
-        life_vig    = st.number_input("Vigorous activity (min/week)", 0, 2000, step=10,  key="life_vig")
-        life_mod    = st.number_input("Moderate activity (min/week)", 0, 2000, step=10,  key="life_mod")
-        life_sed    = st.number_input("Sedentary hours/day",          0.0, 24.0, step=0.5, key="life_sed")
-        life_sleep  = st.number_input("Sleep hours/night",            0.0, 24.0, step=0.5, key="life_sleep")
-    with ll2:
-        life_smoker  = st.selectbox("Smoker status",
-                                     ["(not provided)", "Never", "Former", "Current"],
-                                     key="life_smoker")
-        life_alcohol = st.number_input("Alcohol drinks/week", 0, 100, step=1, key="life_alcohol")
-        life_stress  = st.slider("Stress (1–10, 0 = not provided)", 0, 10, key="life_stress")
-        life_health  = st.slider("Subjective health (1–10, 0 = not provided)", 0, 10, key="life_health")
+st.caption("Labs and Lifestyle values are entered in the sidebar expanders (Lipids, Metabolic, etc.).")
 
 
 # ════════════════════════════════════════════════════════════════════════════════
@@ -776,16 +882,37 @@ if run_btn:
         return float(v) if v and float(v) != 0.0 else None
 
     lab_data = {
+        # Lipids
         "lab_total_chol":    _nz(lab_total_chol),
         "lab_hdl":           _nz(lab_hdl),
         "lab_ldl":           _nz(lab_ldl),
         "lab_triglycerides": _nz(lab_triglycerides),
+        "lab_lpa":           _nz(lab_lpa),
+        "lab_apob":          _nz(lab_apob),
+        # Metabolic
         "lab_glucose":       _nz(lab_glucose),
         "lab_hba1c":         _nz(lab_hba1c),
         "lab_insulin":       _nz(lab_insulin),
+        "lab_homa_ir":       _nz(lab_homa_ir),
+        # Inflammation
         "lab_hscrp":         _nz(lab_hscrp),
+        # BP & HR
         "lab_sbp":           _nz(lab_sbp),
         "lab_dbp":           _nz(lab_dbp),
+        "lab_resting_hr":    _nz(lab_resting_hr),
+        # Thyroid
+        "lab_tsh":           _nz(lab_tsh),
+        "lab_free_t3":       _nz(lab_free_t3),
+        "lab_free_t4":       _nz(lab_free_t4),
+        # Hormones
+        "lab_cortisol_am":   _nz(lab_cortisol_am),
+        "lab_testosterone":  _nz(lab_testosterone),
+        # Iron & Vitamins
+        "lab_ferritin":      _nz(lab_ferritin),
+        "lab_b12":           _nz(lab_b12),
+        "lab_vitamin_d":     _nz(lab_vitamin_d),
+        # Kidney
+        "lab_egfr":          _nz(lab_egfr),
     }
 
     # ── Build lifestyle dict (treat 0 as not provided) ────────────────────────

@@ -181,7 +181,7 @@ def plot_population_map(
     fig, ax = plt.subplots(figsize=figsize)
     _set_dark_style(fig, [ax])
 
-    # ── Reference population scatter ─────────────────────────────────────────
+    # ── Reference population scatter with PC1 risk-tier coloring ─────────────
     # Subsample if large (>2000 points) for render performance
     n_pop = len(pop_scores)
     if n_pop > 2000:
@@ -190,11 +190,22 @@ def plot_population_map(
     else:
         pop_plot = pop_scores
 
-    ax.scatter(
-        pop_plot[:, 0], pop_plot[:, 1],
-        c=POPULATION_DOT, s=8, alpha=0.35, linewidths=0, zorder=1,
-        label="Reference population"
-    )
+    # Bucket by PC1 tertile: top third → lower risk (green),
+    # middle third → moderate (amber), bottom third → higher risk (red).
+    pc1_vals = pop_plot[:, 0]
+    t1 = np.percentile(pc1_vals, 33.33)   # lower boundary of top tertile
+    t2 = np.percentile(pc1_vals, 66.67)   # lower boundary of top tertile
+
+    tiers = [
+        ("Lower risk",    pc1_vals >= t2,                   "#4ade80"),
+        ("Moderate risk", (pc1_vals >= t1) & (pc1_vals < t2), "#f59e0b"),
+        ("Higher risk",   pc1_vals < t1,                   "#ef4444"),
+    ]
+    for label, mask, color in tiers:
+        ax.scatter(
+            pop_plot[:, 0][mask], pop_plot[:, 1][mask],
+            c=color, alpha=0.35, s=8, label=label, zorder=1, linewidths=0,
+        )
 
     # ── Trajectory arrows (prior scans) ──────────────────────────────────────
     if previous_projections:
@@ -246,14 +257,14 @@ def plot_population_map(
         ax.text(x_max - 0.05*(x_max-x_min), 0.02, "Better health markers",
                 transform=ax.get_xaxis_transform(), ha="right",
                 fontsize=8, color=GREEN, alpha=0.8)
-        ax.set_xlabel("Health axis (relative position)", fontsize=9)
+        ax.set_xlabel("Metabolic health axis", fontsize=9)
         ax.set_ylabel("Body shape axis", fontsize=9)
         ax.set_xticklabels([])
         ax.set_yticklabels([])
     else:
         pc1_var = ev.get("pc1", 0) or 0
         pc2_var = ev.get("pc2", 0) or 0
-        ax.set_xlabel(f"PC1 ({pc1_var:.1%} variance)", fontsize=9, color=WATERSPOUT)
+        ax.set_xlabel("Metabolic health axis", fontsize=9, color=WATERSPOUT)
         ax.set_ylabel(f"PC2 ({pc2_var:.1%} variance)", fontsize=9, color=WATERSPOUT)
 
     lens_label = projection_result.get("lens_used", "").replace("_", " ").title()
@@ -271,10 +282,13 @@ def plot_population_map(
 
     # ── Legend ───────────────────────────────────────────────────────────────
     legend_handles = [
-        mpatches.Patch(color=POPULATION_DOT, label="Reference population"),
-        mpatches.Patch(color=TNS_BLUE, label=client_name),
+        mpatches.Patch(color="#4ade80", label="Lower risk (top tertile)"),
+        mpatches.Patch(color="#f59e0b", label="Moderate risk (mid tertile)"),
+        mpatches.Patch(color="#ef4444", label="Higher risk (bottom tertile)"),
+        mpatches.Patch(color=TNS_BLUE,  label=client_name),
     ]
-    ax.legend(handles=legend_handles, loc="upper left", fontsize=8,
+    ax.legend(handles=legend_handles, loc="upper right", fontsize=7,
+              framealpha=0.3, markerscale=1.5,
               facecolor=CARD, edgecolor=WATERSPOUT, labelcolor=WHITE)
 
     plt.tight_layout(pad=1.5)

@@ -3,7 +3,7 @@ tns_optimal_zones.py
 ====================
 TechNSports (TNS) Optimal-Zone Biomarker Library
 -------------------------------------------------
-Version:  1.0.4-public   (LIBRARY_VERSION)
+Version:  1.0.5-public   (LIBRARY_VERSION)
 Pipeline: 4.1            (POLYGON_VERSION)
 
 Architecture
@@ -86,7 +86,7 @@ from typing import Optional
 # Module constants
 # ---------------------------------------------------------------------------
 
-LIBRARY_VERSION: str = "1.0.4-public"
+LIBRARY_VERSION: str = "1.0.5-public"
 POLYGON_VERSION: str = "4.1"
 
 # ---------------------------------------------------------------------------
@@ -187,6 +187,19 @@ def get_report_disclaimer() -> str:
 # ---------------------------------------------------------------------------
 # CHANGELOG
 # ---------------------------------------------------------------------------
+# v1.0.5-public  (2026-04-19)
+#   CHANGE-01  Add 13 missing biomarker input widgets to app.py sidebar:
+#              lab_ferritin, lab_vitamin_d, lab_b12, lab_tsh, lab_free_t3,
+#              lab_free_t4, lab_cortisol_am, lab_testosterone, lab_lpa,
+#              lab_apob, lab_homa_ir, lab_egfr, lab_resting_hr.
+#              Reorganize sidebar into 12 collapsible st.expander sections.
+#              Expand lab_data dict to include all 24 new keys.
+#              Update all 12 DEMO_PERSONAS with new biomarker values.
+#   CHANGE-02  PCA chart risk-tier coloring in plot_population_map():
+#              NHANES reference points bucketed by PC1 tertile; green/amber/red
+#              tier scatter with alpha=0.35, s=8. Legend top-right.
+#              X-axis label → "Metabolic health axis".
+#
 # v1.0.4-public  (2026-04-18)
 #   CHANGE-01  Soften 7 PM-flagged layperson concerning strings (TSH, Free T3,
 #              Free T4, Ferritin, Testosterone, Cortisol AM, eGFR) to fit a
