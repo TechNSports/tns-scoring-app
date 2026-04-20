@@ -216,6 +216,34 @@ DEMO_PERSONAS: dict = {
             "lab_egfr": 105.0, "lab_resting_hr": 48.0,
             "life_vig": 240, "life_mod": 150, "life_sed": 5.5, "life_sleep": 8.5,
             "life_smoker": "Never", "life_alcohol": 1, "life_stress": 3, "life_health": 9,
+            # Tier C — questionnaire
+            "q_activity_hours_per_week": "8+ hours",
+            "q_weight_trend_perception": "stable",
+            "q_training_frequency_days_per_week": "5+",
+            "q_family_history_heart": "no",
+            "q_smoking": "never",
+            "q_alcohol_drinks_per_week": "0-3",
+            "q_cv_fitness_stairs_3_flights": "yes",
+            "q_chest_pain_on_exertion": "no",
+            "q_energy_consistency_days_per_week": "6-7",
+            "q_afternoon_crashes": "never",
+            "q_cold_sensitivity": "no",
+            "q_libido_past_4_weeks": "strong",
+            "q_mood_swings_past_4_weeks": "rarely",
+            "q_thermoregulation": "no",
+            "q_morning_motivation": "within_15min",
+            "q_menstrual_regularity": "regular",
+            "q_sleep_hours_per_night": "8+",
+            "q_sleep_quality_rested_days": "almost_always",
+            "q_stress_interference_past_4_weeks": "rarely",
+            "q_recovery_time_after_workout": "1_2_days",
+            "q_overwhelmed": "never",
+            "q_training_type": "mixed",
+            "q_training_intensity_1to10": 7,
+            "q_daily_steps": "10000+",
+            "q_nutrition_whole_food_meals": "most_75",
+            "q_hydration_liters_per_day": "3+",
+            "q_protein_meals_with_palm_serving": "all_3",
         },
     },
     # ── 2. Active weekend warrior ──────────────────────────────────────────────
@@ -242,6 +270,33 @@ DEMO_PERSONAS: dict = {
             "lab_egfr": 98.0, "lab_resting_hr": 62.0,
             "life_vig": 90, "life_mod": 180, "life_sed": 8.0, "life_sleep": 7.0,
             "life_smoker": "Never", "life_alcohol": 4, "life_stress": 5, "life_health": 7,
+            # Tier C — questionnaire
+            "q_activity_hours_per_week": "3-4 hours",
+            "q_weight_trend_perception": "stable",
+            "q_training_frequency_days_per_week": "3",
+            "q_family_history_heart": "unknown",
+            "q_smoking": "never",
+            "q_alcohol_drinks_per_week": "4-7",
+            "q_cv_fitness_stairs_3_flights": "yes",
+            "q_chest_pain_on_exertion": "no",
+            "q_energy_consistency_days_per_week": "4-5",
+            "q_afternoon_crashes": "sometimes",
+            "q_cold_sensitivity": "no",
+            "q_libido_past_4_weeks": "moderate_lower",
+            "q_mood_swings_past_4_weeks": "few_times",
+            "q_thermoregulation": "no",
+            "q_morning_motivation": "30_to_60min",
+            "q_sleep_hours_per_night": "7-7.9",
+            "q_sleep_quality_rested_days": "often",
+            "q_stress_interference_past_4_weeks": "few_times",
+            "q_recovery_time_after_workout": "1_2_days",
+            "q_overwhelmed": "sometimes",
+            "q_training_type": "mixed",
+            "q_training_intensity_1to10": 7,
+            "q_daily_steps": "7500-9999",
+            "q_nutrition_whole_food_meals": "half",
+            "q_hydration_liters_per_day": "2-3",
+            "q_protein_meals_with_palm_serving": "two_of_3",
         },
     },
     # ── 3. Sedentary overweight — metabolic syndrome ───────────────────────────
@@ -268,6 +323,34 @@ DEMO_PERSONAS: dict = {
             "lab_egfr": 82.0, "lab_resting_hr": 82.0,
             "life_vig": 0, "life_mod": 30, "life_sed": 12.0, "life_sleep": 6.0,
             "life_smoker": "Never", "life_alcohol": 3, "life_stress": 7, "life_health": 4,
+            # Tier C — questionnaire
+            "q_activity_hours_per_week": "1-2 hours",
+            "q_weight_trend_perception": "gaining_unwanted",
+            "q_training_frequency_days_per_week": "1",
+            "q_family_history_heart": "yes",
+            "q_smoking": "never",
+            "q_alcohol_drinks_per_week": "0-3",
+            "q_cv_fitness_stairs_3_flights": "with_difficulty",
+            "q_chest_pain_on_exertion": "no",
+            "q_energy_consistency_days_per_week": "2-3",
+            "q_afternoon_crashes": "often",
+            "q_cold_sensitivity": "sometimes",
+            "q_libido_past_4_weeks": "low_reduced",
+            "q_mood_swings_past_4_weeks": "several_per_week",
+            "q_thermoregulation": "occasionally",
+            "q_morning_motivation": "over_hour",
+            "q_menstrual_regularity": "irregular",
+            "q_sleep_hours_per_night": "6-6.9",
+            "q_sleep_quality_rested_days": "sometimes",
+            "q_stress_interference_past_4_weeks": "several_per_week",
+            "q_recovery_time_after_workout": "3_plus_days",
+            "q_overwhelmed": "often",
+            "q_training_type": "cardio",
+            "q_training_intensity_1to10": 4,
+            "q_daily_steps": "3000-4999",
+            "q_nutrition_whole_food_meals": "half",
+            "q_hydration_liters_per_day": "1-2",
+            "q_protein_meals_with_palm_serving": "one_of_3",
         },
     },
     # ── 4. Stressed executive — partial panel (lipids + glucose only) ──────────
@@ -294,6 +377,33 @@ DEMO_PERSONAS: dict = {
             "lab_egfr": 0.0, "lab_resting_hr": 0.0,
             "life_vig": 20, "life_mod": 60, "life_sed": 10.5, "life_sleep": 6.5,
             "life_smoker": "Never", "life_alcohol": 8, "life_stress": 8, "life_health": 5,
+            # Tier C — questionnaire
+            "q_activity_hours_per_week": "1-2 hours",
+            "q_weight_trend_perception": "gaining_unwanted",
+            "q_training_frequency_days_per_week": "2",
+            "q_family_history_heart": "yes",
+            "q_smoking": "never",
+            "q_alcohol_drinks_per_week": "8-14",
+            "q_cv_fitness_stairs_3_flights": "with_difficulty",
+            "q_chest_pain_on_exertion": "no",
+            "q_energy_consistency_days_per_week": "2-3",
+            "q_afternoon_crashes": "often",
+            "q_cold_sensitivity": "no",
+            "q_libido_past_4_weeks": "low_reduced",
+            "q_mood_swings_past_4_weeks": "few_times",
+            "q_thermoregulation": "no",
+            "q_morning_motivation": "30_to_60min",
+            "q_sleep_hours_per_night": "6-6.9",
+            "q_sleep_quality_rested_days": "sometimes",
+            "q_stress_interference_past_4_weeks": "most_days",
+            "q_recovery_time_after_workout": "3_plus_days",
+            "q_overwhelmed": "often",
+            "q_training_type": "none",
+            "q_training_intensity_1to10": 3,
+            "q_daily_steps": "5000-7499",
+            "q_nutrition_whole_food_meals": "less_half",
+            "q_hydration_liters_per_day": "1-2",
+            "q_protein_meals_with_palm_serving": "one_of_3",
         },
     },
     # ── 5. Postpartum — partial (ferritin/B12/vitD not in form) ───────────────
@@ -320,6 +430,34 @@ DEMO_PERSONAS: dict = {
             "lab_egfr": 0.0, "lab_resting_hr": 72.0,
             "life_vig": 60, "life_mod": 120, "life_sed": 7.5, "life_sleep": 6.5,
             "life_smoker": "Never", "life_alcohol": 1, "life_stress": 6, "life_health": 6,
+            # Tier C — questionnaire
+            "q_activity_hours_per_week": "3-4 hours",
+            "q_weight_trend_perception": "stable",
+            "q_training_frequency_days_per_week": "3",
+            "q_family_history_heart": "no",
+            "q_smoking": "never",
+            "q_alcohol_drinks_per_week": "0-3",
+            "q_cv_fitness_stairs_3_flights": "yes",
+            "q_chest_pain_on_exertion": "no",
+            "q_energy_consistency_days_per_week": "4-5",
+            "q_afternoon_crashes": "often",
+            "q_cold_sensitivity": "yes",
+            "q_libido_past_4_weeks": "low_reduced",
+            "q_mood_swings_past_4_weeks": "few_times",
+            "q_thermoregulation": "occasionally",
+            "q_morning_motivation": "30_to_60min",
+            "q_menstrual_regularity": "irregular",
+            "q_sleep_hours_per_night": "6-6.9",
+            "q_sleep_quality_rested_days": "sometimes",
+            "q_stress_interference_past_4_weeks": "few_times",
+            "q_recovery_time_after_workout": "1_2_days",
+            "q_overwhelmed": "sometimes",
+            "q_training_type": "mixed",
+            "q_training_intensity_1to10": 6,
+            "q_daily_steps": "7500-9999",
+            "q_nutrition_whole_food_meals": "most_75",
+            "q_hydration_liters_per_day": "2-3",
+            "q_protein_meals_with_palm_serving": "two_of_3",
         },
     },
     # ── 6. College athlete — partial (no advanced lipids / hormones) ───────────
@@ -346,6 +484,33 @@ DEMO_PERSONAS: dict = {
             "lab_egfr": 115.0, "lab_resting_hr": 44.0,
             "life_vig": 300, "life_mod": 200, "life_sed": 5.0, "life_sleep": 8.0,
             "life_smoker": "Never", "life_alcohol": 3, "life_stress": 4, "life_health": 9,
+            # Tier C — questionnaire
+            "q_activity_hours_per_week": "8+ hours",
+            "q_weight_trend_perception": "stable",
+            "q_training_frequency_days_per_week": "5+",
+            "q_family_history_heart": "no",
+            "q_smoking": "never",
+            "q_alcohol_drinks_per_week": "0-3",
+            "q_cv_fitness_stairs_3_flights": "yes",
+            "q_chest_pain_on_exertion": "no",
+            "q_energy_consistency_days_per_week": "6-7",
+            "q_afternoon_crashes": "never",
+            "q_cold_sensitivity": "no",
+            "q_libido_past_4_weeks": "strong",
+            "q_mood_swings_past_4_weeks": "rarely",
+            "q_thermoregulation": "no",
+            "q_morning_motivation": "within_15min",
+            "q_sleep_hours_per_night": "8+",
+            "q_sleep_quality_rested_days": "almost_always",
+            "q_stress_interference_past_4_weeks": "rarely",
+            "q_recovery_time_after_workout": "1_2_days",
+            "q_overwhelmed": "sometimes",
+            "q_training_type": "mixed",
+            "q_training_intensity_1to10": 8,
+            "q_daily_steps": "10000+",
+            "q_nutrition_whole_food_meals": "half",
+            "q_hydration_liters_per_day": "2-3",
+            "q_protein_meals_with_palm_serving": "two_of_3",
         },
     },
     # ── 7. Post-menopausal active — familial high cholesterol ─────────────────
@@ -372,6 +537,34 @@ DEMO_PERSONAS: dict = {
             "lab_egfr": 72.0, "lab_resting_hr": 68.0,
             "life_vig": 80, "life_mod": 150, "life_sed": 7.0, "life_sleep": 7.5,
             "life_smoker": "Never", "life_alcohol": 2, "life_stress": 4, "life_health": 7,
+            # Tier C — questionnaire
+            "q_activity_hours_per_week": "3-4 hours",
+            "q_weight_trend_perception": "stable",
+            "q_training_frequency_days_per_week": "4",
+            "q_family_history_heart": "yes",
+            "q_smoking": "never",
+            "q_alcohol_drinks_per_week": "0-3",
+            "q_cv_fitness_stairs_3_flights": "yes",
+            "q_chest_pain_on_exertion": "no",
+            "q_energy_consistency_days_per_week": "6-7",
+            "q_afternoon_crashes": "sometimes",
+            "q_cold_sensitivity": "sometimes",
+            "q_libido_past_4_weeks": "moderate_lower",
+            "q_mood_swings_past_4_weeks": "few_times",
+            "q_thermoregulation": "frequently",
+            "q_morning_motivation": "within_15min",
+            "q_menstrual_regularity": "NA_menopausal",
+            "q_sleep_hours_per_night": "7-7.9",
+            "q_sleep_quality_rested_days": "often",
+            "q_stress_interference_past_4_weeks": "rarely",
+            "q_recovery_time_after_workout": "1_2_days",
+            "q_overwhelmed": "sometimes",
+            "q_training_type": "mixed",
+            "q_training_intensity_1to10": 6,
+            "q_daily_steps": "7500-9999",
+            "q_nutrition_whole_food_meals": "most_75",
+            "q_hydration_liters_per_day": "2-3",
+            "q_protein_meals_with_palm_serving": "two_of_3",
         },
     },
     # ── 8. Hidden CV risk — normal LDL but high Lp(a) / ApoB / CRP ────────────
@@ -398,6 +591,33 @@ DEMO_PERSONAS: dict = {
             "lab_egfr": 88.0, "lab_resting_hr": 72.0,
             "life_vig": 60, "life_mod": 120, "life_sed": 9.0, "life_sleep": 7.0,
             "life_smoker": "Never", "life_alcohol": 5, "life_stress": 6, "life_health": 6,
+            # Tier C — questionnaire
+            "q_activity_hours_per_week": "3-4 hours",
+            "q_weight_trend_perception": "stable",
+            "q_training_frequency_days_per_week": "3",
+            "q_family_history_heart": "yes",
+            "q_smoking": "never",
+            "q_alcohol_drinks_per_week": "4-7",
+            "q_cv_fitness_stairs_3_flights": "yes",
+            "q_chest_pain_on_exertion": "no",
+            "q_energy_consistency_days_per_week": "4-5",
+            "q_afternoon_crashes": "sometimes",
+            "q_cold_sensitivity": "no",
+            "q_libido_past_4_weeks": "moderate_lower",
+            "q_mood_swings_past_4_weeks": "few_times",
+            "q_thermoregulation": "no",
+            "q_morning_motivation": "30_to_60min",
+            "q_sleep_hours_per_night": "7-7.9",
+            "q_sleep_quality_rested_days": "often",
+            "q_stress_interference_past_4_weeks": "few_times",
+            "q_recovery_time_after_workout": "1_2_days",
+            "q_overwhelmed": "sometimes",
+            "q_training_type": "cardio",
+            "q_training_intensity_1to10": 6,
+            "q_daily_steps": "7500-9999",
+            "q_nutrition_whole_food_meals": "half",
+            "q_hydration_liters_per_day": "2-3",
+            "q_protein_meals_with_palm_serving": "one_of_3",
         },
     },
     # ── 9. Endurance overtraining ──────────────────────────────────────────────
@@ -424,6 +644,34 @@ DEMO_PERSONAS: dict = {
             "lab_egfr": 102.0, "lab_resting_hr": 42.0,
             "life_vig": 380, "life_mod": 120, "life_sed": 6.5, "life_sleep": 7.0,
             "life_smoker": "Never", "life_alcohol": 0, "life_stress": 7, "life_health": 6,
+            # Tier C — questionnaire (overtraining syndrome pattern)
+            "q_activity_hours_per_week": "8+ hours",
+            "q_weight_trend_perception": "stable",
+            "q_training_frequency_days_per_week": "5+",
+            "q_family_history_heart": "no",
+            "q_smoking": "never",
+            "q_alcohol_drinks_per_week": "0-3",
+            "q_cv_fitness_stairs_3_flights": "yes",
+            "q_chest_pain_on_exertion": "no",
+            "q_energy_consistency_days_per_week": "2-3",
+            "q_afternoon_crashes": "often",
+            "q_cold_sensitivity": "yes",
+            "q_libido_past_4_weeks": "low_reduced",
+            "q_mood_swings_past_4_weeks": "several_per_week",
+            "q_thermoregulation": "occasionally",
+            "q_morning_motivation": "over_hour",
+            "q_menstrual_regularity": "irregular",
+            "q_sleep_hours_per_night": "7-7.9",
+            "q_sleep_quality_rested_days": "sometimes",
+            "q_stress_interference_past_4_weeks": "few_times",
+            "q_recovery_time_after_workout": "3_plus_days",
+            "q_overwhelmed": "sometimes",
+            "q_training_type": "cardio",
+            "q_training_intensity_1to10": 9,
+            "q_daily_steps": "10000+",
+            "q_nutrition_whole_food_meals": "most_75",
+            "q_hydration_liters_per_day": "2-3",
+            "q_protein_meals_with_palm_serving": "two_of_3",
         },
     },
     # ── 10. Pre-diabetic sedentary ─────────────────────────────────────────────
@@ -450,6 +698,33 @@ DEMO_PERSONAS: dict = {
             "lab_egfr": 68.0, "lab_resting_hr": 78.0,
             "life_vig": 0, "life_mod": 40, "life_sed": 13.0, "life_sleep": 6.0,
             "life_smoker": "Former", "life_alcohol": 5, "life_stress": 7, "life_health": 4,
+            # Tier C — questionnaire (pre-diabetic sedentary pattern)
+            "q_activity_hours_per_week": "0 hours",
+            "q_weight_trend_perception": "gaining_unwanted",
+            "q_training_frequency_days_per_week": "0",
+            "q_family_history_heart": "yes",
+            "q_smoking": "former_5plus",
+            "q_alcohol_drinks_per_week": "4-7",
+            "q_cv_fitness_stairs_3_flights": "no",
+            "q_chest_pain_on_exertion": "no",
+            "q_energy_consistency_days_per_week": "0-1",
+            "q_afternoon_crashes": "daily",
+            "q_cold_sensitivity": "no",
+            "q_libido_past_4_weeks": "very_low",
+            "q_mood_swings_past_4_weeks": "few_times",
+            "q_thermoregulation": "no",
+            "q_morning_motivation": "over_hour",
+            "q_sleep_hours_per_night": "6-6.9",
+            "q_sleep_quality_rested_days": "rarely",
+            "q_stress_interference_past_4_weeks": "several_per_week",
+            "q_recovery_time_after_workout": "rarely_recovered",
+            "q_overwhelmed": "often",
+            "q_training_type": "none",
+            "q_training_intensity_1to10": 2,
+            "q_daily_steps": "<3000",
+            "q_nutrition_whole_food_meals": "less_half",
+            "q_hydration_liters_per_day": "<1",
+            "q_protein_meals_with_palm_serving": "rarely",
         },
     },
     # ── 11. Vegan active — partial (micronutrient gaps not in form) ────────────
@@ -476,6 +751,34 @@ DEMO_PERSONAS: dict = {
             "lab_egfr": 98.0, "lab_resting_hr": 58.0,
             "life_vig": 160, "life_mod": 200, "life_sed": 6.0, "life_sleep": 8.0,
             "life_smoker": "Never", "life_alcohol": 0, "life_stress": 4, "life_health": 8,
+            # Tier C — questionnaire (vegan active, micronutrient gap pattern)
+            "q_activity_hours_per_week": "5-7 hours",
+            "q_weight_trend_perception": "stable",
+            "q_training_frequency_days_per_week": "4",
+            "q_family_history_heart": "no",
+            "q_smoking": "never",
+            "q_alcohol_drinks_per_week": "0-3",
+            "q_cv_fitness_stairs_3_flights": "yes",
+            "q_chest_pain_on_exertion": "no",
+            "q_energy_consistency_days_per_week": "4-5",
+            "q_afternoon_crashes": "sometimes",
+            "q_cold_sensitivity": "yes",
+            "q_libido_past_4_weeks": "moderate_lower",
+            "q_mood_swings_past_4_weeks": "few_times",
+            "q_thermoregulation": "occasionally",
+            "q_morning_motivation": "30_to_60min",
+            "q_menstrual_regularity": "regular",
+            "q_sleep_hours_per_night": "8+",
+            "q_sleep_quality_rested_days": "often",
+            "q_stress_interference_past_4_weeks": "rarely",
+            "q_recovery_time_after_workout": "1_2_days",
+            "q_overwhelmed": "sometimes",
+            "q_training_type": "mixed",
+            "q_training_intensity_1to10": 7,
+            "q_daily_steps": "7500-9999",
+            "q_nutrition_whole_food_meals": "all",
+            "q_hydration_liters_per_day": "2-3",
+            "q_protein_meals_with_palm_serving": "one_of_3",
         },
     },
     # ── 12. Well-managed CVD — on statin ──────────────────────────────────────
@@ -502,6 +805,33 @@ DEMO_PERSONAS: dict = {
             "lab_egfr": 75.0, "lab_resting_hr": 65.0,
             "life_vig": 40, "life_mod": 120, "life_sed": 8.5, "life_sleep": 7.5,
             "life_smoker": "Former", "life_alcohol": 3, "life_stress": 5, "life_health": 6,
+            # Tier C — questionnaire (well-managed CVD pattern)
+            "q_activity_hours_per_week": "3-4 hours",
+            "q_weight_trend_perception": "stable",
+            "q_training_frequency_days_per_week": "3",
+            "q_family_history_heart": "yes",
+            "q_smoking": "former_5plus",
+            "q_alcohol_drinks_per_week": "0-3",
+            "q_cv_fitness_stairs_3_flights": "with_difficulty",
+            "q_chest_pain_on_exertion": "no",
+            "q_energy_consistency_days_per_week": "4-5",
+            "q_afternoon_crashes": "sometimes",
+            "q_cold_sensitivity": "no",
+            "q_libido_past_4_weeks": "low_reduced",
+            "q_mood_swings_past_4_weeks": "rarely",
+            "q_thermoregulation": "no",
+            "q_morning_motivation": "30_to_60min",
+            "q_sleep_hours_per_night": "7-7.9",
+            "q_sleep_quality_rested_days": "often",
+            "q_stress_interference_past_4_weeks": "rarely",
+            "q_recovery_time_after_workout": "1_2_days",
+            "q_overwhelmed": "sometimes",
+            "q_training_type": "mixed",
+            "q_training_intensity_1to10": 5,
+            "q_daily_steps": "5000-7499",
+            "q_nutrition_whole_food_meals": "most_75",
+            "q_hydration_liters_per_day": "2-3",
+            "q_protein_meals_with_palm_serving": "two_of_3",
         },
     },
 }
@@ -731,7 +1061,7 @@ st.divider()
 # ════════════════════════════════════════════════════════════════════════════════
 # DATA ENTRY TABS — Scan data only (labs & lifestyle in sidebar expanders)
 # ════════════════════════════════════════════════════════════════════════════════
-tab_ib, tab_ss = st.tabs(["🔬 InBody Scan", "📐 ShapeScale Scan"])
+tab_ib, tab_ss, tab_q = st.tabs(["🔬 InBody Scan", "📐 ShapeScale Scan", "📋 Questionnaire"])
 
 # ── InBody ────────────────────────────────────────────────────────────────────
 with tab_ib:
@@ -795,6 +1125,288 @@ with tab_ss:
         ss_thigh_r  = st.number_input("Thigh R",   0.0, 50.0, 25.3, 0.1, key="ss_thigh_r")
         ss_calf_l   = st.number_input("Calf L",    0.0, 30.0, 15.9, 0.1, key="ss_calf_l")
         ss_calf_r   = st.number_input("Calf R",    0.0, 30.0, 16.1, 0.1, key="ss_calf_r")
+
+# ── Questionnaire ─────────────────────────────────────────────────────────────
+with tab_q:
+    st.markdown(
+        "Complete the questionnaire below to enable **Tier C** scoring across all six health categories.  \n"
+        "Leave any unanswered items as *(not provided)* — partial responses are handled gracefully."
+    )
+
+    # ── Body Composition ──────────────────────────────────────────────────────
+    with st.expander("🏋️ Body Composition", expanded=True):
+        qbc1, qbc2 = st.columns(2)
+        with qbc1:
+            q_activity_hours_per_week = st.selectbox(
+                "Weekly active hours",
+                ["(not provided)", "0 hours", "1-2 hours", "3-4 hours", "5-7 hours", "8+ hours"],
+                help="Total hours per week spent in physical activity (training + sport + active recreation).",
+                key="q_activity_hours_per_week",
+            )
+            q_weight_trend_perception = st.selectbox(
+                "Recent weight trend (self-reported)",
+                ["(not provided)", "losing_happy", "stable", "gaining_unwanted"],
+                format_func=lambda x: {
+                    "(not provided)": "(not provided)",
+                    "losing_happy":     "Losing — intentionally",
+                    "stable":           "Stable",
+                    "gaining_unwanted": "Gaining — not intended",
+                }.get(x, x),
+                key="q_weight_trend_perception",
+            )
+        with qbc2:
+            q_training_frequency_days_per_week = st.selectbox(
+                "Training days per week",
+                ["(not provided)", "0", "1", "2", "3", "4", "5+"],
+                help="Days per week with a structured workout session.",
+                key="q_training_frequency_days_per_week",
+            )
+
+    # ── Heart & Vascular ──────────────────────────────────────────────────────
+    with st.expander("❤️ Heart & Vascular", expanded=False):
+        qhv1, qhv2 = st.columns(2)
+        with qhv1:
+            q_family_history_heart = st.selectbox(
+                "Family history of heart problems",
+                ["(not provided)", "no", "unknown", "yes"],
+                format_func=lambda x: {
+                    "(not provided)": "(not provided)", "no": "No",
+                    "unknown": "Unknown", "yes": "Yes",
+                }.get(x, x),
+                key="q_family_history_heart",
+            )
+            q_smoking = st.selectbox(
+                "Smoking status",
+                ["(not provided)", "never", "former_5plus", "former_recent", "current"],
+                format_func=lambda x: {
+                    "(not provided)":  "(not provided)",
+                    "never":           "Never smoked",
+                    "former_5plus":    "Former — quit 5+ years ago",
+                    "former_recent":   "Former — quit < 5 years ago",
+                    "current":         "Current smoker",
+                }.get(x, x),
+                key="q_smoking",
+            )
+            q_alcohol_drinks_per_week = st.selectbox(
+                "Alcoholic drinks per week",
+                ["(not provided)", "0-3", "4-7", "8-14", "15+"],
+                key="q_alcohol_drinks_per_week",
+            )
+        with qhv2:
+            q_cv_fitness_stairs_3_flights = st.selectbox(
+                "Can climb 3 flights of stairs without stopping?",
+                ["(not provided)", "yes", "with_difficulty", "no"],
+                format_func=lambda x: {
+                    "(not provided)":   "(not provided)",
+                    "yes":              "Yes — easily",
+                    "with_difficulty":  "Yes — with difficulty",
+                    "no":               "No",
+                }.get(x, x),
+                key="q_cv_fitness_stairs_3_flights",
+            )
+            q_chest_pain_on_exertion = st.selectbox(
+                "Chest pain or pressure during physical activity? ⚠️",
+                ["(not provided)", "no", "yes"],
+                format_func=lambda x: {
+                    "(not provided)": "(not provided)",
+                    "no":  "No",
+                    "yes": "Yes — triggers PAR-Q medical review",
+                }.get(x, x),
+                help="A 'yes' response triggers a PAR-Q escalation flag requiring medical clearance before exercise.",
+                key="q_chest_pain_on_exertion",
+            )
+
+    # ── Metabolic Function ────────────────────────────────────────────────────
+    with st.expander("⚡ Metabolic Function", expanded=False):
+        qmf1, qmf2 = st.columns(2)
+        with qmf1:
+            q_energy_consistency_days_per_week = st.selectbox(
+                "Days per week with consistent energy",
+                ["(not provided)", "6-7", "4-5", "2-3", "0-1"],
+                key="q_energy_consistency_days_per_week",
+            )
+            q_afternoon_crashes = st.selectbox(
+                "Afternoon energy crashes",
+                ["(not provided)", "never", "sometimes", "often", "daily"],
+                key="q_afternoon_crashes",
+            )
+        with qmf2:
+            q_cold_sensitivity = st.selectbox(
+                "Unusual sensitivity to cold",
+                ["(not provided)", "no", "sometimes", "yes"],
+                format_func=lambda x: {
+                    "(not provided)": "(not provided)",
+                    "no":        "No",
+                    "sometimes": "Sometimes",
+                    "yes":       "Yes — frequently",
+                }.get(x, x),
+                help="Persistently cold hands/feet or feeling cold when others don't.",
+                key="q_cold_sensitivity",
+            )
+
+    # ── Hormonal Balance ──────────────────────────────────────────────────────
+    with st.expander("🔬 Hormonal Balance", expanded=False):
+        qhb1, qhb2 = st.columns(2)
+        with qhb1:
+            q_libido_past_4_weeks = st.selectbox(
+                "Libido / sex drive (past 4 weeks)",
+                ["(not provided)", "strong", "moderate_lower", "low_reduced", "very_low"],
+                format_func=lambda x: {
+                    "(not provided)":   "(not provided)",
+                    "strong":           "Strong",
+                    "moderate_lower":   "Moderate / lower than usual",
+                    "low_reduced":      "Low / significantly reduced",
+                    "very_low":         "Very low / absent",
+                }.get(x, x),
+                key="q_libido_past_4_weeks",
+            )
+            q_mood_swings_past_4_weeks = st.selectbox(
+                "Mood swings (past 4 weeks)",
+                ["(not provided)", "rarely", "few_times", "several_per_week", "most_days"],
+                format_func=lambda x: {
+                    "(not provided)":    "(not provided)",
+                    "rarely":            "Rarely",
+                    "few_times":         "A few times",
+                    "several_per_week":  "Several times per week",
+                    "most_days":         "Most days",
+                }.get(x, x),
+                key="q_mood_swings_past_4_weeks",
+            )
+            q_thermoregulation = st.selectbox(
+                "Unexplained hot flashes or night sweats",
+                ["(not provided)", "no", "occasionally", "frequently"],
+                key="q_thermoregulation",
+            )
+        with qhb2:
+            q_morning_motivation = st.selectbox(
+                "Time to feel alert and motivated in the morning",
+                ["(not provided)", "within_15min", "30_to_60min", "over_hour", "rarely"],
+                format_func=lambda x: {
+                    "(not provided)": "(not provided)",
+                    "within_15min": "< 15 minutes",
+                    "30_to_60min":  "30–60 minutes",
+                    "over_hour":    "Over 1 hour",
+                    "rarely":       "Rarely feel motivated",
+                }.get(x, x),
+                key="q_morning_motivation",
+            )
+            q_menstrual_regularity = st.selectbox(
+                "Menstrual cycle regularity (women only — skip if male)",
+                ["(not provided)", "regular", "NA_contraception", "NA_menopausal", "irregular"],
+                format_func=lambda x: {
+                    "(not provided)":    "(not provided)",
+                    "regular":           "Regular (28 ± 7 days)",
+                    "NA_contraception":  "N/A — on hormonal contraception",
+                    "NA_menopausal":     "N/A — menopausal / post-menopausal",
+                    "irregular":         "Irregular",
+                }.get(x, x),
+                help="Automatically skipped in scoring for male clients.",
+                key="q_menstrual_regularity",
+            )
+
+    # ── Stress & Recovery ─────────────────────────────────────────────────────
+    with st.expander("🌙 Stress & Recovery", expanded=False):
+        qsr1, qsr2 = st.columns(2)
+        with qsr1:
+            q_sleep_hours_per_night = st.selectbox(
+                "Sleep hours per night",
+                ["(not provided)", "8+", "7-7.9", "6-6.9", "5-5.9", "<5"],
+                key="q_sleep_hours_per_night",
+            )
+            q_sleep_quality_rested_days = st.selectbox(
+                "Days per week waking up feeling rested",
+                ["(not provided)", "almost_always", "often", "sometimes", "rarely"],
+                key="q_sleep_quality_rested_days",
+            )
+            q_stress_interference_past_4_weeks = st.selectbox(
+                "Stress interfering with daily life (past 4 weeks)",
+                ["(not provided)", "rarely", "few_times", "several_per_week", "most_days"],
+                key="q_stress_interference_past_4_weeks",
+            )
+        with qsr2:
+            q_recovery_time_after_workout = st.selectbox(
+                "Recovery time after a hard workout",
+                ["(not provided)", "same_day", "1_2_days", "3_plus_days", "rarely_recovered"],
+                format_func=lambda x: {
+                    "(not provided)":    "(not provided)",
+                    "same_day":          "Same day",
+                    "1_2_days":          "1–2 days",
+                    "3_plus_days":       "3+ days",
+                    "rarely_recovered":  "Never fully recovered",
+                }.get(x, x),
+                key="q_recovery_time_after_workout",
+            )
+            q_overwhelmed = st.selectbox(
+                "Feeling overwhelmed or unable to cope",
+                ["(not provided)", "never", "sometimes", "often", "always"],
+                key="q_overwhelmed",
+            )
+
+    # ── Lifestyle & Fitness ───────────────────────────────────────────────────
+    with st.expander("🏃 Lifestyle & Fitness", expanded=False):
+        qlf1, qlf2 = st.columns(2)
+        with qlf1:
+            q_training_type = st.selectbox(
+                "Primary training type",
+                ["(not provided)", "mixed", "resistance", "cardio", "none"],
+                format_func=lambda x: {
+                    "(not provided)": "(not provided)",
+                    "mixed":      "Mixed — resistance + cardio",
+                    "resistance": "Resistance / strength only",
+                    "cardio":     "Cardio / endurance only",
+                    "none":       "None",
+                }.get(x, x),
+                key="q_training_type",
+            )
+            q_training_intensity_1to10 = st.slider(
+                "Typical training intensity (0 = not provided, 7–8 = optimal zone)",
+                0, 10, 0,
+                help="Rate your typical session effort: 0 = not provided, 1 = very easy, 10 = maximum.",
+                key="q_training_intensity_1to10",
+            )
+            q_daily_steps = st.selectbox(
+                "Average daily steps",
+                ["(not provided)", "10000+", "7500-9999", "5000-7499", "3000-4999", "<3000"],
+                key="q_daily_steps",
+            )
+        with qlf2:
+            q_nutrition_whole_food_meals = st.selectbox(
+                "Proportion of meals based on whole foods",
+                ["(not provided)", "all", "most_75", "half", "less_half", "few_none"],
+                format_func=lambda x: {
+                    "(not provided)": "(not provided)",
+                    "all":       "All meals",
+                    "most_75":   "Most (≥ 75%)",
+                    "half":      "About half",
+                    "less_half": "Less than half",
+                    "few_none":  "Few or none",
+                }.get(x, x),
+                key="q_nutrition_whole_food_meals",
+            )
+            q_hydration_liters_per_day = st.selectbox(
+                "Daily water intake",
+                ["(not provided)", "3+", "2-3", "1-2", "<1"],
+                format_func=lambda x: {
+                    "(not provided)": "(not provided)",
+                    "3+":  "3+ liters",
+                    "2-3": "2–3 liters",
+                    "1-2": "1–2 liters",
+                    "<1":  "Less than 1 liter",
+                }.get(x, x),
+                key="q_hydration_liters_per_day",
+            )
+            q_protein_meals_with_palm_serving = st.selectbox(
+                "Meals per day with a palm-sized protein serving",
+                ["(not provided)", "all_3", "two_of_3", "one_of_3", "rarely"],
+                format_func=lambda x: {
+                    "(not provided)": "(not provided)",
+                    "all_3":    "All 3 meals",
+                    "two_of_3": "2 of 3 meals",
+                    "one_of_3": "1 of 3 meals",
+                    "rarely":   "Rarely",
+                }.get(x, x),
+                key="q_protein_meals_with_palm_serving",
+            )
 
 st.caption("Labs and Lifestyle values are entered in the sidebar expanders (Lipids, Metabolic, etc.).")
 
@@ -957,6 +1569,48 @@ if run_btn:
     # correctly for female clients.  reconcile_scanners does not receive sex, so
     # we add it here before project_client reads client_data.get("sex").
     unified["sex"] = "male" if sex == "M" else "female"
+
+    # ── Inject questionnaire into unified for Tier C scoring ──────────────────
+    # project_client reads client_data.get("questionnaire") and passes it to
+    # score_polygon via parse_questionnaire().  "(not provided)" sentinels and
+    # slider value 0 are filtered out before injection.
+    _Q_NP = "(not provided)"
+    _questionnaire_raw: dict = {}
+    for _qk, _qv in [
+        ("q_activity_hours_per_week",          q_activity_hours_per_week),
+        ("q_weight_trend_perception",          q_weight_trend_perception),
+        ("q_training_frequency_days_per_week", q_training_frequency_days_per_week),
+        ("q_family_history_heart",             q_family_history_heart),
+        ("q_smoking",                          q_smoking),
+        ("q_alcohol_drinks_per_week",          q_alcohol_drinks_per_week),
+        ("q_cv_fitness_stairs_3_flights",      q_cv_fitness_stairs_3_flights),
+        ("q_chest_pain_on_exertion",           q_chest_pain_on_exertion),
+        ("q_energy_consistency_days_per_week", q_energy_consistency_days_per_week),
+        ("q_afternoon_crashes",                q_afternoon_crashes),
+        ("q_cold_sensitivity",                 q_cold_sensitivity),
+        ("q_libido_past_4_weeks",              q_libido_past_4_weeks),
+        ("q_mood_swings_past_4_weeks",         q_mood_swings_past_4_weeks),
+        ("q_thermoregulation",                 q_thermoregulation),
+        ("q_morning_motivation",               q_morning_motivation),
+        ("q_menstrual_regularity",             q_menstrual_regularity),
+        ("q_sleep_hours_per_night",            q_sleep_hours_per_night),
+        ("q_sleep_quality_rested_days",        q_sleep_quality_rested_days),
+        ("q_stress_interference_past_4_weeks", q_stress_interference_past_4_weeks),
+        ("q_recovery_time_after_workout",      q_recovery_time_after_workout),
+        ("q_overwhelmed",                      q_overwhelmed),
+        ("q_training_type",                    q_training_type),
+        ("q_daily_steps",                      q_daily_steps),
+        ("q_nutrition_whole_food_meals",       q_nutrition_whole_food_meals),
+        ("q_hydration_liters_per_day",         q_hydration_liters_per_day),
+        ("q_protein_meals_with_palm_serving",  q_protein_meals_with_palm_serving),
+    ]:
+        if _qv != _Q_NP:
+            _questionnaire_raw[_qk] = _qv
+    # Slider: 0 means "not provided"; any positive integer is a valid response
+    if q_training_intensity_1to10 != 0:
+        _questionnaire_raw["q_training_intensity_1to10"] = q_training_intensity_1to10
+    if _questionnaire_raw:
+        unified["questionnaire"] = _questionnaire_raw
 
     # ── Project ───────────────────────────────────────────────────────────────
     with st.spinner("Projecting onto Health Map…"):

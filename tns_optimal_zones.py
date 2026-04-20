@@ -3,7 +3,7 @@ tns_optimal_zones.py
 ====================
 TechNSports (TNS) Optimal-Zone Biomarker Library
 -------------------------------------------------
-Version:  1.0.5-public   (LIBRARY_VERSION)
+Version:  1.0.6-public   (LIBRARY_VERSION)
 Pipeline: 4.1            (POLYGON_VERSION)
 
 Architecture
@@ -86,7 +86,7 @@ from typing import Optional
 # Module constants
 # ---------------------------------------------------------------------------
 
-LIBRARY_VERSION: str = "1.0.5-public"
+LIBRARY_VERSION: str = "1.0.6-public"
 POLYGON_VERSION: str = "4.1"
 
 # ---------------------------------------------------------------------------
