@@ -265,7 +265,7 @@ def plot_population_map(
         pc1_var = ev.get("pc1", 0) or 0
         pc2_var = ev.get("pc2", 0) or 0
         ax.set_xlabel("Metabolic & Lab Markers →", fontsize=9, color=WATERSPOUT)
-        ax.set_ylabel(f"PC2 ({pc2_var:.1%} variance)", fontsize=9, color=WATERSPOUT)
+        ax.set_ylabel("Body Composition →", fontsize=9, color=WATERSPOUT)
 
     lens_label = projection_result.get("lens_used", "").replace("_", " ").title()
     dc = projection_result.get("data_completeness", {})

@@ -145,7 +145,7 @@ def _apply_conversion(value: float | None, conv: str, raw_str: str = "") -> obje
     if conv == "lb_kg" and value is not None:
         return round(value * LB_TO_KG, 4)
     if conv == "in_cm" and value is not None:
-        return round(value * IN_TO_CM, 3)
+        return round(value * IN_TO_CM, 1)
     if conv == "cu_in_cu_cm" and value is not None:
         return round(value * CU_IN_TO_CU_CM, 2)
     if conv == "vfr_encode":

@@ -1533,7 +1533,7 @@ with tab_ss:
 # ── Questionnaire ─────────────────────────────────────────────────────────────
 with tab_q:
     st.markdown(
-        "Complete the questionnaire below to enable **Tier C** scoring across all six health categories.  \n"
+        "Complete the questionnaire below to unlock **full scoring** across all six health categories.  \n"
         "Leave any unanswered items as *(not provided)* — partial responses are handled gracefully."
     )
 
@@ -2161,7 +2161,7 @@ if run_btn:
     )
     st.caption(
         f"Lens: **{result['lens_used']}** &nbsp;·&nbsp; "
-        f"Coverage: **{result['n_vars_provided']}/{result['n_vars_total']} vars** &nbsp;·&nbsp; "
+        f"Data: **{result['n_vars_provided']} of {result['n_vars_total']} markers** &nbsp;·&nbsp; "
         f"Scan: {'✓' if dc.get('scan') else '✗'} &nbsp; "
         f"Labs: {'✓' if dc.get('labs') else '✗'} &nbsp; "
         f"Lifestyle: {'✓' if dc.get('lifestyle') else '✗'}"
@@ -2170,26 +2170,55 @@ if run_btn:
     # ── Key metrics ───────────────────────────────────────────────────────────
     m1, m2, m3, m4, m5, m6 = st.columns(6)
     m1.metric("Overall Score",   f"{result.get('overall_score', '—')}/100",
-              help="Wellness Polygon overall score (0=all concerning, 100=all optimal). "
-                   "Scored against research-based optimal zones, not population percentiles.")
-    m2.metric("Body Fat",        f"{unified.get('bf_pct', '—')}%",
-              help="Percent body fat from reconciled scan data.")
-    m3.metric("FFMI",            f"{unified.get('ffmi', '—')}",
-              help="Fat-Free Mass Index (kg/m²). Reflects lean mass relative to height.")
-    m4.metric("Waist",           f"{unified.get('ss_waist_cm', '—')} cm",
-              help="Waist circumference from ShapeScale (cm). Key cardiometabolic risk marker.")
-    m5.metric("BMI",             f"{unified.get('bmi', '—')}",
-              help="Body Mass Index (kg/m²). Contextual — interpret alongside body composition.")
+              help="Your overall wellness score from 0 to 100. Based on research-backed optimal zones, "
+                   "not just how you compare to others.")
+
+    _bf = unified.get('bf_pct')
+    m2.metric("Body Fat",        f"{_bf:.1f}%" if _bf is not None else "—%",
+              help="Your body fat percentage from scan data. Lower isn't always better — "
+                   "healthy range depends on age and sex.")
+
+    _ffmi = unified.get('ffmi')
+    m3.metric("FFMI",            f"{_ffmi:.1f}" if _ffmi is not None else "—",
+              help="How much muscle you carry for your height. Men: 18–20 is average, 22+ is very muscular. "
+                   "Women: 15–17 is average, 19+ is very muscular.")
+
+    _waist = unified.get('ss_waist_cm')
+    m4.metric("Waist",           f"{_waist:.1f} cm" if _waist is not None else "— cm",
+              help="Waist circumference. A key indicator of belly fat and heart disease risk. "
+                   "Men: below 94 cm is healthy. Women: below 80 cm is healthy.")
+
+    _bmi = unified.get('bmi')
+    m5.metric("BMI",             f"{_bmi:.1f}" if _bmi is not None else "—",
+              help="Body Mass Index. Useful as a general flag, but doesn't distinguish muscle from fat. "
+                   "Interpret alongside your body fat % and FFMI.")
+
     _vfl = unified.get('ib_visceral_fat_level')
     m6.metric("Visceral Fat",    f"L{int(_vfl)}" if _vfl is not None else "—",
-              help="Visceral fat level from InBody. Level 10+ indicates elevated risk.")
+              help="Visceral fat level from InBody (the deep belly fat around your organs). "
+                   "Level 1–9 is normal. Level 10+ means elevated risk.")
 
     m7, m8, m9, m10, _, _ = st.columns(6)
-    m7.metric("WHR",             f"{unified.get('whr', '—')}")
-    m8.metric("Phase Angle",     f"{unified.get('ib_phase_angle', '—')}°")
+
+    _whr = unified.get('whr')
+    m7.metric("WHR",             f"{_whr:.2f}" if _whr is not None else "—",
+              help="Waist-to-hip ratio. Healthy: below 0.90 for men, below 0.85 for women. "
+                   "Higher values indicate more fat stored around the waist.")
+
+    _pa = unified.get('ib_phase_angle')
+    m8.metric("Phase Angle",     f"{_pa:.1f}°" if _pa is not None else "—°",
+              help="Cell health indicator from InBody. Higher = healthier cells. "
+                   "Typical range: 4–7°. Athletes often score 6–8°.")
+
     _smm = unified.get('ib_smm_kg')
-    m9.metric("SMM", f"{_smm:.1f} kg" if _smm is not None else "— kg")
-    m10.metric("InBody Score",   f"{unified.get('ib_score', '—')}")
+    m9.metric("SMM",             f"{_smm:.1f} kg" if _smm is not None else "— kg",
+              help="Skeletal Muscle Mass — the muscle attached to your bones. "
+                   "More SMM means a stronger, more metabolically active body.")
+
+    _ibs = unified.get('ib_score')
+    m10.metric("InBody Score",   f"{int(_ibs)}" if _ibs is not None else "—",
+               help="Overall body composition score from InBody (0–100). "
+                    "Factors in your muscle-to-fat balance and hydration. Higher is better.")
 
     # ── Cross-scanner flags ───────────────────────────────────────────────────
     for flag in unified.get("flags", []):
@@ -2214,6 +2243,44 @@ if run_btn:
             "lifestyle_fitness":  "🏃 Lifestyle & Fitness",
         }
 
+        # Human-readable names for model/NHANES variable names.
+        # Used in Key Health Drivers and imputed-variables display.
+        _DRIVER_LABELS: dict = {
+            # Body measures
+            "bmi":              "BMI",
+            "weight_kg":        "Weight",
+            "bf_pct":           "Body Fat %",
+            "fat_mass_kg":      "Fat Mass",
+            "lean_mass_kg":     "Lean Muscle Mass",
+            "ffmi":             "Muscle Mass Index (FFMI)",
+            "waist_cm":         "Waist Size",
+            "hip_cm":           "Hip Size",
+            "thigh_cm":         "Thigh Size",
+            "calf_cm":          "Calf Size",
+            "arm_cm":           "Arm Size",
+            "whr":              "Waist-to-Hip Ratio",
+            "whtr":             "Waist-to-Height Ratio",
+            "android_fat_pct":  "Belly Fat %",
+            "gynoid_fat_pct":   "Hip/Thigh Fat %",
+            # Lipids
+            "total_chol":       "Total Cholesterol",
+            "hdl":              "HDL (good cholesterol)",
+            "ldl":              "LDL (bad cholesterol)",
+            "triglycerides":    "Triglycerides",
+            # Metabolic
+            "glucose":          "Blood Sugar (fasting)",
+            "hba1c":            "HbA1c (3-month blood sugar avg)",
+            "insulin":          "Insulin (fasting)",
+            "hscrp":            "Inflammation (hs-CRP)",
+            # Blood pressure
+            "sbp":              "Systolic Blood Pressure",
+            "dbp":              "Diastolic Blood Pressure",
+            # Physical activity
+            "pa_vig_min_week":  "Vigorous Activity (min/week)",
+            "pa_mod_min_week":  "Moderate Activity (min/week)",
+            "pa_sed_hours_day": "Sedentary Time (hours/day)",
+        }
+
         cat_cols = st.columns(6)
         for col, (cat_key, cat_data) in zip(cat_cols, categories.items()):
             label = CATEGORY_LABELS.get(cat_key, cat_key)
@@ -2225,7 +2292,8 @@ if run_btn:
             col.metric(
                 label=f"{render_icon} {label.split(' ', 1)[1]}",
                 value=f"{score}/100",
-                help=f"Data confidence: {conf}. Rendering: {rendering}.",
+                help=f"Data confidence: {conf}. "
+                     f"{'Based on your scan + lab data.' if rendering == 'solid' else 'Estimated from available data.'}",
             )
             if conf and conf != "high":
                 col.caption(f"🔸 {conf} confidence")
@@ -2233,14 +2301,16 @@ if run_btn:
     # ── Missing data notes ────────────────────────────────────────────────────
     notes = result.get("missing_data_notes", [])
     if notes:
-        with st.expander(f"ℹ️ {len(notes)} data gap note(s)"):
+        with st.expander(f"ℹ️ {len(notes)} missing data note(s)"):
             for note in notes:
                 st.caption(f"• {note}")
 
     # ── Imputed variables note ────────────────────────────────────────────────
     if result.get("imputed_vars"):
-        with st.expander(f"ℹ️ {result['n_vars_imputed']} variable(s) imputed from population medians"):
-            st.caption(", ".join(result["imputed_vars"]))
+        with st.expander(f"ℹ️ {result['n_vars_imputed']} missing value(s) filled with national averages"):
+            _readable_imputed = [_DRIVER_LABELS.get(v, v.replace("_", " ").title())
+                                 for v in result["imputed_vars"]]
+            st.caption(", ".join(_readable_imputed))
 
     # ── Progress summary (shown when ≥ 2 visits exist for this client) ──────────
     _all_vis = sorted(
@@ -2317,16 +2387,11 @@ if run_btn:
         top_drivers = result.get("top_drivers", [])
         loadings = result.get("pc1_loadings", {})
         if top_drivers:
-            st.caption("Variables with the strongest influence on your overall Health Map position:")
+            st.caption("The factors with the biggest impact on your overall Health Map position:")
             for var in top_drivers:
                 val = loadings.get(var, 0)
                 direction = "higher is better" if val > 0 else "lower is better"
-                # Convert variable names to human-readable labels
-                readable = (var.replace("_", " ")
-                               .replace("ib ", "")
-                               .replace("ss ", "")
-                               .replace("lab ", "")
-                               .title())
+                readable = _DRIVER_LABELS.get(var, var.replace("_", " ").title())
                 arrow = "🟢" if val > 0 else "🔴"
                 st.markdown(f"&nbsp;&nbsp;{arrow} **{readable}** — {direction}")
         else:
