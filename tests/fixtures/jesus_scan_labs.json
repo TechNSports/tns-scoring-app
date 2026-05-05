@@ -100,6 +100,6 @@
     "completeness_label": "Partial Data"
   },
   "flags": [
-    "BF% discrepancy: InBody=29.8%, ShapeScale=34.5% (\u0394=4.7pp > 3.0pp threshold). InBody used for PCA. Retest recommended if delta persists."
+    "BF% difference: InBody=29.8%, ShapeScale=34.5% (\u0394=4.7pp > 3.0pp threshold). InBody used for PCA. Retest recommended if delta persists."
   ]
 }

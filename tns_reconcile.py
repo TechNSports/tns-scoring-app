@@ -434,17 +434,17 @@ def reconcile_scanners(
         delta_bf = abs(ib_bf - ss_bf)
         if delta_bf > BF_DISCREPANCY_FLAG_PP:
             flags.append(
-                f"BF% discrepancy: ShapeScale={ss_bf:.1f}%, InBody={ib_bf:.1f}% "
+                f"BF% difference: ShapeScale={ss_bf:.1f}%, InBody={ib_bf:.1f}% "
                 f"(Δ={delta_bf:.1f}pp > {BF_DISCREPANCY_FLAG_PP}pp threshold). "
                 "ShapeScale used per Rule 44 (3D optical > bioimpedance)."
             )
 
-    # Weight discrepancy flag (Rule 44 — both present but differ)
+    # Weight difference flag (Rule 44 — both present but differ)
     if ib_weight is not None and ss_weight is not None:
         weight_delta = abs(ib_weight - ss_weight)
         if weight_delta > 1.5:
             flags.append(
-                f"Weight discrepancy: ShapeScale={ss_weight:.1f} kg, InBody={ib_weight:.1f} kg "
+                f"Weight difference: ShapeScale={ss_weight:.1f} kg, InBody={ib_weight:.1f} kg "
                 f"(Δ={weight_delta:.1f} kg). ShapeScale used per Rule 44. "
                 "Large delta may indicate hydration difference between scan days."
             )

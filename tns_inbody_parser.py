@@ -132,7 +132,7 @@ def _apply_conversions(record: dict) -> dict:
     """Apply lb→kg and kJ→kcal conversions to a partially-built record dict."""
     for key in _CONVERT_LB_TO_KG:
         if record.get(key) is not None:
-            record[key] = round(record[key] * LB_TO_KG, 4)
+            record[key] = round(record[key] * LB_TO_KG, 2)
     for key in _CONVERT_KJ_TO_KCAL:
         if record.get(key) is not None:
             record[key] = round(record[key] * KJ_TO_KCAL, 2)

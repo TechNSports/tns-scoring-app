@@ -281,7 +281,7 @@ class TestJesusFull:
         result = project_client(self.data, models=self.models)
         flags = result["cross_scanner_flags"]
         assert isinstance(flags, list)
-        # Jesus's intake has a 4.7pp BF% discrepancy — flag must be present
+        # Jesus's intake has a 4.7pp BF% difference — flag must be present
         assert len(flags) >= 1, "Expected at least one cross-scanner flag (BF% delta)"
 
 

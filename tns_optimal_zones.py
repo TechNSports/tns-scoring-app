@@ -3,7 +3,7 @@ tns_optimal_zones.py
 ====================
 TechNSports (TNS) Optimal-Zone Biomarker Library
 -------------------------------------------------
-Version:  1.0.6-public   (LIBRARY_VERSION)
+Version:  1.0.8-public   (LIBRARY_VERSION)
 Pipeline: 4.1            (POLYGON_VERSION)
 
 Architecture
@@ -86,7 +86,7 @@ from typing import Optional
 # Module constants
 # ---------------------------------------------------------------------------
 
-LIBRARY_VERSION: str = "1.0.6-public"
+LIBRARY_VERSION: str = "1.0.8-public"
 POLYGON_VERSION: str = "4.1"
 
 # ---------------------------------------------------------------------------
@@ -187,6 +187,32 @@ def get_report_disclaimer() -> str:
 # ---------------------------------------------------------------------------
 # CHANGELOG
 # ---------------------------------------------------------------------------
+# v1.0.8-public  (2026-04-29)
+#   CHANGE-01  Add InBody PDF parser (tns_inbody_pdf_parser.py):
+#              Supports 'Overall Results Analysis' PDFs from LookinBody Cloud
+#              in both comparison (2-scan, ~11 pages) and single-scan (26+
+#              pages) formats.  Auto-detects format from page-1 arrow pairs.
+#              _parse_single_health_report() handles the 26-page extended
+#              format; lazy page OCR stops once all needed sections found.
+#   CHANGE-02  Wire InBody PDF uploader into app.py InBody tab (alongside
+#              existing CSV uploader).  PDF parsed once on upload, cached in
+#              session state by filename.  PDF data takes priority over CSV
+#              in the Run pipeline.
+#
+# v1.0.7-public  (2026-04-24)
+#   CHANGE-01  Add imperial/metric unit toggle to app.py sidebar (Client Info
+#              expander).  All ShapeScale inputs shown in selected unit; values
+#              converted back to imperial before passing to tns_shapescale_reader.
+#   CHANGE-02  Unit toggle persists in session_state["unit_pref"].
+#
+# v1.0.6-public  (2026-04-22)
+#   CHANGE-01  Add Questionnaire tab to app.py with 27 lifestyle/wellness
+#              question widgets (sleep, stress, nutrition, hydration, training
+#              type, training intensity, steps).
+#   CHANGE-02  All 27 questionnaire keys wired into lab_data dict and passed to
+#              project_client().  Demo Personas updated with representative
+#              questionnaire answers.
+#
 # v1.0.5-public  (2026-04-19)
 #   CHANGE-01  Add 13 missing biomarker input widgets to app.py sidebar:
 #              lab_ferritin, lab_vitamin_d, lab_b12, lab_tsh, lab_free_t3,

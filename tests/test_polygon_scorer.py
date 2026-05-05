@@ -200,7 +200,7 @@ class TestFixtureScanAndQuestionnaire:
                 f"bf_pct source should be 'shapescale' per Rule 44, got '{bf_input['source']}'"
 
     def test_cross_scanner_flags_present(self):
-        """Fixture has cross-scanner discrepancy (BF% Δ=4.7pp) — at least 1 flag expected."""
+        """Fixture has cross-scanner difference (BF% Δ=4.7pp) — at least 1 flag expected."""
         flags = self.result.get("cross_scanner_flags", [])
         assert len(flags) >= 1, \
             f"Expected ≥1 cross-scanner flag, got {len(flags)}"
@@ -399,7 +399,7 @@ class TestFixtureFullData:
         assert self.result["par_q_escalation"] is False
 
     def test_cross_scanner_flags_present(self):
-        """Fixture has BF% discrepancy (Δ=4.7pp) — at least 1 flag expected."""
+        """Fixture has BF% difference (Δ=4.7pp) — at least 1 flag expected."""
         flags = self.result.get("cross_scanner_flags", [])
         assert len(flags) >= 1, \
             f"Expected ≥1 cross-scanner flag, got {len(flags)}"

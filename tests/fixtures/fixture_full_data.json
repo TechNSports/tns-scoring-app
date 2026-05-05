@@ -103,8 +103,8 @@
       "completeness_label": "Full Data"
     },
     "flags": [
-      "BF% discrepancy: ShapeScale=34.5%, InBody=29.8% (Δ=4.7pp > 3.0pp threshold). ShapeScale used per Rule 44 (3D optical > bioimpedance).",
-      "Weight discrepancy: ShapeScale=97.7 kg, InBody=99.4 kg (Δ=1.7 kg). ShapeScale used per Rule 44."
+      "BF% difference: ShapeScale=34.5%, InBody=29.8% (Δ=4.7pp > 3.0pp threshold). ShapeScale used per Rule 44 (3D optical > bioimpedance).",
+      "Weight difference: ShapeScale=97.7 kg, InBody=99.4 kg (Δ=1.7 kg). ShapeScale used per Rule 44."
     ]
   },
   "questionnaire": {

@@ -257,21 +257,24 @@ def plot_population_map(
         ax.text(x_max - 0.05*(x_max-x_min), 0.02, "Better health markers",
                 transform=ax.get_xaxis_transform(), ha="right",
                 fontsize=8, color=GREEN, alpha=0.8)
-        ax.set_xlabel("Metabolic health axis", fontsize=9)
-        ax.set_ylabel("Body shape axis", fontsize=9)
+        ax.set_xlabel("Metabolic & Lab Markers →", fontsize=9)
+        ax.set_ylabel("Body Composition →", fontsize=9)
         ax.set_xticklabels([])
         ax.set_yticklabels([])
     else:
         pc1_var = ev.get("pc1", 0) or 0
         pc2_var = ev.get("pc2", 0) or 0
-        ax.set_xlabel("Metabolic health axis", fontsize=9, color=WATERSPOUT)
+        ax.set_xlabel("Metabolic & Lab Markers →", fontsize=9, color=WATERSPOUT)
         ax.set_ylabel(f"PC2 ({pc2_var:.1%} variance)", fontsize=9, color=WATERSPOUT)
 
     lens_label = projection_result.get("lens_used", "").replace("_", " ").title()
     dc = projection_result.get("data_completeness", {})
     badge_text = f"● {dc.get('completeness_label', '')}" if dc else ""
     badge_color = GREEN if dc.get("full_data") else AMBER
-    ax.set_title(f"Health Map — {lens_label} Lens", fontsize=13, color=WHITE, pad=12)
+    ax.set_title(f"Health Map — {lens_label} Lens", fontsize=14, fontweight="bold",
+                 color=WHITE, pad=20)
+    fig.text(0.5, 0.92, "Your position among 10,000+ reference profiles",
+             ha="center", fontsize=8, color="#94a3b8", style="italic")
     if badge_text:
         ax.text(0.99, 1.02, badge_text,
                 transform=ax.transAxes, ha="right", va="bottom",
@@ -473,7 +476,7 @@ def plot_radar_overlay(
     current_values: dict,
     baseline_values: Optional[dict] = None,
     client_name: str = "You",
-    figsize: tuple = (7, 7),
+    figsize: tuple = (8, 8),
     save_path: Optional[Union[str, Path]] = None,
 ) -> plt.Figure:
     """
@@ -504,42 +507,94 @@ def plot_radar_overlay(
 
     fig, ax = plt.subplots(figsize=figsize, subplot_kw=dict(polar=True))
     fig.patch.set_facecolor(BG)
-    ax.set_facecolor(CARD)
+    ax.set_facecolor("#0d0d22")            # slightly lighter than BG for contrast
     ax.spines["polar"].set_edgecolor(WATERSPOUT)
-    ax.spines["polar"].set_linewidth(0.5)
+    ax.spines["polar"].set_linewidth(0.4)
 
-    # Gridlines
-    ax.set_ylim(0, 100)
-    ax.yaxis.set_tick_params(labelsize=6, labelcolor=GREY_MED)
+    # ── Y-axis: extend to 115 so labels never overlap the 100-ring ───────────
+    _YLIM = 115
+    ax.set_ylim(0, _YLIM)
     ax.set_yticks([25, 50, 75, 100])
-    ax.set_yticklabels(["25", "50", "75", "100"], fontsize=6, color=GREY_MED)
-    ax.set_xticks(angles[:-1])
-    ax.set_xticklabels(categories, size=9, color=WHITE)
-    ax.tick_params(colors=GREY_MED)
+    ax.set_yticklabels(["25", "50", "75", "100"], fontsize=6.5, color=GREY_MED)
+    ax.yaxis.set_tick_params(labelsize=6.5, labelcolor=GREY_MED)
     for g in ax.yaxis.get_gridlines():
         g.set_color(WATERSPOUT)
-        g.set_alpha(0.2)
+        g.set_alpha(0.18)
+    # Subtle fill bands: poor / ok / good
+    for lo, hi, col, alpha in [(0, 25, AMBER, 0.06), (25, 75, WATERSPOUT, 0.03),
+                                (75, 100, GREEN, 0.05)]:
+        band_angles = np.linspace(0, 2 * np.pi, 200)
+        ax.fill_between(band_angles, lo, hi, color=col, alpha=alpha, zorder=0)
 
-    # Baseline polygon
+    # ── X-axis: place category labels outside the 100-ring ───────────────────
+    ax.set_xticks(angles[:-1])
+    # Clear default labels — we'll draw them manually for full control
+    ax.set_xticklabels([""] * n)
+    for angle, label in zip(angles[:-1], categories):
+        angle_deg = math.degrees(angle) % 360
+        # Nudge outward — 108 sits just beyond the 100-ring inside _YLIM=115
+        r_label = 108
+        x = r_label * math.sin(angle)    # polar: x = r·sin(θ)
+        y = r_label * math.cos(angle)    # polar: y = r·cos(θ) (matplotlib polar: 0° = top)
+        # Horizontal alignment: left when right half, right when left half
+        if 5 < angle_deg < 175:
+            ha = "left"
+        elif 185 < angle_deg < 355:
+            ha = "right"
+        else:
+            ha = "center"
+        va = "bottom" if angle_deg < 180 else "top"
+        ax.text(
+            angle, r_label, label,
+            ha=ha, va="center",
+            fontsize=9, fontweight="bold", color=WHITE,
+            path_effects=[pe.withStroke(linewidth=2.5, foreground="#0d0d22")],
+        )
+
+    # ── Score value dots + labels on each spoke ───────────────────────────────
+    for angle, val, label in zip(angles[:-1], curr_vals[:-1], categories):
+        # Dot on spoke
+        ax.scatter([angle], [val], s=40, color=GREEN, zorder=6,
+                   edgecolors=WHITE, linewidths=0.8)
+        # Score number just inside the dot (offset slightly toward center)
+        r_text = max(val - 9, 5)
+        ax.text(angle, r_text, f"{int(round(val))}",
+                ha="center", va="center", fontsize=7, color=WHITE,
+                fontweight="bold",
+                path_effects=[pe.withStroke(linewidth=1.5, foreground="#0d0d22")])
+
+    ax.tick_params(colors=GREY_MED, pad=0)
+
+    # ── Baseline polygon ──────────────────────────────────────────────────────
     if base_vals:
-        ax.plot(angles, base_vals, color=AMBER, linewidth=1.5,
-                linestyle="--", alpha=0.7, label="Intake")
-        ax.fill(angles, base_vals, color=AMBER, alpha=0.08)
+        ax.plot(angles, base_vals, color=AMBER, linewidth=1.8,
+                linestyle="--", alpha=0.75, label="Intake", zorder=3)
+        ax.fill(angles, base_vals, color=AMBER, alpha=0.10, zorder=2)
 
-    # Current polygon
-    ax.plot(angles, curr_vals, color=GREEN, linewidth=2, label="Current")
-    ax.fill(angles, curr_vals, color=GREEN, alpha=0.15)
+    # ── Current polygon ───────────────────────────────────────────────────────
+    ax.plot(angles, curr_vals, color=GREEN, linewidth=2.2, label="Current", zorder=4)
+    ax.fill(angles, curr_vals, color=GREEN, alpha=0.18, zorder=3)
 
-    ax.set_title(f"{client_name} — Wellness Profile", y=1.08,
-                 fontsize=12, color=WHITE)
+    # ── Title ─────────────────────────────────────────────────────────────────
+    _n_axes = len(categories)
+    _subtitle = f"{_n_axes} markers available" if _n_axes < 7 else "Full profile"
+    ax.set_title(f"{client_name} — Wellness Profile\n({_subtitle})",
+                 y=1.06, fontsize=13, color=WHITE, fontweight="bold")
 
-    legend = ax.legend(loc="upper right", bbox_to_anchor=(1.25, 1.1),
-                       fontsize=8, facecolor=CARD, edgecolor=WATERSPOUT,
-                       labelcolor=WHITE)
+    # ── Legend ────────────────────────────────────────────────────────────────
+    handles = [mpatches.Patch(color=GREEN, label="Current")]
+    if base_vals:
+        handles.append(mpatches.Patch(color=AMBER, label="Intake / Baseline",
+                                      linestyle="--"))
+    ax.legend(handles=handles,
+              loc="upper right", bbox_to_anchor=(1.28, 1.12),
+              fontsize=8.5, facecolor=CARD, edgecolor=WATERSPOUT,
+              labelcolor=WHITE, framealpha=0.5)
 
+    plt.tight_layout(pad=1.8)
     if save_path:
         _add_disclaimer_footer(fig)
-        fig.savefig(save_path, dpi=150, bbox_inches="tight", facecolor=BG)
+        fig.savefig(save_path, dpi=160, bbox_inches="tight", facecolor=BG)
     return fig
 
 
@@ -565,18 +620,26 @@ def compute_radar_scores(unified: dict, sex: str = "M") -> dict:
         raw = (val - worse_bound) / (better_bound - worse_bound) * 100
         return max(0.0, min(100.0, round(raw, 1)))
 
+    # Normalise sex arg — accept "M"/"male" and "F"/"female"
+    _female = str(sex).lower() in ("f", "female")
+
     # Thresholds (worse→better)
     scores: dict[str, float] = {}
 
     # Body composition score (BF%)
-    if sex == "F":
+    if _female:
         scores["Body Fat"] = _score(unified.get("bf_pct"), 45, 20)
     else:
         scores["Body Fat"] = _score(unified.get("bf_pct"), 35, 12)
 
-    # Lean mass (SMM) relative to height
+    # Lean mass (SMM) relative to height — sex-stratified thresholds
+    # Female reference: average ~0.16, optimal ≥0.20  (163 cm / 28 kg ≈ 0.172)
+    # Male reference  : average ~0.21, optimal ≥0.26  (178 cm / 41 kg ≈ 0.230)
     if unified.get("lean_per_cm") is not None:
-        scores["Lean Mass"] = _score(unified.get("lean_per_cm"), 0.20, 0.30)
+        if _female:
+            scores["Lean Mass"] = _score(unified.get("lean_per_cm"), 0.12, 0.21)
+        else:
+            scores["Lean Mass"] = _score(unified.get("lean_per_cm"), 0.16, 0.26)
 
     # Waist distribution
     scores["Waist Health"] = _score(unified.get("whr"), 1.00, 0.75)

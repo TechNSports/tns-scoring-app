@@ -526,6 +526,16 @@ LAB_KEY_MAP: dict[str, str] = {
     "lab_dhea_s":        "dhea_s",
     "lab_estradiol":     "estradiol",
     "lab_egfr":          "egfr",
+    # Short-form aliases — used by app.py, Data Master sheet, and demo personas.
+    # These are intentional short forms documented in tns_optimal_zones.py changelog.
+    "lab_b12":           "vitamin_b12",   # alias for lab_vitamin_b12
+    "lab_lpa":           "lp_a",          # alias for lab_lp_a
+    "lab_apob":          "apo_b",         # alias for lab_apo_b
+    "lab_homa_ir":       "homa_ir",       # directly measured; overrides computed value
+    # Resting heart rate — collected in app.py sidebar (Vitals / Resting HR field).
+    # No OPTIMAL_ZONES scoring entry yet; listed here so the value passes through
+    # _extract_labs() rather than being silently dropped.
+    "lab_resting_hr":    "resting_hr",
 }
 
 

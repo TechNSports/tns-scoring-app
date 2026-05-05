@@ -41,7 +41,8 @@ def _check_password():
         return True  # local dev, no secrets file = open access
     if st.session_state.get("_authed"):
         return True
-    st.title("TechNSports Scoring Tool")
+    st.title("TNS Health Map")
+    st.caption("Body composition intelligence — TechNSports · Mérida, Yucatán")
     pw = st.text_input("App password", type="password")
     if pw and pw == expected:
         st.session_state["_authed"] = True
@@ -168,6 +169,36 @@ if "_pending_preset" in st.session_state:
     _apply_preset(st.session_state.pop("_pending_preset"))
 
 
+# ── ShapeScale unit-preference change → auto-convert display values ───────────
+# When the user flips Imperial ↔ Metric the stored ss_* values are converted
+# in-place so number_input widgets show correct numbers without manual re-entry.
+# Keys that hold weight/lean-mass values (lb ↔ kg):
+_SS_WT_KEYS   = ["ss_weight_lb", "ss_lean_mass"]
+# Keys that hold circumference values (in ↔ cm):
+_SS_CIRC_KEYS = ["ss_neck", "ss_shoulders", "ss_chest", "ss_waist", "ss_hips",
+                 "ss_bicep_l", "ss_bicep_r", "ss_thigh_l", "ss_thigh_r",
+                 "ss_calf_l", "ss_calf_r"]
+_UNIT_METRIC  = "Metric (kg / cm)"
+_curr_unit    = st.session_state.get("unit_pref",       "Imperial (lb / in)")
+_prev_unit    = st.session_state.get("_prev_unit_pref", "Imperial (lb / in)")
+if _curr_unit != _prev_unit:
+    if _curr_unit == _UNIT_METRIC:          # lb / in → kg / cm
+        for _k in _SS_WT_KEYS:
+            if st.session_state.get(_k):
+                st.session_state[_k] = round(float(st.session_state[_k]) * 0.453592, 1)
+        for _k in _SS_CIRC_KEYS:
+            if st.session_state.get(_k):
+                st.session_state[_k] = round(float(st.session_state[_k]) * 2.54, 1)
+    else:                                   # kg / cm → lb / in
+        for _k in _SS_WT_KEYS:
+            if st.session_state.get(_k):
+                st.session_state[_k] = round(float(st.session_state[_k]) / 0.453592, 1)
+        for _k in _SS_CIRC_KEYS:
+            if st.session_state.get(_k):
+                st.session_state[_k] = round(float(st.session_state[_k]) / 2.54, 1)
+    st.session_state["_prev_unit_pref"] = _curr_unit
+
+
 # ============================================================
 # DEMO PERSONAS PANEL — REMOVE BEFORE PRODUCTION LAUNCH
 # Added 2026-04-18 for QA and sales demos.
@@ -203,6 +234,7 @@ DEMO_PERSONAS: dict = {
             "ss_weight_lb": 127.0, "ss_bf_pct": 18.0, "ss_bmi": 21.7,
             "ss_shape_score": 88, "ss_health_score": 90, "ss_body_age": 22,
             "ss_visc_rating": "Excellent",
+            "ss_lean_mass": 104.1, "ss_whr": 0.75, "ss_whtr": 0.41, "ss_bmr_cal": 0,
             "ss_neck": 13.0, "ss_shoulders": 40.0, "ss_chest": 33.0, "ss_waist": 26.5, "ss_hips": 35.5,
             "ss_bicep_l": 11.0, "ss_bicep_r": 11.2, "ss_thigh_l": 20.0, "ss_thigh_r": 20.0,
             "ss_calf_l": 13.5, "ss_calf_r": 13.5,
@@ -257,6 +289,7 @@ DEMO_PERSONAS: dict = {
             "ss_weight_lb": 183.0, "ss_bf_pct": 16.0, "ss_bmi": 26.2,
             "ss_shape_score": 79, "ss_health_score": 82, "ss_body_age": 33,
             "ss_visc_rating": "Good",
+            "ss_lean_mass": 153.7, "ss_whr": 0.86, "ss_whtr": 0.49, "ss_bmr_cal": 0,
             "ss_neck": 15.5, "ss_shoulders": 48.5, "ss_chest": 42.0, "ss_waist": 34.0, "ss_hips": 39.5,
             "ss_bicep_l": 14.0, "ss_bicep_r": 14.2, "ss_thigh_l": 22.5, "ss_thigh_r": 22.5,
             "ss_calf_l": 15.0, "ss_calf_r": 15.0,
@@ -298,6 +331,55 @@ DEMO_PERSONAS: dict = {
             "q_hydration_liters_per_day": "2-3",
             "q_protein_meals_with_palm_serving": "two_of_3",
         },
+        # ── Pre-stored visit history (3 visits) ─────────────────────────────
+        "visits": [
+            {
+                "scan_label": "2026-01-15",
+                "scan_date":  "2026-01-15",
+                "result": {
+                    "scan_date": "2026-01-15", "scan_label": "2026-01-15",
+                    "overall_score": 72, "confidence": "high",
+                    "lens_used": "body_comp",
+                    "n_vars_provided": 28, "n_vars_total": 35,
+                    "pc1": -0.8, "pc2": 0.3, "percentile_pc1": 55,
+                    "categories": {
+                        "body_composition":   {"score": 75, "rendering": "solid", "confidence": "high"},
+                        "heart_vascular":     {"score": 68, "rendering": "solid", "confidence": "high"},
+                        "metabolic_function": {"score": 74, "rendering": "solid", "confidence": "high"},
+                        "hormonal_balance":   {"score": 72, "rendering": "solid", "confidence": "moderate"},
+                        "stress_recovery":    {"score": 70, "rendering": "solid", "confidence": "moderate"},
+                        "lifestyle_fitness":  {"score": 73, "rendering": "solid", "confidence": "high"},
+                    },
+                    "par_q_escalation": False, "missing_data_notes": [], "flags": [],
+                    "top_drivers": [], "pc1_loadings": {}, "imputed_vars": [], "n_vars_imputed": 0,
+                    "data_completeness": {"scan": True, "labs": True, "lifestyle": True, "full_data": True},
+                },
+                "unified": {"bf_pct": 16.8, "bmi": 26.5, "ffmi": 23.1, "ib_phase_angle": 7.3},
+            },
+            {
+                "scan_label": "2026-02-26",
+                "scan_date":  "2026-02-26",
+                "result": {
+                    "scan_date": "2026-02-26", "scan_label": "2026-02-26",
+                    "overall_score": 76, "confidence": "high",
+                    "lens_used": "body_comp",
+                    "n_vars_provided": 28, "n_vars_total": 35,
+                    "pc1": -0.6, "pc2": 0.2, "percentile_pc1": 58,
+                    "categories": {
+                        "body_composition":   {"score": 78, "rendering": "solid", "confidence": "high"},
+                        "heart_vascular":     {"score": 72, "rendering": "solid", "confidence": "high"},
+                        "metabolic_function": {"score": 77, "rendering": "solid", "confidence": "high"},
+                        "hormonal_balance":   {"score": 74, "rendering": "solid", "confidence": "moderate"},
+                        "stress_recovery":    {"score": 73, "rendering": "solid", "confidence": "moderate"},
+                        "lifestyle_fitness":  {"score": 78, "rendering": "solid", "confidence": "high"},
+                    },
+                    "par_q_escalation": False, "missing_data_notes": [], "flags": [],
+                    "top_drivers": [], "pc1_loadings": {}, "imputed_vars": [], "n_vars_imputed": 0,
+                    "data_completeness": {"scan": True, "labs": True, "lifestyle": True, "full_data": True},
+                },
+                "unified": {"bf_pct": 15.9, "bmi": 26.1, "ffmi": 23.4, "ib_phase_angle": 7.5},
+            },
+        ],
     },
     # ── 3. Sedentary overweight — metabolic syndrome ───────────────────────────
     "maria": {
@@ -310,6 +392,7 @@ DEMO_PERSONAS: dict = {
             "ss_weight_lb": 190.0, "ss_bf_pct": 34.0, "ss_bmi": 32.5,
             "ss_shape_score": 52, "ss_health_score": 48, "ss_body_age": 58,
             "ss_visc_rating": "Poor",
+            "ss_lean_mass": 125.4, "ss_whr": 0.90, "ss_whtr": 0.65, "ss_bmr_cal": 0,
             "ss_neck": 15.5, "ss_shoulders": 46.0, "ss_chest": 43.5, "ss_waist": 42.0, "ss_hips": 46.5,
             "ss_bicep_l": 14.5, "ss_bicep_r": 14.5, "ss_thigh_l": 27.5, "ss_thigh_r": 27.5,
             "ss_calf_l": 17.0, "ss_calf_r": 17.0,
@@ -352,6 +435,55 @@ DEMO_PERSONAS: dict = {
             "q_hydration_liters_per_day": "1-2",
             "q_protein_meals_with_palm_serving": "one_of_3",
         },
+        # ── Pre-stored visit history (2 visits — improvement in progress) ────
+        "visits": [
+            {
+                "scan_label": "2025-12-10",
+                "scan_date":  "2025-12-10",
+                "result": {
+                    "scan_date": "2025-12-10", "scan_label": "2025-12-10",
+                    "overall_score": 58, "confidence": "high",
+                    "lens_used": "body_comp",
+                    "n_vars_provided": 30, "n_vars_total": 35,
+                    "pc1": 1.4, "pc2": -0.4, "percentile_pc1": 22,
+                    "categories": {
+                        "body_composition":   {"score": 52, "rendering": "solid", "confidence": "high"},
+                        "heart_vascular":     {"score": 55, "rendering": "solid", "confidence": "high"},
+                        "metabolic_function": {"score": 48, "rendering": "solid", "confidence": "high"},
+                        "hormonal_balance":   {"score": 60, "rendering": "solid", "confidence": "moderate"},
+                        "stress_recovery":    {"score": 55, "rendering": "solid", "confidence": "moderate"},
+                        "lifestyle_fitness":  {"score": 66, "rendering": "solid", "confidence": "high"},
+                    },
+                    "par_q_escalation": False, "missing_data_notes": [], "flags": [],
+                    "top_drivers": [], "pc1_loadings": {}, "imputed_vars": [], "n_vars_imputed": 0,
+                    "data_completeness": {"scan": True, "labs": True, "lifestyle": True, "full_data": True},
+                },
+                "unified": {"bf_pct": 35.5, "bmi": 33.2, "ffmi": 16.8, "ib_phase_angle": 5.6},
+            },
+            {
+                "scan_label": "2026-02-20",
+                "scan_date":  "2026-02-20",
+                "result": {
+                    "scan_date": "2026-02-20", "scan_label": "2026-02-20",
+                    "overall_score": 62, "confidence": "high",
+                    "lens_used": "body_comp",
+                    "n_vars_provided": 30, "n_vars_total": 35,
+                    "pc1": 1.1, "pc2": -0.3, "percentile_pc1": 26,
+                    "categories": {
+                        "body_composition":   {"score": 57, "rendering": "solid", "confidence": "high"},
+                        "heart_vascular":     {"score": 59, "rendering": "solid", "confidence": "high"},
+                        "metabolic_function": {"score": 52, "rendering": "solid", "confidence": "high"},
+                        "hormonal_balance":   {"score": 63, "rendering": "solid", "confidence": "moderate"},
+                        "stress_recovery":    {"score": 59, "rendering": "solid", "confidence": "moderate"},
+                        "lifestyle_fitness":  {"score": 70, "rendering": "solid", "confidence": "high"},
+                    },
+                    "par_q_escalation": False, "missing_data_notes": [], "flags": [],
+                    "top_drivers": [], "pc1_loadings": {}, "imputed_vars": [], "n_vars_imputed": 0,
+                    "data_completeness": {"scan": True, "labs": True, "lifestyle": True, "full_data": True},
+                },
+                "unified": {"bf_pct": 33.8, "bmi": 32.1, "ffmi": 17.2, "ib_phase_angle": 5.9},
+            },
+        ],
     },
     # ── 4. Stressed executive — partial panel (lipids + glucose only) ──────────
     "roberto": {
@@ -364,6 +496,7 @@ DEMO_PERSONAS: dict = {
             "ss_weight_lb": 195.0, "ss_bf_pct": 24.0, "ss_bmi": 28.6,
             "ss_shape_score": 65, "ss_health_score": 62, "ss_body_age": 60,
             "ss_visc_rating": "Fair",
+            "ss_lean_mass": 148.2, "ss_whr": 0.93, "ss_whtr": 0.56, "ss_bmr_cal": 0,
             "ss_neck": 16.5, "ss_shoulders": 50.0, "ss_chest": 44.5, "ss_waist": 39.0, "ss_hips": 42.0,
             "ss_bicep_l": 13.5, "ss_bicep_r": 13.5, "ss_thigh_l": 22.0, "ss_thigh_r": 22.0,
             "ss_calf_l": 15.0, "ss_calf_r": 15.0,
@@ -417,6 +550,7 @@ DEMO_PERSONAS: dict = {
             "ss_weight_lb": 145.0, "ss_bf_pct": 27.0, "ss_bmi": 24.2,
             "ss_shape_score": 71, "ss_health_score": 68, "ss_body_age": 38,
             "ss_visc_rating": "Good",
+            "ss_lean_mass": 105.9, "ss_whr": 0.79, "ss_whtr": 0.49, "ss_bmr_cal": 0,
             "ss_neck": 13.5, "ss_shoulders": 42.0, "ss_chest": 36.5, "ss_waist": 32.0, "ss_hips": 40.5,
             "ss_bicep_l": 11.5, "ss_bicep_r": 11.5, "ss_thigh_l": 23.5, "ss_thigh_r": 23.5,
             "ss_calf_l": 14.5, "ss_calf_r": 14.5,
@@ -471,6 +605,7 @@ DEMO_PERSONAS: dict = {
             "ss_weight_lb": 170.0, "ss_bf_pct": 10.0, "ss_bmi": 23.8,
             "ss_shape_score": 91, "ss_health_score": 93, "ss_body_age": 19,
             "ss_visc_rating": "Excellent",
+            "ss_lean_mass": 153.0, "ss_whr": 0.82, "ss_whtr": 0.43, "ss_bmr_cal": 0,
             "ss_neck": 15.0, "ss_shoulders": 48.0, "ss_chest": 41.5, "ss_waist": 30.5, "ss_hips": 37.0,
             "ss_bicep_l": 14.5, "ss_bicep_r": 14.8, "ss_thigh_l": 24.5, "ss_thigh_r": 24.5,
             "ss_calf_l": 15.5, "ss_calf_r": 15.5,
@@ -524,6 +659,7 @@ DEMO_PERSONAS: dict = {
             "ss_weight_lb": 155.0, "ss_bf_pct": 28.0, "ss_bmi": 26.8,
             "ss_shape_score": 75, "ss_health_score": 72, "ss_body_age": 58,
             "ss_visc_rating": "Good",
+            "ss_lean_mass": 111.6, "ss_whr": 0.83, "ss_whtr": 0.53, "ss_bmr_cal": 0,
             "ss_neck": 13.5, "ss_shoulders": 43.0, "ss_chest": 38.5, "ss_waist": 34.0, "ss_hips": 41.0,
             "ss_bicep_l": 12.0, "ss_bicep_r": 12.0, "ss_thigh_l": 23.0, "ss_thigh_r": 23.0,
             "ss_calf_l": 14.0, "ss_calf_r": 14.0,
@@ -578,6 +714,7 @@ DEMO_PERSONAS: dict = {
             "ss_weight_lb": 185.0, "ss_bf_pct": 22.0, "ss_bmi": 27.4,
             "ss_shape_score": 73, "ss_health_score": 70, "ss_body_age": 52,
             "ss_visc_rating": "Fair",
+            "ss_lean_mass": 144.3, "ss_whr": 0.91, "ss_whtr": 0.54, "ss_bmr_cal": 0,
             "ss_neck": 16.0, "ss_shoulders": 49.5, "ss_chest": 44.0, "ss_waist": 37.5, "ss_hips": 41.0,
             "ss_bicep_l": 13.8, "ss_bicep_r": 14.0, "ss_thigh_l": 23.0, "ss_thigh_r": 23.0,
             "ss_calf_l": 15.5, "ss_calf_r": 15.5,
@@ -631,6 +768,7 @@ DEMO_PERSONAS: dict = {
             "ss_weight_lb": 132.0, "ss_bf_pct": 19.0, "ss_bmi": 22.0,
             "ss_shape_score": 84, "ss_health_score": 80, "ss_body_age": 38,
             "ss_visc_rating": "Excellent",
+            "ss_lean_mass": 106.9, "ss_whr": 0.75, "ss_whtr": 0.42, "ss_bmr_cal": 0,
             "ss_neck": 13.0, "ss_shoulders": 41.0, "ss_chest": 34.0, "ss_waist": 27.5, "ss_hips": 36.5,
             "ss_bicep_l": 11.5, "ss_bicep_r": 11.5, "ss_thigh_l": 21.5, "ss_thigh_r": 21.5,
             "ss_calf_l": 14.0, "ss_calf_r": 14.0,
@@ -685,6 +823,7 @@ DEMO_PERSONAS: dict = {
             "ss_weight_lb": 218.0, "ss_bf_pct": 32.0, "ss_bmi": 33.1,
             "ss_shape_score": 48, "ss_health_score": 45, "ss_body_age": 65,
             "ss_visc_rating": "Very Poor",
+            "ss_lean_mass": 148.2, "ss_whr": 0.97, "ss_whtr": 0.65, "ss_bmr_cal": 0,
             "ss_neck": 17.5, "ss_shoulders": 52.0, "ss_chest": 47.5, "ss_waist": 44.5, "ss_hips": 46.0,
             "ss_bicep_l": 15.0, "ss_bicep_r": 15.0, "ss_thigh_l": 26.0, "ss_thigh_r": 26.0,
             "ss_calf_l": 17.5, "ss_calf_r": 17.5,
@@ -738,6 +877,7 @@ DEMO_PERSONAS: dict = {
             "ss_weight_lb": 138.0, "ss_bf_pct": 22.0, "ss_bmi": 22.2,
             "ss_shape_score": 81, "ss_health_score": 78, "ss_body_age": 30,
             "ss_visc_rating": "Excellent",
+            "ss_lean_mass": 107.6, "ss_whr": 0.76, "ss_whtr": 0.44, "ss_bmr_cal": 0,
             "ss_neck": 13.0, "ss_shoulders": 41.5, "ss_chest": 34.5, "ss_waist": 29.0, "ss_hips": 38.0,
             "ss_bicep_l": 11.0, "ss_bicep_r": 11.0, "ss_thigh_l": 22.0, "ss_thigh_r": 22.0,
             "ss_calf_l": 14.0, "ss_calf_r": 14.0,
@@ -792,6 +932,7 @@ DEMO_PERSONAS: dict = {
             "ss_weight_lb": 180.0, "ss_bf_pct": 26.0, "ss_bmi": 28.2,
             "ss_shape_score": 68, "ss_health_score": 70, "ss_body_age": 68,
             "ss_visc_rating": "Fair",
+            "ss_lean_mass": 133.2, "ss_whr": 0.92, "ss_whtr": 0.58, "ss_bmr_cal": 0,
             "ss_neck": 15.5, "ss_shoulders": 48.0, "ss_chest": 43.5, "ss_waist": 38.5, "ss_hips": 42.0,
             "ss_bicep_l": 13.0, "ss_bicep_r": 13.0, "ss_thigh_l": 21.5, "ss_thigh_r": 21.5,
             "ss_calf_l": 14.5, "ss_calf_r": 14.5,
@@ -840,11 +981,47 @@ DEMO_PERSONAS: dict = {
 def _load_demo_persona(persona_key: str) -> None:
     """Apply demo persona values to session_state.
     Called from the pending resolver at the top of the script,
-    before any widgets are instantiated."""
+    before any widgets are instantiated.
+    ss_* weight and circumference values stored in DEMO_PERSONAS are in imperial
+    (lb / in); they are automatically converted to metric when the unit toggle
+    is set to 'Metric (kg / cm)'.
+    If the persona has a 'visits' list, it is loaded into visit_history so that
+    trajectory charts and progress sections appear immediately."""
     persona = DEMO_PERSONAS[persona_key]
+    in_metric = (st.session_state.get("unit_pref", "Imperial (lb / in)")
+                 == "Metric (kg / cm)")
+    _wt_keys = {"ss_weight_lb", "ss_lean_mass"}
+    _ci_keys = {"ss_neck", "ss_shoulders", "ss_chest", "ss_waist", "ss_hips",
+                "ss_bicep_l", "ss_bicep_r", "ss_thigh_l", "ss_thigh_r",
+                "ss_calf_l", "ss_calf_r"}
     for field_key, value in persona["values"].items():
+        if in_metric and isinstance(value, (int, float)):
+            if field_key in _wt_keys:
+                value = round(value * 0.453592, 1)
+            elif field_key in _ci_keys:
+                value = round(value * 2.54, 1)
         st.session_state[field_key] = value
     st.session_state["_demo_persona_loaded"] = persona["name"]
+    # Keep _prev_unit_pref in sync so the auto-convert block does not
+    # double-convert values that were just loaded by this function.
+    st.session_state["_prev_unit_pref"] = st.session_state.get(
+        "unit_pref", "Imperial (lb / in)")
+    # Pre-load multi-visit history when persona has "visits" data
+    if "visits" in persona:
+        cid = persona["values"].get("client_id", persona_key)
+        cname = persona["name"]
+        existing = [h for h in st.session_state.get("visit_history", [])
+                    if h["client_id"] != cid]
+        for _v in persona["visits"]:
+            existing.append({
+                "client_id":    cid,
+                "client_name":  cname,
+                "scan_label":   _v["scan_label"],
+                "generated_at": _v["scan_date"] + "T09:00:00",
+                "result":       _v["result"],
+                "unified":      _v.get("unified", {}),
+            })
+        st.session_state["visit_history"] = existing
 
 
 if "_pending_demo" in st.session_state:
@@ -882,27 +1059,102 @@ def _load_models(model_dir: str):
 # SIDEBAR — collapsible expanders
 # ════════════════════════════════════════════════════════════════════════════════
 with st.sidebar:
-    st.markdown("## 🔬 TNS Health Map")
+    st.markdown("## 🏋️ TNS Health Map")
     st.markdown("*TechNSports · Mérida, Yucatán*")
     st.divider()
 
     # ── 1. Client Info (expanded=True) ────────────────────────────────────────
     with st.expander("Client Info", expanded=True):
+        # NOTE (FIX 21): A red square "..." icon sometimes appears on this field in
+        # Chrome. Confirmed to be a browser extension artifact (grammar/spell-check
+        # tools like Grammarly). Not a code bug — no fix required in app code.
         client_name = st.text_input("Name", value="Jesus Garcia", key="client_name")
-        client_id   = st.text_input("ID (snake_case)", value="garcia_jesus", key="client_id")
+        client_id   = st.text_input(
+            "Client ID",
+            value="garcia_jesus",
+            key="client_id",
+            help="Used for file naming. Use lowercase with underscores (e.g. garcia_jesus).",
+        )
         col_s, col_h = st.columns(2)
         with col_s:
             sex = st.selectbox("Sex", ["M", "F"], key="sex")
         with col_h:
             height_cm = st.number_input("Height cm", 100.0, 250.0, 179.0, 0.5, key="height_cm")
-        scan_label = st.selectbox("Visit", ["intake", "8wk", "16wk", "24wk"])
-        lens       = st.selectbox("Lens", ["auto", "health", "body_comp",
-                                            "performance", "weight_mgmt", "longevity"])
+        unit_pref = st.radio(
+            "Units (ShapeScale)",
+            ["Imperial (lb / in)", "Metric (kg / cm)"],
+            horizontal=True,
+            key="unit_pref",
+            help="Switches display units for ShapeScale weight and circumference inputs. "
+                 "Converts existing values automatically. Labs and InBody are unaffected.",
+        )
+        # ── Visit: free-form date + optional text label ───────────────
+        _vc1, _vc2 = st.columns([1, 1])
+        with _vc1:
+            visit_date_input = st.date_input(
+                "Visit date",
+                value=datetime.date.today(),
+                key="visit_date_input",
+            )
+        with _vc2:
+            scan_label_raw = st.text_input(
+                "Label (optional)",
+                placeholder="Intake, 8wk, 3mo…",
+                key="scan_label_input",
+            )
+        scan_label = scan_label_raw.strip() if scan_label_raw.strip() else visit_date_input.strftime("%Y-%m-%d")
+        lens       = st.selectbox(
+            "Lens",
+            ["auto", "health", "body_comp", "performance", "weight_mgmt", "longevity"],
+            help="Scoring perspective. 'auto' picks the best lens based on available data. "
+                 "Options: health (general wellness), body_comp (body composition focus), "
+                 "performance (athletic), weight_mgmt (weight loss/gain), longevity (aging markers).",
+        )
+
+    # ── Clear form button ─────────────────────────────────────────────────────
+    _FORM_KEYS = [
+        "client_name", "client_id", "sex", "height_cm",
+        "ss_weight_lb", "ss_lean_mass", "ss_bmr_cal", "ss_bf_pct", "ss_bmi",
+        "ss_shape_score", "ss_health_score", "ss_body_age", "ss_visc_rating",
+        "ss_neck", "ss_shoulders", "ss_chest", "ss_waist", "ss_hips",
+        "ss_bicep_l", "ss_bicep_r", "ss_thigh_l", "ss_thigh_r",
+        "ss_calf_l", "ss_calf_r", "ss_whr", "ss_whtr",
+        "lab_total_chol", "lab_hdl", "lab_ldl", "lab_triglycerides",
+        "lab_lpa", "lab_apob", "lab_glucose", "lab_hba1c",
+        "lab_insulin", "lab_homa_ir", "lab_hscrp",
+        "lab_sbp", "lab_dbp", "lab_resting_hr",
+        "lab_tsh", "lab_free_t3", "lab_free_t4",
+        "lab_cortisol_am", "lab_testosterone",
+        "lab_ferritin", "lab_b12", "lab_vitamin_d", "lab_egfr",
+        "life_vig", "life_mod", "life_sed", "life_sleep",
+        "life_smoker", "life_alcohol", "life_stress", "life_health",
+        "ib_csv", "ib_pdf_scans", "_ib_pdf_name",
+        "_demo_persona_loaded",
+        "scan_label_input", "visit_date_input",
+        "q_activity_hours_per_week", "q_weight_trend_perception",
+        "q_training_frequency_days_per_week", "q_family_history_heart",
+        "q_smoking", "q_alcohol_drinks_per_week",
+        "q_cv_fitness_stairs_3_flights", "q_chest_pain_on_exertion",
+        "q_energy_consistency_days_per_week", "q_afternoon_crashes",
+        "q_cold_sensitivity", "q_libido_past_4_weeks",
+        "q_mood_swings_past_4_weeks", "q_thermoregulation",
+        "q_morning_motivation", "q_menstrual_regularity",
+        "q_sleep_hours_per_night", "q_sleep_quality_rested_days",
+        "q_stress_interference_past_4_weeks", "q_recovery_time_after_workout",
+        "q_overwhelmed", "q_training_type", "q_training_intensity_1to10",
+        "q_daily_steps", "q_nutrition_whole_food_meals",
+        "q_hydration_liters_per_day", "q_protein_meals_with_palm_serving",
+    ]
+    if st.button("🗑️ Clear form", key="clear_form_btn", use_container_width=True,
+                 help="Reset all client fields, scan data, and lab values."):
+        for _ck in _FORM_KEYS:
+            st.session_state.pop(_ck, None)
+        st.rerun()
 
     st.divider()
 
     # ── 2. Models ─────────────────────────────────────────────────────────────
-    with st.expander("Models", expanded=False):
+    with st.expander("⚙️ Engine Settings", expanded=False):
         model_dir = st.text_input("Model directory", value=DEFAULT_MODEL_DIR)
         models = None
         if Path(model_dir).exists():
@@ -1030,7 +1282,7 @@ with st.sidebar:
     # Added 2026-04-18 for QA and sales demos.
     # To remove: delete this block + the DEMO_PERSONAS dict + _load_demo_persona() helper.
     # ============================================================
-    with st.expander("🧪 Demo Personas (QA only — remove before launch)", expanded=False):
+    with st.expander("🧪 Demo Personas", expanded=False):
         st.caption("One-click fill for QA and sales demos. Partial panels leave realistic gaps.")
         pcols = st.columns(2)
         for i, (pkey, persona) in enumerate(DEMO_PERSONAS.items()):
@@ -1044,6 +1296,30 @@ with st.sidebar:
                     st.session_state["_pending_demo"] = pkey
                     st.rerun()
     # ── end DEMO PERSONAS PANEL ──────────────────────────────────────────────
+
+    st.divider()
+
+    # ── 13. Visit History ─────────────────────────────────────────────────────
+    with st.expander("📈 Visit History", expanded=False):
+        _h_all    = st.session_state.get("visit_history", [])
+        _h_client = [h for h in _h_all if h["client_id"] == client_id]
+        _h_other  = [h for h in _h_all if h["client_id"] != client_id]
+        if _h_client:
+            st.caption(f"**{len(_h_client)} visit(s)** for {client_name}:")
+            for _hv in sorted(_h_client, key=lambda x: x["result"].get("scan_date", x.get("generated_at", "")[:10])):
+                _sc = _hv["result"].get("overall_score", "—")
+                _dt = _hv["generated_at"][:10]
+                st.caption(f"• **{_hv['scan_label'].upper()}** &nbsp;·&nbsp; "
+                           f"{_sc}/100 &nbsp;·&nbsp; {_dt}")
+        elif _h_other:
+            st.info(f"History stored for: **{_h_other[-1]['client_name']}** — "
+                    "change client ID or clear below.")
+        else:
+            st.caption("No visits stored. Generate a Health Map to start tracking.")
+        if _h_all:
+            if st.button("🗑️ Clear all history", key="clear_history_btn"):
+                st.session_state.pop("visit_history", None)
+                st.rerun()
 
 
 # ════════════════════════════════════════════════════════════════════════════════
@@ -1065,9 +1341,82 @@ tab_ib, tab_ss, tab_q = st.tabs(["🔬 InBody Scan", "📐 ShapeScale Scan", "�
 
 # ── InBody ────────────────────────────────────────────────────────────────────
 with tab_ib:
-    st.markdown("**Option A — Upload** the CSV from LookinBody Cloud, or **Option B — Paste** the text below.")
+    st.markdown(
+        "**Option A — Upload** a file &nbsp;·&nbsp; "
+        "**Option B — Paste** CSV text below."
+    )
 
-    upload_ib = st.file_uploader("Upload InBody CSV", type=["csv"])
+    _col_csv, _col_pdf = st.columns(2)
+    with _col_csv:
+        upload_ib = st.file_uploader(
+            "📄 InBody CSV (LookinBody export)",
+            type=["csv"],
+        )
+    with _col_pdf:
+        _upload_ib_pdf = st.file_uploader(
+            "📋 InBody PDF (HealthReport — LookinBody)",
+            type=["pdf"],
+            key="ib_pdf_uploader",
+            help="Upload an 'Overall Results Analysis' PDF exported from LookinBody Cloud.",
+        )
+
+    # ── PDF parsing (cached by filename to avoid re-OCR on every rerun) ──────
+    if _upload_ib_pdf is not None:
+        if _upload_ib_pdf.name != st.session_state.get("_ib_pdf_name", ""):
+            with st.spinner(f"Parsing {_upload_ib_pdf.name} … (may take 30–90 s)"):
+                import tempfile as _tempfile
+                from pathlib import Path as _Path
+                _tmp_path = None
+                try:
+                    from tns_inbody_pdf_parser import parse_inbody_pdf as _parse_pdf
+                    with _tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as _tmp:
+                        _tmp.write(_upload_ib_pdf.getbuffer())
+                        _tmp_path = _tmp.name
+                    _pdf_scans = _parse_pdf(_tmp_path)
+                    st.session_state["ib_pdf_scans"] = _pdf_scans
+                    st.session_state["_ib_pdf_name"] = _upload_ib_pdf.name
+                except Exception as _pdf_exc:
+                    st.error(f"⚠️ PDF parse error: {_pdf_exc}")
+                    st.session_state["ib_pdf_scans"] = []
+                    st.session_state["_ib_pdf_name"] = _upload_ib_pdf.name
+                finally:
+                    if _tmp_path:
+                        _Path(_tmp_path).unlink(missing_ok=True)
+
+        _pdf_scans_cached = st.session_state.get("ib_pdf_scans", [])
+        if _pdf_scans_cached:
+            from tns_inbody_pdf_parser import inbody_pdf_summary as _ib_summary
+            for _s in _pdf_scans_cached:
+                _ib_fields = [k for k, v in _s.items() if k.startswith("ib_") and v is not None]
+                if len(_ib_fields) >= 5:
+                    st.success(f"✅ {_ib_summary(_s)}")
+                else:
+                    st.warning(
+                        f"⚠️ PDF parsed but only {len(_ib_fields)} field(s) extracted "
+                        f"(History format has limited data). "
+                        f"**CSV or comparison HealthReport PDF recommended.** "
+                        f"Extracted: {', '.join(_ib_fields) or 'none'}"
+                    )
+        else:
+            st.warning("No scans could be extracted from this PDF.")
+
+    # ── Active InBody source indicator ────────────────────────────────────────
+    _has_pdf_active   = _upload_ib_pdf is not None and bool(st.session_state.get("ib_pdf_scans"))
+    _has_csv_active   = bool(st.session_state.get("ib_csv", "").strip())
+    if _has_pdf_active:
+        _pdf_fields = [k for k, v in st.session_state["ib_pdf_scans"][0].items()
+                       if k.startswith("ib_") and v is not None]
+        if len(_pdf_fields) >= 5:
+            st.info(f"📋 **Active source: PDF** ({st.session_state.get('_ib_pdf_name', 'uploaded PDF')}) — overrides CSV text below.")
+        else:
+            st.error(
+                f"⚠️ **PDF has sparse data ({len(_pdf_fields)} InBody fields)** — "
+                "remove the PDF from the uploader to fall back to CSV text."
+            )
+    elif _has_csv_active:
+        st.info("📄 **Active source: CSV text** — PDF uploader is empty.")
+    else:
+        st.caption("No InBody data loaded yet.")
 
     if st.button("Load Jesus Garcia example data (Apr 12 2026)"):
         st.session_state["ib_csv"] = (
@@ -1096,35 +1445,90 @@ with tab_ib:
 
 # ── ShapeScale ────────────────────────────────────────────────────────────────
 with tab_ss:
-    st.markdown("Enter values from the ShapeScale app or PDF. Circumferences in **inches**, weight in **pounds**.")
+    _ss_metric = (unit_pref == "Metric (kg / cm)")
+    _su        = "kg / cm" if _ss_metric else "lb / in"
+    st.markdown(
+        f"Enter values from the ShapeScale app or PDF. &nbsp; **Units: {_su}** "
+        f"— toggle via *Units (ShapeScale)* in the sidebar Client Info."
+    )
+
+    # ── Defaults from Jesus Garcia's actual ShapeScale scan (Apr 13 2026) ────
+    _DEF_WT   = round(215.3 * 0.453592, 1) if _ss_metric else 215.3   # 97.7 kg
+    _DEF_LM   = round(140.9 * 0.453592, 1) if _ss_metric else 140.9   # 63.9 kg
+    _DEF_NECK = round(17.2  * 2.54,     1) if _ss_metric else 17.2    # 43.7 cm
+    _DEF_SHO  = round(46.1  * 2.54,     1) if _ss_metric else 46.1    # 117.1 cm
+    _DEF_CHE  = round(49.2  * 2.54,     1) if _ss_metric else 49.2    # 125.0 cm
+    _DEF_WST  = round(44.1  * 2.54,     1) if _ss_metric else 44.1    # 112.0 cm
+    _DEF_HIP  = round(44.1  * 2.54,     1) if _ss_metric else 44.1    # 112.0 cm
+    _DEF_BIL  = round(15.7  * 2.54,     1) if _ss_metric else 15.7    # 39.9 cm
+    _DEF_BIR  = round(15.4  * 2.54,     1) if _ss_metric else 15.4    # 39.1 cm
+    _DEF_THL  = round(25.4  * 2.54,     1) if _ss_metric else 25.4    # 64.5 cm
+    _DEF_THR  = round(25.2  * 2.54,     1) if _ss_metric else 25.2    # 64.0 cm
+    _DEF_CAL  = round(16.8  * 2.54,     1) if _ss_metric else 16.8    # 42.7 cm
+    _DEF_CAR  = round(16.7  * 2.54,     1) if _ss_metric else 16.7    # 42.4 cm
 
     c1, c2, c3 = st.columns(3)
+
     with c1:
+        st.markdown("**Summary**")
         ss_date         = st.date_input("Scan date", datetime.date(2026, 4, 13))
-        ss_weight_lb    = st.number_input("Weight (lb)",       0.0, 600.0, 215.3, 0.1, key="ss_weight_lb")
-        ss_bf_pct       = st.number_input("Body fat %",        0.0,  70.0,  34.5, 0.1, key="ss_bf_pct")
-        ss_bmi          = st.number_input("BMI",               0.0,  80.0,  33.8, 0.1, key="ss_bmi")
-        ss_shape_score  = st.number_input("Shape score",       0,    100,   72,   1,   key="ss_shape_score")
-        ss_health_score = st.number_input("Health score",      0,    100,   65,   1,   key="ss_health_score")
-        ss_body_age     = st.number_input("Body age",          0,    120,   46,   1,   key="ss_body_age")
-        ss_visc_rating  = st.selectbox("Visceral fat rating",
-                                        ["Very Poor", "Poor", "Fair", "Good", "Excellent"],
-                                        index=1, key="ss_visc_rating")
+        ss_weight_lb    = st.number_input(
+            "Weight (kg)" if _ss_metric else "Weight (lb)",
+            0.0, 300.0 if _ss_metric else 600.0, _DEF_WT, 0.1,
+            key="ss_weight_lb",
+        )
+        ss_lean_mass    = st.number_input(
+            "Lean mass (kg)" if _ss_metric else "Lean mass (lb)",
+            0.0, 250.0 if _ss_metric else 500.0, _DEF_LM, 0.1,
+            key="ss_lean_mass",
+            help="Total lean (fat-free) mass from ShapeScale report. 0 = not provided.",
+        )
+        ss_bmr_cal      = st.number_input(
+            "BMR (kcal/day)", 0, 5000, 1685, 1,
+            key="ss_bmr_cal",
+            help="Basal Metabolic Rate in kcal/day from ShapeScale report. 0 = not provided.",
+        )
+        ss_bf_pct       = st.number_input("Body fat %",   0.0,  70.0,  34.5, 0.1, key="ss_bf_pct")
+        ss_bmi          = st.number_input("BMI",           0.0,  80.0,  33.8, 0.1, key="ss_bmi")
+        ss_shape_score  = st.number_input("Shape score",   0,    100,   30,   1,   key="ss_shape_score")
+        ss_health_score = st.number_input("Health score",  0,    100,   38,   1,   key="ss_health_score")
+        ss_body_age     = st.number_input("Body age",      0,    120,   48,   1,   key="ss_body_age")
+        ss_visc_rating  = st.selectbox(
+            "Visceral fat rating",
+            ["Very Poor", "Poor", "Fair", "Good", "Excellent"],
+            index=0, key="ss_visc_rating",
+        )
+
     with c2:
-        st.markdown("**Circumferences (in)**")
-        ss_neck      = st.number_input("Neck",        0.0, 60.0, 16.5, 0.1, key="ss_neck")
-        ss_shoulders = st.number_input("Shoulders",   0.0, 90.0, 51.2, 0.1, key="ss_shoulders")
-        ss_chest     = st.number_input("Chest",       0.0, 80.0, 44.1, 0.1, key="ss_chest")
-        ss_waist     = st.number_input("Waist",       0.0, 80.0, 44.0, 0.1, key="ss_waist")
-        ss_hips      = st.number_input("Hips",        0.0, 80.0, 44.0, 0.1, key="ss_hips")
+        _cu  = "cm" if _ss_metric else "in"
+        _wmax = 200.0 if _ss_metric else 80.0
+        _cmax = 250.0 if _ss_metric else 100.0
+        st.markdown(f"**Circumferences ({_cu})**")
+        ss_neck      = st.number_input("Neck",      0.0, _wmax, _DEF_NECK, 0.1, key="ss_neck")
+        ss_shoulders = st.number_input("Shoulders", 0.0, _cmax, _DEF_SHO,  0.1, key="ss_shoulders")
+        ss_chest     = st.number_input("Chest",     0.0, _cmax, _DEF_CHE,  0.1, key="ss_chest")
+        ss_waist     = st.number_input("Waist",     0.0, _wmax, _DEF_WST,  0.1, key="ss_waist")
+        ss_hips      = st.number_input("Hips",      0.0, _wmax, _DEF_HIP,  0.1, key="ss_hips")
+        st.markdown("**Ratios** *(unit-free — 0 = not provided)*")
+        ss_whr  = st.number_input(
+            "WHR (waist ÷ hips)", 0.0, 2.0, 1.00, 0.01, key="ss_whr",
+            help="Waist-to-hip ratio from ShapeScale. 0 = not provided.",
+        )
+        ss_whtr = st.number_input(
+            "WHtR (waist ÷ height)", 0.0, 2.0, 0.63, 0.01, key="ss_whtr",
+            help="Waist-to-height ratio from ShapeScale. 0 = not provided.",
+        )
+
     with c3:
-        st.markdown("**Limbs (in)**")
-        ss_bicep_l  = st.number_input("Bicep L",   0.0, 30.0, 14.8, 0.1, key="ss_bicep_l")
-        ss_bicep_r  = st.number_input("Bicep R",   0.0, 30.0, 15.0, 0.1, key="ss_bicep_r")
-        ss_thigh_l  = st.number_input("Thigh L",   0.0, 50.0, 25.1, 0.1, key="ss_thigh_l")
-        ss_thigh_r  = st.number_input("Thigh R",   0.0, 50.0, 25.3, 0.1, key="ss_thigh_r")
-        ss_calf_l   = st.number_input("Calf L",    0.0, 30.0, 15.9, 0.1, key="ss_calf_l")
-        ss_calf_r   = st.number_input("Calf R",    0.0, 30.0, 16.1, 0.1, key="ss_calf_r")
+        _lmax = 80.0  if _ss_metric else 30.0
+        _tmax = 130.0 if _ss_metric else 50.0
+        st.markdown(f"**Limbs ({_cu})**")
+        ss_bicep_l  = st.number_input("Bicep L",  0.0, _lmax, _DEF_BIL, 0.1, key="ss_bicep_l")
+        ss_bicep_r  = st.number_input("Bicep R",  0.0, _lmax, _DEF_BIR, 0.1, key="ss_bicep_r")
+        ss_thigh_l  = st.number_input("Thigh L",  0.0, _tmax, _DEF_THL, 0.1, key="ss_thigh_l")
+        ss_thigh_r  = st.number_input("Thigh R",  0.0, _tmax, _DEF_THR, 0.1, key="ss_thigh_r")
+        ss_calf_l   = st.number_input("Calf L",   0.0, _lmax, _DEF_CAL, 0.1, key="ss_calf_l")
+        ss_calf_r   = st.number_input("Calf R",   0.0, _lmax, _DEF_CAR, 0.1, key="ss_calf_r")
 
 # ── Questionnaire ─────────────────────────────────────────────────────────────
 with tab_q:
@@ -1408,7 +1812,7 @@ with tab_q:
                 key="q_protein_meals_with_palm_serving",
             )
 
-st.caption("Labs and Lifestyle values are entered in the sidebar expanders (Lipids, Metabolic, etc.).")
+st.info("💡 **Tip:** Labs and Lifestyle values are entered in the **sidebar expanders** below Client Info (scroll down in the sidebar to find Lipids, Metabolic, etc.).")
 
 
 # ════════════════════════════════════════════════════════════════════════════════
@@ -1432,11 +1836,25 @@ if loaded := st.session_state.get("_demo_persona_loaded"):
         f"⚠️ Demo persona loaded: **{loaded}** — clear the form before scoring a real client."
     )
 
+# ── Visit history banner ───────────────────────────────────────────────────────
+_prior_visits = sorted(
+    [h for h in st.session_state.get("visit_history", []) if h["client_id"] == client_id],
+    key=lambda x: x["result"].get("scan_date", x.get("generated_at", "")[:10]),
+)
+if _prior_visits:
+    _vl = " → ".join(h["scan_label"].upper() for h in _prior_visits)
+    st.info(
+        f"📈 **{len(_prior_visits)} visit(s) stored for {client_name}:** {_vl}  \n"
+        f"Generating **{scan_label.upper()}** will add a trajectory chart and "
+        f"{'radar overlay comparison' if any(h['scan_label'] == 'intake' for h in _prior_visits) and scan_label != 'intake' else 'progress tracking'}."
+    )
+
 
 # ════════════════════════════════════════════════════════════════════════════════
 # PIPELINE EXECUTION + RESULTS
 # ════════════════════════════════════════════════════════════════════════════════
 if run_btn:
+    st.toast("🔄 Generating Health Map...", icon="🗺️")
     from tns_optimal_zones import get_report_disclaimer
     (parse_inbody_csv_string, parse_shapescale_sheet,
      reconcile_scanners, project_client,
@@ -1452,36 +1870,58 @@ if run_btn:
     elif st.session_state.get("ib_csv", "").strip():
         raw_text = st.session_state["ib_csv"]
 
-    if raw_text.strip():
+    # PDF takes priority: if a PDF is currently in the uploader AND was successfully
+    # parsed, use those scans directly.  We also check _upload_ib_pdf is not None so
+    # that removing the file from the uploader automatically falls back to CSV — the
+    # session-state cache alone is not sufficient because it persists across reruns
+    # even after the file widget is cleared.
+    if _upload_ib_pdf is not None and st.session_state.get("ib_pdf_scans"):
+        ib_scans = st.session_state["ib_pdf_scans"]
+    elif raw_text.strip():
         try:
             ib_scans = parse_inbody_csv_string(raw_text)
         except Exception as exc:
             errors.append(f"InBody parse error: {exc}")
     else:
-        errors.append("InBody data missing — paste CSV text or upload a file in the InBody tab.")
+        errors.append("InBody data missing — paste CSV or PDF in the InBody tab.")
 
     # ── Build ShapeScale row ──────────────────────────────────────────────────
+    # tns_shapescale_reader expects weight in lb and circumferences in inches;
+    # convert metric display values back to imperial before passing.
+    _ss_in_metric = (st.session_state.get("unit_pref", "Imperial (lb / in)")
+                     == "Metric (kg / cm)")
+    def _ss_to_lb(v):
+        """kg → lb when in metric mode, identity otherwise."""
+        return round(float(v) / 0.453592, 4) if _ss_in_metric else float(v)
+    def _ss_to_in(v):
+        """cm → in when in metric mode, identity otherwise."""
+        return round(float(v) / 2.54, 4) if _ss_in_metric else float(v)
+
     ss_row = {
         "client_id":           client_id,
         "scan_date":           ss_date.strftime("%Y-%m-%d"),
-        "weight_lb":           str(ss_weight_lb),
+        "weight_lb":           str(_ss_to_lb(ss_weight_lb)),
+        "lean_mass_lb":        str(_ss_to_lb(ss_lean_mass)) if ss_lean_mass else "",
+        "bmr_cal":             str(int(ss_bmr_cal)) if ss_bmr_cal else "",
         "body_fat_pct":        str(ss_bf_pct),
         "bmi":                 str(ss_bmi),
-        "neck_in":             str(ss_neck),
-        "shoulders_in":        str(ss_shoulders),
-        "chest_in":            str(ss_chest),
-        "waist_in":            str(ss_waist),
-        "hips_in":             str(ss_hips),
-        "bicep_l_in":          str(ss_bicep_l),
-        "bicep_r_in":          str(ss_bicep_r),
-        "thigh_l_in":          str(ss_thigh_l),
-        "thigh_r_in":          str(ss_thigh_r),
-        "calf_l_in":           str(ss_calf_l),
-        "calf_r_in":           str(ss_calf_r),
+        "neck_in":             str(_ss_to_in(ss_neck)),
+        "shoulders_in":        str(_ss_to_in(ss_shoulders)),
+        "chest_in":            str(_ss_to_in(ss_chest)),
+        "waist_in":            str(_ss_to_in(ss_waist)),
+        "hips_in":             str(_ss_to_in(ss_hips)),
+        "bicep_l_in":          str(_ss_to_in(ss_bicep_l)),
+        "bicep_r_in":          str(_ss_to_in(ss_bicep_r)),
+        "thigh_l_in":          str(_ss_to_in(ss_thigh_l)),
+        "thigh_r_in":          str(_ss_to_in(ss_thigh_r)),
+        "calf_l_in":           str(_ss_to_in(ss_calf_l)),
+        "calf_r_in":           str(_ss_to_in(ss_calf_r)),
         "shape_score":         str(ss_shape_score),
         "health_score":        str(ss_health_score),
         "body_age":            str(ss_body_age),
         "visceral_fat_rating": ss_visc_rating,
+        "whr":                 str(ss_whr)  if ss_whr  else "",
+        "whtr":                str(ss_whtr) if ss_whtr else "",
     }
     ss_scans = []
     try:
@@ -1612,6 +2052,37 @@ if run_btn:
     if _questionnaire_raw:
         unified["questionnaire"] = _questionnaire_raw
 
+    # ── Load visit history for longitudinal comparison ────────────────────────
+    # previous_projections feeds the trajectory timeline chart;
+    # baseline_unified feeds the radar overlay comparison vs. intake.
+    _visit_hist_all    = st.session_state.get("visit_history", [])
+    _visit_hist_client = [h for h in _visit_hist_all if h["client_id"] == client_id]
+    # All stored visits for this client EXCEPT the one being generated now.
+    _prev_projections = [
+        {
+            "pc1":            h["result"].get("pc1"),
+            "pc2":            h["result"].get("pc2"),
+            "percentile_pc1": h["result"].get("percentile_pc1"),
+            "date":           h["result"].get("scan_date", h.get("generated_at", "")[:10]),
+            "label":          h["scan_label"].upper(),
+            "overall_score":  h["result"].get("overall_score"),
+        }
+        for h in sorted(_visit_hist_client,
+                        key=lambda x: x["result"].get("scan_date", x.get("generated_at", "")[:10]))
+        if h["scan_label"] != scan_label
+    ]
+
+    # Baseline = earliest stored visit (for radar overlay comparison)
+    _sorted_hist = sorted(
+        _visit_hist_client,
+        key=lambda x: x["result"].get("scan_date", x.get("generated_at", "")[:10]),
+    )
+    _baseline_unified = (
+        _sorted_hist[0].get("unified")
+        if _sorted_hist and _sorted_hist[0]["scan_label"] != scan_label
+        else None
+    )
+
     # ── Project ───────────────────────────────────────────────────────────────
     with st.spinner("Projecting onto Health Map…"):
         try:
@@ -1626,6 +2097,29 @@ if run_btn:
             st.error(f"Projection error: {exc}")
             st.stop()
 
+    # ── Stamp scan metadata onto result (project_client doesn't include these) ──
+    # Needed so trajectory charts and history display use the actual scan date
+    # rather than the time the Health Map was generated.
+    result["scan_date"]  = visit_date_input.strftime("%Y-%m-%d")
+    result["scan_label"] = scan_label
+
+    # ── Save result to visit history ──────────────────────────────────────────
+    # Replace any previous entry for this client + visit label so re-running
+    # the same visit always shows the latest result.
+    _updated_hist = [
+        h for h in st.session_state.get("visit_history", [])
+        if not (h["client_id"] == client_id and h["scan_label"] == scan_label)
+    ]
+    _updated_hist.append({
+        "client_id":    client_id,
+        "client_name":  client_name,
+        "scan_label":   scan_label,
+        "generated_at": datetime.datetime.now().isoformat(),
+        "result":       result,
+        "unified":      unified,
+    })
+    st.session_state["visit_history"] = _updated_hist
+
     # ── Generate figures ──────────────────────────────────────────────────────
     saved_figs: dict = {}
     fig_dir = Path(tempfile.mkdtemp())
@@ -1636,9 +2130,9 @@ if run_btn:
                 model                = models[result["lens_used"]],
                 client_name          = client_name,
                 save_dir             = fig_dir,
-                previous_projections = None,
+                previous_projections = _prev_projections if _prev_projections else None,
                 current_unified      = unified,
-                baseline_unified     = None,
+                baseline_unified     = _baseline_unified,
                 sex                  = sex,
                 mode                 = "simple",
             )
@@ -1686,13 +2180,15 @@ if run_btn:
               help="Waist circumference from ShapeScale (cm). Key cardiometabolic risk marker.")
     m5.metric("BMI",             f"{unified.get('bmi', '—')}",
               help="Body Mass Index (kg/m²). Contextual — interpret alongside body composition.")
-    m6.metric("Visceral Fat",    f"L{unified.get('ib_visceral_fat_level') or '—'}",
+    _vfl = unified.get('ib_visceral_fat_level')
+    m6.metric("Visceral Fat",    f"L{int(_vfl)}" if _vfl is not None else "—",
               help="Visceral fat level from InBody. Level 10+ indicates elevated risk.")
 
     m7, m8, m9, m10, _, _ = st.columns(6)
     m7.metric("WHR",             f"{unified.get('whr', '—')}")
     m8.metric("Phase Angle",     f"{unified.get('ib_phase_angle', '—')}°")
-    m9.metric("SMM",             f"{unified.get('ib_smm_kg', '—')} kg")
+    _smm = unified.get('ib_smm_kg')
+    m9.metric("SMM", f"{_smm:.1f} kg" if _smm is not None else "— kg")
     m10.metric("InBody Score",   f"{unified.get('ib_score', '—')}")
 
     # ── Cross-scanner flags ───────────────────────────────────────────────────
@@ -1725,12 +2221,14 @@ if run_btn:
             rendering = cat_data.get("rendering", "solid")
             conf = cat_data.get("confidence", "")
             render_icon = "📊" if rendering == "solid" else "📈"
+            # Show confidence as a caption below, NOT as delta (delta adds misleading ↑/↓ arrows)
             col.metric(
                 label=f"{render_icon} {label.split(' ', 1)[1]}",
-                value=f"{score}/99",
-                delta=conf if conf != "high" else None,
-                help=f"Rendering: {rendering}. Confidence: {conf}."
+                value=f"{score}/100",
+                help=f"Data confidence: {conf}. Rendering: {rendering}.",
             )
+            if conf and conf != "high":
+                col.caption(f"🔸 {conf} confidence")
 
     # ── Missing data notes ────────────────────────────────────────────────────
     notes = result.get("missing_data_notes", [])
@@ -1744,6 +2242,50 @@ if run_btn:
         with st.expander(f"ℹ️ {result['n_vars_imputed']} variable(s) imputed from population medians"):
             st.caption(", ".join(result["imputed_vars"]))
 
+    # ── Progress summary (shown when ≥ 2 visits exist for this client) ──────────
+    _all_vis = sorted(
+        [h for h in st.session_state.get("visit_history", []) if h["client_id"] == client_id],
+        key=lambda x: x["result"].get("scan_date", x.get("generated_at", "")[:10]),
+    )
+    if len(_all_vis) >= 2:
+        st.markdown("### 📈 Progress Across Visits")
+        _intake_sc = _all_vis[0]["result"].get("overall_score", 0) or 0
+        _prog_cols = st.columns(len(_all_vis))
+        for _pc, _hv in zip(_prog_cols, _all_vis):
+            _sc  = _hv["result"].get("overall_score", 0) or 0
+            _is_curr = _hv["scan_label"] == scan_label
+            _delta = f"{_sc - _intake_sc:+.0f} vs intake" if _hv != _all_vis[0] else None
+            _pc.metric(
+                label   = ("▶ " if _is_curr else "") + _hv["scan_label"].upper(),
+                value   = f"{_sc}/100",
+                delta   = _delta,
+            )
+        # Per-category delta table
+        _cat_rows: dict[str, list] = {}
+        for _hv in _all_vis:
+            for _ck, _cd in _hv["result"].get("categories", {}).items():
+                _cat_rows.setdefault(_ck, []).append(_cd.get("score", "—"))
+        if _cat_rows:
+            _CAT_LABELS = {
+                "body_composition":   "🏋️ Body Comp",
+                "heart_vascular":     "❤️ Heart/Vasc",
+                "metabolic_function": "⚡ Metabolic",
+                "hormonal_balance":   "🔬 Hormonal",
+                "stress_recovery":    "🌙 Stress/Rec",
+                "lifestyle_fitness":  "🏃 Lifestyle",
+            }
+            _tbl_header = "| Category | " + " | ".join(
+                v["scan_label"].upper() for v in _all_vis) + " |"
+            _tbl_sep = "|---|" + "---|" * len(_all_vis)
+            _tbl_rows = []
+            for _ck, _scores in _cat_rows.items():
+                _row = f"| {_CAT_LABELS.get(_ck, _ck)} | " + " | ".join(
+                    f"**{s}**" if i == len(_scores) - 1 else str(s)
+                    for i, s in enumerate(_scores)) + " |"
+                _tbl_rows.append(_row)
+            with st.expander("📋 Category scores by visit", expanded=False):
+                st.markdown("\n".join([_tbl_header, _tbl_sep] + _tbl_rows))
+
     # ── Figures ───────────────────────────────────────────────────────────────
     if saved_figs:
         fig_order = sorted(
@@ -1753,7 +2295,11 @@ if run_btn:
         for fig_key, fig_path in fig_order:
             if not fig_path.exists():
                 continue
-            label = fig_key.replace("_", " ").title()
+            # Map internal figure names to client-friendly labels
+            _FIG_LABELS = {
+                "loadings": "Variable Importance",
+            }
+            label = _FIG_LABELS.get(fig_key.split("_")[0], fig_key.replace("_", " ").title())
             expanded = "map" in fig_key or "radar" in fig_key
             with st.expander(f"📊 {label}", expanded=expanded):
                 st.image(str(fig_path), use_container_width=True)
@@ -1767,12 +2313,24 @@ if run_btn:
                     )
 
     # ── Top drivers ───────────────────────────────────────────────────────────
-    with st.expander("📈 Top PC1 drivers"):
+    with st.expander("📈 Key Health Drivers"):
+        top_drivers = result.get("top_drivers", [])
         loadings = result.get("pc1_loadings", {})
-        for var in result.get("top_drivers", []):
-            val = loadings.get(var, 0)
-            arrow = "▲" if val > 0 else "▼"
-            st.markdown(f"&nbsp;&nbsp;{arrow} `{var}` &nbsp; {val:+.4f}")
+        if top_drivers:
+            st.caption("Variables with the strongest influence on your overall Health Map position:")
+            for var in top_drivers:
+                val = loadings.get(var, 0)
+                direction = "higher is better" if val > 0 else "lower is better"
+                # Convert variable names to human-readable labels
+                readable = (var.replace("_", " ")
+                               .replace("ib ", "")
+                               .replace("ss ", "")
+                               .replace("lab ", "")
+                               .title())
+                arrow = "🟢" if val > 0 else "🔴"
+                st.markdown(f"&nbsp;&nbsp;{arrow} **{readable}** — {direction}")
+        else:
+            st.caption("No driver data available.")
 
     # ── JSON report download ──────────────────────────────────────────────────
     st.divider()
@@ -1803,12 +2361,53 @@ if run_btn:
         "par_q_escalation":   result.get("par_q_escalation", False),
         "missing_data_notes": result.get("missing_data_notes", []),
     }
-    st.download_button(
-        "⬇️ Download JSON Report",
-        json.dumps(report, indent=2, default=str),
-        file_name=f"{client_id}_{scan_label}_report.json",
-        mime="application/json",
-    )
+    # ── Client-facing downloads ───────────────────────────────────────────────
+    st.caption("📄 **Report Downloads**")
+    _dl_col, _save_col = st.columns(2)
+    with _dl_col:
+        # Placeholder for future PDF report
+        st.button(
+            "📄 Download PDF Report",
+            disabled=True,
+            help="PDF report generation coming soon.",
+            key="dl_pdf_placeholder",
+        )
+    with _save_col:
+        if st.button("☁️ Save to Project Hub", key="save_drive_btn",
+                     help="Save this report (JSON + figures) to TechNSports Project Hub on Google Drive."):
+            import shutil as _shutil
+            _drive_base = (
+                "/Users/jesusgarcia/Library/CloudStorage/"
+                "GoogleDrive-jesus.garcia@technsports.mx/"
+                "Shared drives/TechNSports Project Hub/"
+                "02_MEXICO/PCA_Pipeline/Reports"
+            )
+            _report_date = visit_date_input.strftime("%Y-%m-%d")
+            _report_dir  = Path(_drive_base) / client_id / _report_date
+            _report_dir.mkdir(parents=True, exist_ok=True)
+            # Save JSON
+            _json_path = _report_dir / f"{client_id}_{scan_label}_report.json"
+            _json_path.write_text(json.dumps(report, indent=2, default=str))
+            # Copy figures
+            _figs_saved = []
+            for _fk, _fp in saved_figs.items():
+                if _fp.exists():
+                    _dest = _report_dir / _fp.name
+                    _shutil.copy2(_fp, _dest)
+                    _figs_saved.append(_fp.name)
+            st.success(
+                f"✅ Saved to Project Hub: `{_report_dir.relative_to(Path(_drive_base).parent.parent.parent.parent.parent)}`  \n"
+                f"JSON + {len(_figs_saved)} figure(s): {', '.join(_figs_saved) or 'none'}"
+            )
+
+    # ── Admin / Developer tools ───────────────────────────────────────────────
+    with st.expander("🔧 Admin Tools", expanded=False):
+        st.download_button(
+            "⬇️ Download JSON Report",
+            json.dumps(report, indent=2, default=str),
+            file_name=f"{client_id}_{scan_label}_report.json",
+            mime="application/json",
+        )
 
     # ── Clinical disclaimer footer ─────────────────────────────────────────────
     st.caption(get_report_disclaimer())
